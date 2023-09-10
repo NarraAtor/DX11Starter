@@ -47,6 +47,11 @@ Game::~Game()
 
 	// Call Release() on any Direct3D objects made within this class
 	// - Note: this is unnecessary for D3D objects stored in ComPtrs
+
+	// ImGui clean up
+	// ImGui_ImplDX11_Shutdown();
+	// ImGui_ImplWin32_Shutdown();
+	// ImGui::DestroyContext();
 }
 
 // --------------------------------------------------------
