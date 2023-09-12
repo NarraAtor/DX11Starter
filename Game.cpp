@@ -86,6 +86,18 @@ void Game::Init()
 		//    these calls will need to happen multiple times per frame
 		context->VSSetShader(vertexShader.Get(), 0, 0);
 		context->PSSetShader(pixelShader.Get(), 0, 0);
+
+
+		// Initialize ImGui itself & platform/renderer backends
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui_ImplWin32_Init(hWnd);
+		ImGui_ImplDX11_Init(device.Get(), context.Get());
+		// Pick a style (uncomment one of these 3)
+		ImGui::StyleColorsDark();
+		//ImGui::StyleColorsLight();
+		//ImGui::StyleColorsClassic();
+
 	}
 }
 
@@ -229,6 +241,26 @@ void Game::CreateGeometry()
 
 }
 
+void Game::FeedInputsToImGui(float deltaTime)
+{
+	// Feed fresh input data to ImGui
+	ImGuiIO& io = ImGui::GetIO();
+	io.DeltaTime = deltaTime;
+	io.DisplaySize.x = (float)this->windowWidth;
+	io.DisplaySize.y = (float)this->windowHeight;
+	// Reset the frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	// Determine new input capture
+	Input& input = Input::GetInstance();
+	input.SetKeyboardCapture(io.WantCaptureKeyboard);
+	input.SetMouseCapture(io.WantCaptureMouse);
+	// Show the demo window
+	ImGui::ShowDemoWindow();
+}
+
+
 
 // --------------------------------------------------------
 // Handle resizing to match the new window size.
@@ -246,9 +278,14 @@ void Game::OnResize()
 // --------------------------------------------------------
 void Game::Update(float deltaTime, float totalTime)
 {
+
+	FeedInputsToImGui(deltaTime);
+
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
 		Quit();
+
+
 }
 
 // --------------------------------------------------------
@@ -271,6 +308,9 @@ void Game::Draw(float deltaTime, float totalTime)
 	triangle.get()->Draw();
 	square.get()->Draw();
 	diamond.get()->Draw();
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	// Frame END
 	// - These should happen exactly ONCE PER FRAME
