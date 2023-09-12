@@ -280,10 +280,10 @@ void Game::Update(float deltaTime, float totalTime)
 {
 
 	FeedInputsToImGui(deltaTime);
-	
-	char framerateString[100];
-	snprintf(framerateString, sizeof framerateString, "%f", ImGui::GetIO().Framerate);
-	ImGui::Text(framerateString);
+	ImGui::Text("Framerate: %f", ImGui::GetIO().Framerate);
+	ImGui::Text("Window Width: %lu", windowWidth);
+	ImGui::Text("Window Height: %lu", windowHeight);
+
 
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
