@@ -302,6 +302,8 @@ void Game::Update(float deltaTime, float totalTime)
 	XMFLOAT4 color(1.0f, 0.0f, 0.5f, 1.0f);
 	XMFLOAT3 offset(10.0f, -2.0f, 99.0f);
 
+	ImGui::DragFloat3("Edit a vector", &offset.x);
+	ImGui::ColorEdit4("4 - component(RGBA) color editor", &color.x);
 
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
