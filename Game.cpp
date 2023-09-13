@@ -298,6 +298,10 @@ void Game::Update(float deltaTime, float totalTime)
 	ImGui::Text("Window Width: %lu", windowWidth);
 	ImGui::Text("Window Height: %lu", windowHeight);
 
+	// controls to edit screen here:
+	XMFLOAT4 color(1.0f, 0.0f, 0.5f, 1.0f);
+	XMFLOAT3 offset(10.0f, -2.0f, 99.0f);
+
 
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
