@@ -332,6 +332,13 @@ void Game::Draw(float deltaTime, float totalTime)
 	memcpy(mappedBuffer.pData, &vsData, sizeof(vsData));
 	context->Unmap(vsConstantBuffer.Get(), 0);
 
+	//bind the GPU resource to the register
+	context->VSSetConstantBuffers(
+		0, // Which slot (register) to bind the buffer to?
+		1, // How many are we activating? Can do multiple at once
+		vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
+
+
 	triangle.get()->Draw();
 	square.get()->Draw();
 	diamond.get()->Draw();
