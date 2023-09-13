@@ -110,6 +110,8 @@ void Game::Init()
 		cbDesc.ByteWidth = size; // Must be a multiple of 16
 		cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+
+		device->CreateBuffer(&cbDesc, 0, vsConstantBuffer.GetAddressOf());
 	}
 }
 
