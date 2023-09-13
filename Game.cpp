@@ -2,6 +2,7 @@
 #include "Vertex.h"
 #include "Input.h"
 #include "PathHelpers.h"
+#include "BufferStructs.h"
 
 // Needed for a helper function to load pre-compiled shader files
 #pragma comment(lib, "d3dcompiler.lib")
@@ -98,6 +99,7 @@ void Game::Init()
 		//ImGui::StyleColorsLight();
 		//ImGui::StyleColorsClassic();
 
+		
 	}
 }
 
@@ -168,6 +170,18 @@ void Game::LoadShaders()
 			vertexShaderBlob->GetBufferPointer(),	// Pointer to the code of a shader that uses this layout
 			vertexShaderBlob->GetBufferSize(),		// Size of the shader code that uses this layout
 			inputLayout.GetAddressOf());			// Address of the resulting ID3D11InputLayout pointer
+
+		// create constant buffer (if this doesn't work, move it to the bottom of init()
+		// Get size as the next multiple of 16 (instead of hardcoding a size here!)
+		unsigned int size = sizeof(VertexShaderExternalData);
+		size = (size + 15) / 16 * 16; // This will work even if the struct size changes
+
+		// Describe the constant buffer
+		D3D11_BUFFER_DESC cbDesc = {}; // Sets struct to all zeros
+		cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		cbDesc.ByteWidth = size; // Must be a multiple of 16
+		cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 	}
 }
 
