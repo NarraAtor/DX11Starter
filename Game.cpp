@@ -115,7 +115,7 @@ void Game::Init()
 
 		// set up editable features
 		color = XMFLOAT4(1.0f, 0.0f, 0.5f, 1.0f);
-		offset = XMFLOAT3(10.0f, -2.0f, 99.0f);
+		offset = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	}
 }
 
@@ -304,8 +304,6 @@ void Game::Update(float deltaTime, float totalTime)
 
 	// controls to edit screen here:
 
-	//color = color(1.0f, 0.0f, 0.5f, 1.0f);
-	//offset =  offset(10.0f, -2.0f, 99.0f);
 	ImGui::DragFloat3("Edit a vector", &offset.x);
 	ImGui::ColorEdit4("4 - component(RGBA) color editor", &color.x);
 
@@ -334,8 +332,8 @@ void Game::Draw(float deltaTime, float totalTime)
 	}
 
 	VertexShaderExternalData vsData;
-	vsData.colorTint = XMFLOAT4(1.0f, 0.5f, 0.5f, 1.0f);
-	vsData.offset = XMFLOAT3(0.25f, 0.0f, 0.0f);
+	vsData.colorTint = color;
+	vsData.offset = offset;
 
 	D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
 	context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
