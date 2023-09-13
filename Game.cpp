@@ -323,6 +323,11 @@ void Game::Draw(float deltaTime, float totalTime)
 		context->ClearDepthStencilView(depthBufferDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
 
+	VertexShaderExternalData vsData;
+	vsData.colorTint = XMFLOAT4(1.0f, 0.5f, 0.5f, 1.0f);
+	vsData.offset = XMFLOAT3(0.25f, 0.0f, 0.0f);
+
+
 	triangle.get()->Draw();
 	square.get()->Draw();
 	diamond.get()->Draw();
