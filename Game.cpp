@@ -112,6 +112,10 @@ void Game::Init()
 		cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 
 		device->CreateBuffer(&cbDesc, 0, vsConstantBuffer.GetAddressOf());
+
+		// set up editable features
+		color = XMFLOAT4(1.0f, 0.0f, 0.5f, 1.0f);
+		offset = XMFLOAT3(10.0f, -2.0f, 99.0f);
 	}
 }
 
@@ -299,9 +303,9 @@ void Game::Update(float deltaTime, float totalTime)
 	ImGui::Text("Window Height: %lu", windowHeight);
 
 	// controls to edit screen here:
-	XMFLOAT4 color(1.0f, 0.0f, 0.5f, 1.0f);
-	XMFLOAT3 offset(10.0f, -2.0f, 99.0f);
 
+	//color = color(1.0f, 0.0f, 0.5f, 1.0f);
+	//offset =  offset(10.0f, -2.0f, 99.0f);
 	ImGui::DragFloat3("Edit a vector", &offset.x);
 	ImGui::ColorEdit4("4 - component(RGBA) color editor", &color.x);
 

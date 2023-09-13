@@ -49,5 +49,8 @@ private:
 	std::shared_ptr<Mesh> square;
 	std::shared_ptr<Mesh> diamond;
 
+	// controls to edit screen here:
+	DirectX::XMFLOAT4 color;
+	DirectX::XMFLOAT3 offset;
 };
 
