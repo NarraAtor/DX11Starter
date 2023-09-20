@@ -53,6 +53,30 @@ void Transform::SetScale(DirectX::XMFLOAT3 scale)
 	SetScale(scale.x, scale.y, scale.z);
 }
 
+void Transform::MoveAbsolute(float x, float y, float z)
+{
+}
+
+void Transform::MoveAbsolute(DirectX::XMFLOAT3 offset)
+{
+}
+
+void Transform::Rotate(float pitch, float yaw, float roll)
+{
+}
+
+void Transform::Rotate(DirectX::XMFLOAT3 rotation)
+{
+}
+
+void Transform::Scale(float x, float y, float z)
+{
+}
+
+void Transform::Scale(DirectX::XMFLOAT3 scale)
+{
+}
+
 DirectX::XMFLOAT3 Transform::GetPosition()
 {
 	return position;
