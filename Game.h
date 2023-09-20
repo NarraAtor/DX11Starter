@@ -8,6 +8,8 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
+#include <vector>
+#include "GameEntity.h"
 
 class Game 
 	: public DXCore
@@ -48,6 +50,7 @@ private:
 	std::shared_ptr<Mesh> triangle;
 	std::shared_ptr<Mesh> square;
 	std::shared_ptr<Mesh> diamond;
+	std::vector<GameEntity> gameEntities;
 
 	// controls to edit screen here:
 	DirectX::XMFLOAT4 color;

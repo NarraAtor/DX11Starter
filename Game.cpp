@@ -261,6 +261,10 @@ void Game::CreateGeometry()
 	square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
 	diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
+	gameEntities.push_back(new GameEntity(triangle));
+	gameEntities.push_back(new GameEntity(square));
+	gameEntities.push_back(new GameEntity(diamond));
+
 }
 
 void Game::FeedInputsToImGui(float deltaTime)
@@ -350,10 +354,10 @@ void Game::Draw(float deltaTime, float totalTime)
 		1, // How many are we activating? Can do multiple at once
 		vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
 
-
-	triangle.get()->Draw();
-	square.get()->Draw();
-	diamond.get()->Draw();
+	foreach(std::shared_ptr<GameEntity> entity in gameEntities)
+	{
+		entity.GetMesh().get()->Draw();
+	}
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
