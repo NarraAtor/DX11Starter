@@ -261,9 +261,9 @@ void Game::CreateGeometry()
 	square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
 	diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
-	gameEntities.push_back(new GameEntity(triangle));
-	gameEntities.push_back(new GameEntity(square));
-	gameEntities.push_back(new GameEntity(diamond));
+	//gameEntities.push_back( GameEntity(triangle));
+	gameEntities.push_back( GameEntity(square));
+	gameEntities.push_back( GameEntity(diamond));
 
 }
 
