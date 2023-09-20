@@ -100,9 +100,19 @@ DirectX::XMFLOAT3 Transform::GetScale()
 
 DirectX::XMFLOAT4X4 Transform::GetWorldMatrix()
 {
+	
 	if (matrixDirty)
 	{
 		// TODO: do stuff
+		XMMATRIX translationMatrix = XMMatrixTranslation(position.x, position.y, position.z);
+		XMMATRIX scalingMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+		XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z);
+		XMMATRIX worldSIMDMatrix = scalingMatrix * rotationMatrix * translationMatrix;
+
+		XMStoreFloat4x4(&world, worldSIMDMatrix);
+		XMStoreFloat4x4(&worldInverseTranspose, XMMatrixInverse(0, XMMatrixTranspose(worldSIMDMatrix)));
+
+		matrixDirty = false;
 	}
 	return world;
 }
@@ -112,7 +122,15 @@ DirectX::XMFLOAT4X4 Transform::GetWorldInverseTransposeMatrix()
 	if (matrixDirty)
 	{
 		// TODO: do stuff
+		XMMATRIX translationMatrix = XMMatrixTranslation(position.x, position.y, position.z);
+		XMMATRIX scalingMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+		XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z);
+		XMMATRIX worldSIMDMatrix = scalingMatrix * rotationMatrix * translationMatrix;
 
+		XMStoreFloat4x4(&world, worldSIMDMatrix);
+		XMStoreFloat4x4(&worldInverseTranspose, XMMatrixInverse(0, XMMatrixTranspose(worldSIMDMatrix)));
+
+		matrixDirty = false;
 	}
 	return worldInverseTranspose;
 }
