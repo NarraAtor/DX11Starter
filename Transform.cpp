@@ -55,22 +55,27 @@ void Transform::SetScale(DirectX::XMFLOAT3 scale)
 
 void Transform::MoveAbsolute(float x, float y, float z)
 {
+	SetPosition(position.x + x, position.y + y, position.z + z);
 }
 
 void Transform::MoveAbsolute(DirectX::XMFLOAT3 offset)
 {
+	SetPosition(offset.x, offset.y, offset.z);
 }
 
 void Transform::Rotate(float pitch, float yaw, float roll)
 {
+	SetRotation(pitchYawRoll.x + pitch, pitchYawRoll.y + yaw, pitchYawRoll.z + roll);
 }
 
 void Transform::Rotate(DirectX::XMFLOAT3 rotation)
 {
+	SetRotation(rotation.x, rotation.y, rotation.z);
 }
 
 void Transform::Scale(float x, float y, float z)
 {
+	SetScale(scale.x * x, scale.y * y, scale.z * z);
 }
 
 void Transform::Scale(DirectX::XMFLOAT3 scale)
