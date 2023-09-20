@@ -115,7 +115,11 @@ void Game::Init()
 
 		// set up editable features
 		color = XMFLOAT4(1.0f, 0.0f, 0.5f, 1.0f);
-		offset = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		worldMatrix = XMFLOAT4X4(
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1);
 	}
 }
 
@@ -304,7 +308,7 @@ void Game::Update(float deltaTime, float totalTime)
 
 	// controls to edit screen here:
 
-	ImGui::DragFloat3("Edit a vector", &offset.x);
+	//ImGui::DragFloat3("Edit a vector", &offset.x);
 	ImGui::ColorEdit4("4 - component(RGBA) color editor", &color.x);
 
 	// Example input checking: Quit if the escape key is pressed
@@ -333,7 +337,7 @@ void Game::Draw(float deltaTime, float totalTime)
 
 	VertexShaderExternalData vsData;
 	vsData.colorTint = color;
-	vsData.offset = offset;
+	vsData.worldMatrix = worldMatrix;
 
 	D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
 	context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
