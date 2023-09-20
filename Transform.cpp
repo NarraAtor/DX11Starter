@@ -55,25 +55,34 @@ void Transform::SetScale(DirectX::XMFLOAT3 scale)
 
 DirectX::XMFLOAT3 Transform::GetPosition()
 {
-	return DirectX::XMFLOAT3();
+	return position;
 }
 
 DirectX::XMFLOAT3 Transform::GetPitchYawRoll()
 {
-	return DirectX::XMFLOAT3();
+	return pitchYawRoll;
 }
 
 DirectX::XMFLOAT3 Transform::GetScale()
 {
-	return DirectX::XMFLOAT3();
+	return scale;
 }
 
 DirectX::XMFLOAT4X4 Transform::GetWorldMatrix()
 {
-	return DirectX::XMFLOAT4X4();
+	if (matrixDirty)
+	{
+		// TODO: do stuff
+	}
+	return world;
 }
 
 DirectX::XMFLOAT4X4 Transform::GetWorldInverseTransposeMatrix()
 {
-	return DirectX::XMFLOAT4X4();
+	if (matrixDirty)
+	{
+		// TODO: do stuff
+
+	}
+	return worldInverseTranspose;
 }
