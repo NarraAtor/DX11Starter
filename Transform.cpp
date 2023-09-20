@@ -32,6 +32,7 @@ void Transform::SetRotation(float pitch, float yaw, float roll)
 
 void Transform::SetRotation(DirectX::XMFLOAT3 rotation)
 {
+	SetRotation(rotation.x, rotation.y, rotation.z);
 }
 
 void Transform::SetScale(float x, float y, float z)
