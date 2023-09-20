@@ -60,7 +60,7 @@ void Transform::MoveAbsolute(float x, float y, float z)
 
 void Transform::MoveAbsolute(DirectX::XMFLOAT3 offset)
 {
-	SetPosition(offset.x, offset.y, offset.z);
+	MoveAbsolute(offset.x, offset.y, offset.z);
 }
 
 void Transform::Rotate(float pitch, float yaw, float roll)
@@ -70,7 +70,7 @@ void Transform::Rotate(float pitch, float yaw, float roll)
 
 void Transform::Rotate(DirectX::XMFLOAT3 rotation)
 {
-	SetRotation(rotation.x, rotation.y, rotation.z);
+	Rotate(rotation.x, rotation.y, rotation.z);
 }
 
 void Transform::Scale(float x, float y, float z)
@@ -80,6 +80,7 @@ void Transform::Scale(float x, float y, float z)
 
 void Transform::Scale(DirectX::XMFLOAT3 scale)
 {
+	Scale(scale.x, scale.y, scale.z);
 }
 
 DirectX::XMFLOAT3 Transform::GetPosition()
