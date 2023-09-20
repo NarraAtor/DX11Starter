@@ -354,7 +354,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		1, // How many are we activating? Can do multiple at once
 		vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
 
-	foreach(std::shared_ptr<GameEntity> entity in gameEntities)
+	for(GameEntity entity : gameEntities)
 	{
 		entity.GetMesh().get()->Draw();
 	}
