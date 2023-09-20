@@ -11,3 +11,8 @@ GameEntity::GameEntity(shared_ptr<Mesh> mesh) :
 GameEntity::~GameEntity()
 {
 }
+
+std::shared_ptr<Mesh> GameEntity::GetMesh()
+{
+	return std::shared_ptr<Mesh>();
+}

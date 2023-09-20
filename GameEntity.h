@@ -8,6 +8,7 @@ class GameEntity
 public:
 	GameEntity(shared_ptr<Mesh> mesh);
 	~GameEntity();
+	std::shared_ptr<Mesh> GetMesh();
 
 private:
 	Transform transform;
