@@ -330,6 +330,14 @@ void Game::Update(float deltaTime, float totalTime)
 	for (int i = 0; i < gameEntities.size(); i++)
 	{
 		ImGui::Text("Entity %d", i);
+	    XMFLOAT3 position = gameEntities[i].GetTransform()->GetPosition();
+		XMFLOAT3 scale = gameEntities[i].GetTransform()->GetScale();
+		XMFLOAT3 rotation = gameEntities[i].GetTransform()->GetPitchYawRoll();
+
+		ImGui::DragFloat3("Position", &position.x);
+		ImGui::DragFloat3("Scale", &scale.x);
+		ImGui::DragFloat3("Rotation", &rotation.x);
+
 	}
 
 	// Example input checking: Quit if the escape key is pressed
