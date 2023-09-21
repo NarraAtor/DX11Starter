@@ -252,7 +252,7 @@ void Game::CreateGeometry()
 	//    in the correct order and each one will be used exactly once
 	// - But just to see how it's done...
 	unsigned int triangleIndices[] = { 0, 1, 2 };
-	unsigned int squareIndices[] = { 0, 1, 2, 3, 4, 5};
+	unsigned int squareIndices[] = { 0, 1, 2, 3, 4, 5 };
 	unsigned int diamondIndices[] = { 0, 1, 2, 3, 4, 5 };
 
 
@@ -261,9 +261,12 @@ void Game::CreateGeometry()
 	square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
 	diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
-	//gameEntities.push_back( GameEntity(triangle));
+	gameEntities.push_back(GameEntity(triangle));
 	gameEntities.push_back( GameEntity(square));
 	gameEntities.push_back( GameEntity(diamond));
+	gameEntities.push_back(GameEntity(square));
+	gameEntities.push_back(GameEntity(square));
+	
 
 }
 
@@ -310,6 +313,7 @@ void Game::Update(float deltaTime, float totalTime)
 	ImGui::Text("Window Width: %lu", windowWidth);
 	ImGui::Text("Window Height: %lu", windowHeight);
 
+	gameEntities[0].GetTransform()->Rotate(0, 0, 0.0001f);
 	// controls to edit screen here:
 
 	//ImGui::DragFloat3("Edit a vector", &offset.x);
@@ -339,23 +343,24 @@ void Game::Draw(float deltaTime, float totalTime)
 		context->ClearDepthStencilView(depthBufferDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
 
-	VertexShaderExternalData vsData;
-	vsData.colorTint = color;
-	vsData.worldMatrix = worldMatrix;
-
-	D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
-	context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
-	memcpy(mappedBuffer.pData, &vsData, sizeof(vsData));
-	context->Unmap(vsConstantBuffer.Get(), 0);
-
-	//bind the GPU resource to the register
-	context->VSSetConstantBuffers(
-		0, // Which slot (register) to bind the buffer to?
-		1, // How many are we activating? Can do multiple at once
-		vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
-
-	for(GameEntity entity : gameEntities)
+	for (GameEntity entity : gameEntities)
 	{
+		VertexShaderExternalData vsData;
+		vsData.colorTint = color;
+		vsData.worldMatrix = entity.GetTransform()->GetWorldMatrix();
+
+		D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
+		context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
+		memcpy(mappedBuffer.pData, &vsData, sizeof(vsData));
+		context->Unmap(vsConstantBuffer.Get(), 0);
+
+		//bind the GPU resource to the register
+		context->VSSetConstantBuffers(
+			0, // Which slot (register) to bind the buffer to?
+			1, // How many are we activating? Can do multiple at once
+			vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
+
+
 		entity.GetMesh().get()->Draw();
 	}
 
