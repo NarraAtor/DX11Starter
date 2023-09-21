@@ -313,17 +313,24 @@ void Game::Update(float deltaTime, float totalTime)
 	ImGui::Text("Window Width: %lu", windowWidth);
 	ImGui::Text("Window Height: %lu", windowHeight);
 
+
+	// controls to edit screen here:
+
+	//ImGui::DragFloat3("Edit a vector", &offset.x);
+	ImGui::ColorEdit4("4 - component(RGBA) color editor", &color.x);
+
+
 	gameEntities[0].GetTransform()->Rotate(0, 0, 0.0001f);
 	gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
 	gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
 	gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
 	gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
 
-
-	// controls to edit screen here:
-
-	//ImGui::DragFloat3("Edit a vector", &offset.x);
-	ImGui::ColorEdit4("4 - component(RGBA) color editor", &color.x);
+	// entity UI data here
+	for (int i = 0; i < gameEntities.size(); i++)
+	{
+		ImGui::Text("Entity %d", i);
+	}
 
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
@@ -351,6 +358,7 @@ void Game::Draw(float deltaTime, float totalTime)
 
 	for (GameEntity entity : gameEntities)
 	{
+		//TODO: move all this vertex shader and constant buffer code to the mesh so that it can just be passed in.
 		VertexShaderExternalData vsData;
 		vsData.colorTint = color;
 		vsData.worldMatrix = entity.GetTransform()->GetWorldMatrix();
