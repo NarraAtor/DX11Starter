@@ -314,6 +314,12 @@ void Game::Update(float deltaTime, float totalTime)
 	ImGui::Text("Window Height: %lu", windowHeight);
 
 	gameEntities[0].GetTransform()->Rotate(0, 0, 0.0001f);
+	gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
+	gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
+	gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
+	gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
+
+
 	// controls to edit screen here:
 
 	//ImGui::DragFloat3("Edit a vector", &offset.x);
