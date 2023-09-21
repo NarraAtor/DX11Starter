@@ -329,15 +329,18 @@ void Game::Update(float deltaTime, float totalTime)
 	// entity UI data here
 	for (int i = 0; i < gameEntities.size(); i++)
 	{
+		// for drop down if I ever feel like it
+		// ImGui::ListBox("Scene Entities", )
+
 		ImGui::Text("Entity %d", i);
 	    XMFLOAT3 position = gameEntities[i].GetTransform()->GetPosition();
 		XMFLOAT3 scale = gameEntities[i].GetTransform()->GetScale();
 		XMFLOAT3 rotation = gameEntities[i].GetTransform()->GetPitchYawRoll();
 
-		ImGui::DragFloat3("Position", &position.x);
-		ImGui::DragFloat3("Scale", &scale.x);
-		ImGui::DragFloat3("Rotation", &rotation.x);
-
+		ImGui::DragFloat3("Position##%d", &position.x, i);
+		ImGui::DragFloat3("Scale##d", &scale.x, i);
+		ImGui::DragFloat3("Rotation in radians##%d", &rotation.x, i);
+		ImGui::Text("Mesh Index Count: %d", i, i);
 	}
 
 	// Example input checking: Quit if the escape key is pressed
