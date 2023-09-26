@@ -50,14 +50,14 @@ void Camera::Update(float dt)
 {
 	Input& input = Input::GetInstance();
 
-	if (input.KeyDown('W')) { /* Do something useful */ }
-	if (input.KeyDown('S')) { /* Do something useful */ }
+	if (input.KeyDown('W')) { transform.MoveRelative(0, 0, movementSpeed * dt); }
+	if (input.KeyDown('S')) { transform.MoveRelative(0, 0, -movementSpeed * dt);  }
 
-	if (input.KeyDown('A')) { /* Do something useful */ }
-	if (input.KeyDown('D')) { /* Do something useful */ }
+	if (input.KeyDown('A')) { transform.MoveRelative(movementSpeed * dt, 0, 0); }
+	if (input.KeyDown('D')) { transform.MoveRelative(-movementSpeed * dt, 0, 0); }
 
 	//TODO: multiply these by delta time
-	if (input.KeyDown(VK_SPACE)) { transform.MoveAbsolute(0, 1, 0); }
-	if (input.KeyDown('X')) { transform.MoveAbsolute(0, -1, 0); }
+	if (input.KeyDown(VK_SPACE)) { transform.MoveAbsolute(0, movementSpeed * dt, 0); }
+	if (input.KeyDown('X')) { transform.MoveAbsolute(0, -movementSpeed * dt, 0); }
 
 }

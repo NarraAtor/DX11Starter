@@ -390,6 +390,7 @@ void Game::Draw(float deltaTime, float totalTime)
 			1, // How many are we activating? Can do multiple at once
 			vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
 
+		camera.Update(deltaTime);
 
 		entity.GetMesh().get()->Draw();
 	}
