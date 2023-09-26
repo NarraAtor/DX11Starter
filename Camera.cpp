@@ -14,3 +14,11 @@ DirectX::XMFLOAT4X4 Camera::GetProjectionMatrix()
 {
 	return projectionMatrix;
 }
+
+void Camera::UpdateProjectionMatrix(float aspectRatio)
+{
+}
+
+void Camera::UpdateViewMatrix()
+{
+}

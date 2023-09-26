@@ -6,8 +6,13 @@ class Camera
 {
 public:
 	Camera(float aspectRatio, DirectX::XMFLOAT3 initialPosition);
+
+	//getters
 	DirectX::XMFLOAT4X4 GetViewMatrix();
 	DirectX::XMFLOAT4X4 GetProjectionMatrix();
+
+	void UpdateProjectionMatrix(float aspectRatio);
+	void UpdateViewMatrix();
 
 private:
 	Transform transform;
