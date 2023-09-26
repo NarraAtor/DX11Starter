@@ -122,13 +122,32 @@ void Game::Init()
 			0, 0, 1, 0,
 			0, 0, 0, 1);
 
-		camera = std::make_shared<Camera>(
-			(float)windowWidth / windowHeight,
-			XMFLOAT3(0.0f, 0.0f, -5.0f),
-			5.0f,
-			1.0f,
-			XM_PIDIV4);
+		cameras.push_back(
+			std::make_shared<Camera>(
+				(float)windowWidth / windowHeight,
+				XMFLOAT3(0.0f, 0.0f, -5.0f),
+				5.0f,
+				1.0f,
+				XM_PIDIV4));
+
+		cameras.push_back(
+			std::make_shared<Camera>(
+				(float)windowWidth / windowHeight,
+				XMFLOAT3(5.0f, 0.0f, -5.0f),
+				5.0f,
+				1.0f,
+				XM_PIDIV4));
+		cameras.push_back(
+			std::make_shared<Camera>(
+				(float)windowWidth / windowHeight,
+				XMFLOAT3(0.0f, 5.0f, -5.0f),
+				5.0f,
+				1.0f,
+				XM_PIDIV4));
 	}
+
+	currentCameraIndex = 0;
+
 }
 
 // --------------------------------------------------------
@@ -270,11 +289,11 @@ void Game::CreateGeometry()
 	diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
 	gameEntities.push_back(GameEntity(triangle));
-	gameEntities.push_back( GameEntity(square));
-	gameEntities.push_back( GameEntity(diamond));
+	gameEntities.push_back(GameEntity(square));
+	gameEntities.push_back(GameEntity(diamond));
 	gameEntities.push_back(GameEntity(square));
 	gameEntities.push_back(GameEntity(square));
-	
+
 
 }
 
@@ -308,7 +327,7 @@ void Game::OnResize()
 {
 	// Handle base-level DX resize stuff
 	DXCore::OnResize();
-	camera->UpdateProjectionMatrix((float)windowWidth / windowHeight, XM_PIDIV4);
+	cameras[currentCameraIndex]->UpdateProjectionMatrix((float)windowWidth / windowHeight, XM_PIDIV4);
 }
 
 // --------------------------------------------------------
@@ -342,7 +361,7 @@ void Game::Update(float deltaTime, float totalTime)
 		// ImGui::ListBox("Scene Entities", )
 
 		ImGui::Text("Entity %d", i);
-	    XMFLOAT3 position = gameEntities[i].GetTransform()->GetPosition();
+		XMFLOAT3 position = gameEntities[i].GetTransform()->GetPosition();
 		XMFLOAT3 scale = gameEntities[i].GetTransform()->GetScale();
 		XMFLOAT3 rotation = gameEntities[i].GetTransform()->GetPitchYawRoll();
 
@@ -352,7 +371,7 @@ void Game::Update(float deltaTime, float totalTime)
 		ImGui::Text("Mesh Index Count: %d", i, i);
 	}
 
-	camera->Update(deltaTime);
+	cameras[currentCameraIndex]->Update(deltaTime);
 
 
 	// Example input checking: Quit if the escape key is pressed
@@ -385,8 +404,8 @@ void Game::Draw(float deltaTime, float totalTime)
 		VertexShaderExternalData vsData;
 		vsData.colorTint = color;
 		vsData.worldMatrix = entity.GetTransform()->GetWorldMatrix();
-		vsData.viewMatrix = camera->GetViewMatrix();
-		vsData.projMatrix = camera->GetProjectionMatrix();
+		vsData.viewMatrix = cameras[currentCameraIndex]->GetViewMatrix();
+		vsData.projMatrix = cameras[currentCameraIndex]->GetProjectionMatrix();
 
 		D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
 		context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
