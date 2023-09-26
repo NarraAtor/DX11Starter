@@ -122,9 +122,7 @@ void Game::Init()
 			0, 0, 1, 0,
 			0, 0, 0, 1);
 
-		camera = std::make_exception_ptr_shared(Camera > (
-			
-			))
+		camera = std::make_shared<Camera>(this->windowWidth / this->windowHeight, XMFLOAT3(0.0f, 0.0f, 0.0f), 5f, 1f, XM_PIDIV4);
 	}
 }
 
