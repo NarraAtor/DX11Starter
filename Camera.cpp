@@ -1,12 +1,13 @@
 #include "Camera.h"
+#include <stdio.h>
 
 using namespace DirectX;
 Camera::Camera(
-	float aspectRatio, 
+	float aspectRatio,
 	DirectX::XMFLOAT3 initialPosition,
 	float movementSpeed,
-	float mouseLookSpeed, 
-	float fieldOfViewInRadians):
+	float mouseLookSpeed,
+	float fieldOfViewInRadians) :
 	aspectRatio(aspectRatio),
 	movementSpeed(movementSpeed),
 	mouseLookSpeed(mouseLookSpeed),
@@ -38,7 +39,7 @@ void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 		fieldOfViewInRadians,
 		aspectRatio,
 		nearClipDistance,
-		farClipDistance 
+		farClipDistance
 	);
 	XMStoreFloat4x4(&projectionMatrix, proj);
 }
@@ -62,13 +63,19 @@ void Camera::Update(float dt)
 	Input& input = Input::GetInstance();
 
 	if (input.KeyDown('W')) { transform.MoveRelative(0, 0, movementSpeed * dt); }
-	if (input.KeyDown('S')) { transform.MoveRelative(0, 0, -movementSpeed * dt);  }
+	if (input.KeyDown('S')) { transform.MoveRelative(0, 0, -movementSpeed * dt); }
 
 	if (input.KeyDown('A')) { transform.MoveRelative(movementSpeed * dt, 0, 0); }
 	if (input.KeyDown('D')) { transform.MoveRelative(-movementSpeed * dt, 0, 0); }
 
-	if (input.KeyDown(' ')) { transform.MoveAbsolute(0, movementSpeed * dt, 0); }
-	if (input.KeyDown('X')) { transform.MoveAbsolute(0, -movementSpeed * dt, 0); }
+	if (input.KeyDown(' ')) {
+		transform.MoveAbsolute(0, movementSpeed * dt, 0);
+		//printf("pressed space");
+	}
+	if (input.KeyDown('X')) {
+		transform.MoveAbsolute(0, -movementSpeed * dt, 0);
+		//printf("pressed x");
+	}
 
 	if (input.MouseLeftDown())
 	{
