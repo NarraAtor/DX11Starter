@@ -65,4 +65,6 @@ void Camera::Update(float dt)
 		float cursorMovementY = mouseLookSpeed * input.GetMouseYDelta();
 		transform.Rotate(cursorMovementY, cursorMovementX, 0);
 	}
+
+	UpdateViewMatrix();
 }
