@@ -150,15 +150,36 @@ DirectX::XMFLOAT4X4 Transform::GetWorldInverseTransposeMatrix()
 
 DirectX::XMFLOAT3 Transform::GetRight()
 {
-	return DirectX::XMFLOAT3();
+	XMFLOAT3 worldRight(1, 0, 0);
+	XMVECTOR worldRightVector = XMLoadFloat3(&worldRight);
+	XMStoreFloat3(&worldRight,
+		XMVector3Rotate(
+			worldRightVector,
+			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
+
+	return worldRight;
 }
 
 DirectX::XMFLOAT3 Transform::GetUp()
 {
-	return DirectX::XMFLOAT3();
+	XMFLOAT3 worldUp(0, 1, 0);
+	XMVECTOR worldUpVector = XMLoadFloat3(&worldUp);
+	XMStoreFloat3(&worldUp,
+		XMVector3Rotate(
+			worldUpVector,
+			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
+
+	return worldUp;
 }
 
 DirectX::XMFLOAT3 Transform::GetForward()
 {
-	return DirectX::XMFLOAT3();
+	XMFLOAT3 worldForward(0, 0, 1);
+	XMVECTOR worldForwardVector = XMLoadFloat3(&worldForward);
+	XMStoreFloat3(&worldForward,
+		XMVector3Rotate(
+			worldForwardVector,
+			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
+
+	return worldForward;
 }
