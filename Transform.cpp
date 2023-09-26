@@ -147,3 +147,18 @@ DirectX::XMFLOAT4X4 Transform::GetWorldInverseTransposeMatrix()
 	}
 	return worldInverseTranspose;
 }
+
+DirectX::XMFLOAT3 Transform::GetRight()
+{
+	return DirectX::XMFLOAT3();
+}
+
+DirectX::XMFLOAT3 Transform::GetUp()
+{
+	return DirectX::XMFLOAT3();
+}
+
+DirectX::XMFLOAT3 Transform::GetForward()
+{
+	return DirectX::XMFLOAT3();
+}
