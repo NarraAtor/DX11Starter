@@ -59,4 +59,10 @@ void Camera::Update(float dt)
 	if (input.KeyDown(VK_SPACE)) { transform.MoveAbsolute(0, movementSpeed * dt, 0); }
 	if (input.KeyDown('X')) { transform.MoveAbsolute(0, -movementSpeed * dt, 0); }
 
+	if (input.MouseLeftDown())
+	{
+		float cursorMovementX = mouseLookSpeed * input.GetMouseXDelta();
+		float cursorMovementY = mouseLookSpeed * input.GetMouseYDelta();
+		transform.Rotate(cursorMovementY, cursorMovementX, 0);
+	}
 }
