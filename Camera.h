@@ -5,13 +5,14 @@
 class Camera
 {
 public:
-	Camera(float aspectRatio, DirectX::XMFLOAT3 initialPosition);
+	Camera(float aspectRatio, DirectX::XMFLOAT3 initialPosition, float movementSpeed, float mouseLookSpeed, float fieldOfViewInRadians);
+	~Camera();
 
 	//getters
 	DirectX::XMFLOAT4X4 GetViewMatrix();
 	DirectX::XMFLOAT4X4 GetProjectionMatrix();
 
-	void UpdateProjectionMatrix(float aspectRatio);
+	void UpdateProjectionMatrix(float aspectRatio, float fov);
 	void UpdateViewMatrix();
 	void Update(float dt);
 
@@ -20,6 +21,7 @@ private:
 	DirectX::XMFLOAT4X4 viewMatrix;
 	DirectX::XMFLOAT4X4 projectionMatrix;
 	float fieldOfViewInRadians;
+	float aspectRatio;
 	float nearClipDistance;
 	float farClipDistance;
 	float movementSpeed;
