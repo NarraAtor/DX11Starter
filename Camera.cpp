@@ -18,6 +18,10 @@ Camera::Camera(
 	transform.SetPosition(initialPosition);
 }
 
+Camera::~Camera()
+{
+}
+
 DirectX::XMFLOAT4X4 Camera::GetViewMatrix()
 {
 	return viewMatrix;
@@ -63,7 +67,7 @@ void Camera::Update(float dt)
 	if (input.KeyDown('A')) { transform.MoveRelative(movementSpeed * dt, 0, 0); }
 	if (input.KeyDown('D')) { transform.MoveRelative(-movementSpeed * dt, 0, 0); }
 
-	if (input.KeyDown(VK_SPACE)) { transform.MoveAbsolute(0, movementSpeed * dt, 0); }
+	if (input.KeyDown(' ')) { transform.MoveAbsolute(0, movementSpeed * dt, 0); }
 	if (input.KeyDown('X')) { transform.MoveAbsolute(0, -movementSpeed * dt, 0); }
 
 	if (input.MouseLeftDown())
