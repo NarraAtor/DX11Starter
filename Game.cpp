@@ -376,7 +376,9 @@ void Game::Update(float deltaTime, float totalTime)
 
 	XMFLOAT3 cameraPosition = cameras[currentCameraIndex]->GetTransform().GetPosition();
 
-	ImGui::Text("\nCurrent Camera Position: %d, %d, %d", cameraPosition.x, cameraPosition.y, cameraPosition.z);
+	ImGui::Text("\nCurrent Camera Position: %f, %f, %f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
+	ImGui::Text("Current Camera FOV: %f", cameras[currentCameraIndex]->getFOV());
+
 
 	if (ImGui::Button("Previous"))
 	{

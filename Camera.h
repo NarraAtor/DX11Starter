@@ -12,6 +12,7 @@ public:
 	DirectX::XMFLOAT4X4 GetViewMatrix();
 	DirectX::XMFLOAT4X4 GetProjectionMatrix();
 	Transform GetTransform();
+	float getFOV();
 
 	void UpdateProjectionMatrix(float aspectRatio, float fov);
 	void UpdateViewMatrix();

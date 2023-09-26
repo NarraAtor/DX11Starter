@@ -41,6 +41,11 @@ Transform Camera::GetTransform()
 	return transform;
 }
 
+float Camera::getFOV()
+{
+	return fieldOfViewInRadians;
+}
+
 void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 {
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(
