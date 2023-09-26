@@ -10,6 +10,7 @@
 #include "ImGui/imgui_impl_win32.h"
 #include <vector>
 #include "GameEntity.h"
+#include "Camera.h"
 
 class Game 
 	: public DXCore
@@ -55,5 +56,8 @@ private:
 	// controls to edit screen here:
 	DirectX::XMFLOAT4 color;
 	DirectX::XMFLOAT4X4 worldMatrix;
+
+	//create camera
+	Camera camera;
 };
 

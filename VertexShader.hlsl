@@ -3,6 +3,8 @@ cbuffer ExternalData : register(b0)
 {
 	float4 colorTint;
 	matrix world;
+	matrix view;
+	matrix proj;
 }
 
 // Struct representing a single vertex worth of data

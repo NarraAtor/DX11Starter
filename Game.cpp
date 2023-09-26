@@ -4,6 +4,7 @@
 #include "PathHelpers.h"
 #include "BufferStructs.h"
 
+
 // Needed for a helper function to load pre-compiled shader files
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3dcompiler.h>
@@ -120,6 +121,10 @@ void Game::Init()
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1);
+
+		camera = std::make_exception_ptr_shared(Camera > (
+			
+			))
 	}
 }
 
