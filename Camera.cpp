@@ -5,7 +5,10 @@ Camera::Camera(float aspectRatio, DirectX::XMFLOAT3 initialPosition, float movem
 	aspectRatio(aspectRatio),
 	movementSpeed(movementSpeed),
 	mouseLookSpeed(mouseLookSpeed),
-	fieldOfViewInRadians(fieldOfViewInRadians)
+	fieldOfViewInRadians(fieldOfViewInRadians),
+	nearClipDistance(0.01f),
+	farClipDistance(1000.0f)
+
 {
 	transform.SetPosition(initialPosition);
 }
@@ -26,8 +29,8 @@ void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 		fieldOfViewInRadians,
 		aspectRatio,
 		//TODO: change these to the parameters I set
-		0.01f, //near clip distance
-		10000.0f // far clip distance
+		nearClipDistance, //near clip distance
+		farClipDistance // far clip distance
 	);
 	XMStoreFloat4x4(&projectionMatrix, proj);
 }
