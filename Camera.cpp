@@ -28,9 +28,8 @@ void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(
 		fieldOfViewInRadians,
 		aspectRatio,
-		//TODO: change these to the parameters I set
-		nearClipDistance, //near clip distance
-		farClipDistance // far clip distance
+		nearClipDistance,
+		farClipDistance 
 	);
 	XMStoreFloat4x4(&projectionMatrix, proj);
 }
