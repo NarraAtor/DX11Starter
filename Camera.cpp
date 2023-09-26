@@ -56,7 +56,6 @@ void Camera::Update(float dt)
 	if (input.KeyDown('A')) { transform.MoveRelative(movementSpeed * dt, 0, 0); }
 	if (input.KeyDown('D')) { transform.MoveRelative(-movementSpeed * dt, 0, 0); }
 
-	//TODO: multiply these by delta time
 	if (input.KeyDown(VK_SPACE)) { transform.MoveAbsolute(0, movementSpeed * dt, 0); }
 	if (input.KeyDown('X')) { transform.MoveAbsolute(0, -movementSpeed * dt, 0); }
 
