@@ -124,7 +124,7 @@ void Game::Init()
 
 		camera = std::make_shared<Camera>(
 			(float)windowWidth / windowHeight,
-			XMFLOAT3(0.0f, 0.0f, 0.0f),
+			XMFLOAT3(1.0f, 1.0f, 1.0f),
 			5.0f,
 			1.0f,
 			XM_PIDIV4);
@@ -308,6 +308,7 @@ void Game::OnResize()
 {
 	// Handle base-level DX resize stuff
 	DXCore::OnResize();
+	camera->UpdateProjectionMatrix((float)windowWidth / windowHeight, XM_PIDIV4);
 }
 
 // --------------------------------------------------------

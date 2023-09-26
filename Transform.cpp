@@ -74,7 +74,8 @@ void Transform::MoveRelative(float x, float y, float z)
 	XMStoreFloat3(&position,
 		XMVector3Rotate(
 			relativeMovementVector,
-			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z) + positionVector));
+			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)) + positionVector);
+	matrixDirty = true;
 }
 
 void Transform::Rotate(float pitch, float yaw, float roll)
