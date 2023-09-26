@@ -374,6 +374,10 @@ void Game::Update(float deltaTime, float totalTime)
 		ImGui::Text("Mesh Index Count: %d", i, i);
 	}
 
+	XMFLOAT3 cameraPosition = cameras[currentCameraIndex]->GetTransform().GetPosition();
+
+	ImGui::Text("\nCurrent Camera Position: %d, %d, %d", cameraPosition.x, cameraPosition.y, cameraPosition.z);
+
 	if (ImGui::Button("Previous"))
 	{
 		if (currentCameraIndex == 0)
@@ -389,6 +393,7 @@ void Game::Update(float deltaTime, float totalTime)
 	{
 		currentCameraIndex = (currentCameraIndex + 1) % cameras.size();
 	}
+	
 
 	
 	cameras[currentCameraIndex]->Update(deltaTime);

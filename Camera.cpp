@@ -36,6 +36,11 @@ DirectX::XMFLOAT4X4 Camera::GetProjectionMatrix()
 	return projectionMatrix;
 }
 
+Transform Camera::GetTransform()
+{
+	return transform;
+}
+
 void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 {
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(
