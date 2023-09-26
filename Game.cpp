@@ -376,6 +376,8 @@ void Game::Draw(float deltaTime, float totalTime)
 		VertexShaderExternalData vsData;
 		vsData.colorTint = color;
 		vsData.worldMatrix = entity.GetTransform()->GetWorldMatrix();
+		vsData.viewMatrix = camera.GetViewMatrix();
+		vsData.projMatrix = camera.GetProjectionMatrix();
 
 		D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
 		context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
