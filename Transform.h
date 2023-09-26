@@ -40,6 +40,9 @@ private:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 scale;
 	DirectX::XMFLOAT3 pitchYawRoll;
+	DirectX::XMFLOAT3 up;
+	DirectX::XMFLOAT3 forward;
+	DirectX::XMFLOAT3 right;
 	DirectX::XMFLOAT4X4 world;
 	DirectX::XMFLOAT4X4 worldInverseTranspose;
 	bool matrixDirty;

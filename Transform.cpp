@@ -4,7 +4,10 @@ using namespace DirectX;
 Transform::Transform() :
 	position(0, 0, 0),
 	scale(1, 1, 1),
-	pitchYawRoll(0, 0, 0)
+	pitchYawRoll(0, 0, 0),
+	up(0, 1, 0),
+	right(1, 0, 0),
+	forward(0, 0, 1)
 {
 	XMStoreFloat4x4(&world, XMMatrixIdentity());
 	XMStoreFloat4x4(&worldInverseTranspose, XMMatrixIdentity());
@@ -68,9 +71,9 @@ void Transform::MoveRelative(float x, float y, float z)
 {
 	XMVECTOR relativeMovementVector = XMVectorSet(x, y, z, 0);
 	XMVECTOR positionVector = XMLoadFloat3(&position);
-	XMStoreFloat3(&position, 
+	XMStoreFloat3(&position,
 		XMVector3Rotate(
-			relativeMovementVector, 
+			relativeMovementVector,
 			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z) + positionVector));
 }
 
@@ -111,7 +114,7 @@ DirectX::XMFLOAT3 Transform::GetScale()
 
 DirectX::XMFLOAT4X4 Transform::GetWorldMatrix()
 {
-	
+
 	if (matrixDirty)
 	{
 		// TODO: do stuff
@@ -146,43 +149,24 @@ DirectX::XMFLOAT4X4 Transform::GetWorldInverseTransposeMatrix()
 	return worldInverseTranspose;
 }
 
-DirectX::XMFLOAT3 Transform::GetRight()
-{
-	XMFLOAT3 worldRight(1, 0, 0);
-	XMVECTOR worldRightVector = XMLoadFloat3(&worldRight);
-	XMStoreFloat3(&worldRight,
-		XMVector3Rotate(
-			worldRightVector,
-			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
-
-	return worldRight;
-}
-
 DirectX::XMFLOAT3 Transform::GetUp()
 {
-	XMFLOAT3 worldUp(0, 1, 0);
-	XMVECTOR worldUpVector = XMLoadFloat3(&worldUp);
-	XMStoreFloat3(&worldUp,
-		XMVector3Rotate(
-			worldUpVector,
-			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
+	UpdateVectors();
+	return up;
+}
 
-	return worldUp;
+DirectX::XMFLOAT3 Transform::GetRight()
+{
+	UpdateVectors();
+	return right;
 }
 
 DirectX::XMFLOAT3 Transform::GetForward()
 {
-	XMFLOAT3 worldForward(0, 0, 1);
-	XMVECTOR worldForwardVector = XMLoadFloat3(&worldForward);
-	XMStoreFloat3(&worldForward,
-		XMVector3Rotate(
-			worldForwardVector,
-			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
-
-	return worldForward;
+	UpdateVectors();
+	return forward;
 }
 
-//TODO: 
 void Transform::UpdateVectors()
 {
 	if (!vectorsDirty)
@@ -190,6 +174,15 @@ void Transform::UpdateVectors()
 		return;
 	}
 
-	// XMVECTOR rotationQuaternion = XMQuaternionRotationRollPitchYawFromVector();
-		vectorsDirty = false;
+	XMFLOAT3 worldUp(0, 1, 0);
+	XMFLOAT3 worldRight(1, 0, 0);
+	XMFLOAT3 worldForward(0, 0, 1);
+
+
+	XMVECTOR rotationQuaternion = XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat3(&pitchYawRoll));
+	XMStoreFloat3(&up, XMVector3Rotate(XMLoadFloat3(&worldUp), rotationQuaternion));
+	XMStoreFloat3(&right, XMVector3Rotate(XMLoadFloat3(&worldRight), rotationQuaternion));
+	XMStoreFloat3(&forward, XMVector3Rotate(XMLoadFloat3(&worldForward), rotationQuaternion));
+
+	vectorsDirty = false;
 }
