@@ -13,6 +13,7 @@ public:
 
 	void UpdateProjectionMatrix(float aspectRatio);
 	void UpdateViewMatrix();
+	void Update(float dt);
 
 private:
 	Transform transform;

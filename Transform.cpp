@@ -9,6 +9,7 @@ Transform::Transform() :
 	XMStoreFloat4x4(&world, XMMatrixIdentity());
 	XMStoreFloat4x4(&worldInverseTranspose, XMMatrixIdentity());
 	matrixDirty = false;
+	vectorsDirty = false;
 }
 
 void Transform::SetPosition(float x, float y, float z)
@@ -31,7 +32,7 @@ void Transform::SetRotation(float pitch, float yaw, float roll)
 	pitchYawRoll.y = yaw;
 	pitchYawRoll.z = roll;
 	matrixDirty = true;
-
+	vectorsDirty = true;
 }
 
 void Transform::SetRotation(DirectX::XMFLOAT3 rotation)
@@ -181,4 +182,15 @@ DirectX::XMFLOAT3 Transform::GetForward()
 			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
 
 	return worldForward;
+}
+
+void Transform::UpdateVectors()
+{
+	if (!vectorsDirty)
+	{
+		return;
+	}
+
+	XMVECTOR rotationQuaternion = XMQuaternionRotationRollPitchYawFromVector();
+		vectorsDirty = false;
 }
