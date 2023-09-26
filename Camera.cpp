@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+using namespace DirectX;
 Camera::Camera(float aspectRatio, DirectX::XMFLOAT3 initialPosition, float movementSpeed, float mouseLookSpeed, float fieldOfViewInRadians):
 	aspectRatio(aspectRatio),
 	movementSpeed(movementSpeed),
@@ -25,6 +26,14 @@ void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 
 void Camera::UpdateViewMatrix()
 {
+	XMFLOAT3 pos = transform.GetPosition();
+	XMFLOAT3 fwd = transform.GetForward();
+
+	XMMATRIX view = XMMatrixLookToLH(
+		XMLoadFloat3(&pos),
+		XMLoadFloat3(&fwd),
+		XMVectorSet(0, 1, 0, 0)
+	);
 }
 
 void Camera::Update(float dt)
