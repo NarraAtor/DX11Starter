@@ -68,9 +68,8 @@ void Transform::MoveRelative(float x, float y, float z)
 	XMFLOAT3 relativeMovement(x, y, z);
 	XMVECTOR relativeMovementVector = XMLoadFloat3(&relativeMovement);
 
-	XMFLOAT3 positionFloat(position.x, position.y, position.z);
-	XMVECTOR positionVector = XMLoadFloat3(&positionFloat);
-	XMStoreFloat3(&positionFloat, 
+	XMVECTOR positionVector = XMLoadFloat3(&position);
+	XMStoreFloat3(&position, 
 		XMVector3Rotate(
 			relativeMovementVector, 
 			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
