@@ -124,7 +124,7 @@ void Game::Init()
 
 		camera = std::make_shared<Camera>(
 			(float)windowWidth / windowHeight,
-			XMFLOAT3(1.0f, 1.0f, 1.0f),
+			XMFLOAT3(0.0f, 0.0f, -5.0f),
 			5.0f,
 			1.0f,
 			XM_PIDIV4);
@@ -352,6 +352,9 @@ void Game::Update(float deltaTime, float totalTime)
 		ImGui::Text("Mesh Index Count: %d", i, i);
 	}
 
+	camera->Update(deltaTime);
+
+
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
 		Quit();
@@ -395,8 +398,6 @@ void Game::Draw(float deltaTime, float totalTime)
 			0, // Which slot (register) to bind the buffer to?
 			1, // How many are we activating? Can do multiple at once
 			vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
-
-		camera->Update(deltaTime);
 
 		entity.GetMesh().get()->Draw();
 	}
