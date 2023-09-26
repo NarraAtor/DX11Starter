@@ -1,7 +1,12 @@
 #include "Camera.h"
 
 using namespace DirectX;
-Camera::Camera(float aspectRatio, DirectX::XMFLOAT3 initialPosition, float movementSpeed, float mouseLookSpeed, float fieldOfViewInRadians):
+Camera::Camera(
+	float aspectRatio, 
+	DirectX::XMFLOAT3 initialPosition,
+	float movementSpeed,
+	float mouseLookSpeed, 
+	float fieldOfViewInRadians):
 	aspectRatio(aspectRatio),
 	movementSpeed(movementSpeed),
 	mouseLookSpeed(mouseLookSpeed),

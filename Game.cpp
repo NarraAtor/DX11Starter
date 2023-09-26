@@ -122,7 +122,12 @@ void Game::Init()
 			0, 0, 1, 0,
 			0, 0, 0, 1);
 
-		camera = std::make_shared<Camera>(this->windowWidth / this->windowHeight, XMFLOAT3(0.0f, 0.0f, 0.0f), 5f, 1f, XM_PIDIV4);
+		camera = std::make_shared<Camera>(
+			(float)windowWidth / windowHeight,
+			XMFLOAT3(0.0f, 0.0f, 0.0f),
+			5.0f,
+			1.0f,
+			XM_PIDIV4);
 	}
 }
 
@@ -376,8 +381,8 @@ void Game::Draw(float deltaTime, float totalTime)
 		VertexShaderExternalData vsData;
 		vsData.colorTint = color;
 		vsData.worldMatrix = entity.GetTransform()->GetWorldMatrix();
-		vsData.viewMatrix = camera.GetViewMatrix();
-		vsData.projMatrix = camera.GetProjectionMatrix();
+		vsData.viewMatrix = camera->GetViewMatrix();
+		vsData.projMatrix = camera->GetProjectionMatrix();
 
 		D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
 		context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
@@ -390,7 +395,7 @@ void Game::Draw(float deltaTime, float totalTime)
 			1, // How many are we activating? Can do multiple at once
 			vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
 
-		camera.Update(deltaTime);
+		camera->Update(deltaTime);
 
 		entity.GetMesh().get()->Draw();
 	}

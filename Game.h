@@ -58,6 +58,6 @@ private:
 	DirectX::XMFLOAT4X4 worldMatrix;
 
 	//create camera
-	Camera camera;
+	std::shared_ptr<Camera> camera;
 };
 
