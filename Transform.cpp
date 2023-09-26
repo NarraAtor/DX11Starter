@@ -63,7 +63,7 @@ void Transform::MoveAbsolute(DirectX::XMFLOAT3 offset)
 	MoveAbsolute(offset.x, offset.y, offset.z);
 }
 
-void MoveRelative(float x, float y, float z)
+void Transform::MoveRelative(float x, float y, float z)
 {
 	XMFLOAT3 relativeMovement(x, y, z);
 	XMVECTOR relativeMovementVector = XMLoadFloat3(&relativeMovement);
@@ -74,7 +74,6 @@ void MoveRelative(float x, float y, float z)
 		XMVector3Rotate(
 			relativeMovementVector, 
 			XMQuaternionRotationRollPitchYaw(pitchYawRoll.x, pitchYawRoll.y, pitchYawRoll.z)));
-
 }
 
 void Transform::Rotate(float pitch, float yaw, float roll)

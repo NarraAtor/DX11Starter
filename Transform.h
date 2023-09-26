@@ -17,6 +17,7 @@ public:
 	//transformers
 	void MoveAbsolute(float x, float y, float z);
 	void MoveAbsolute(DirectX::XMFLOAT3 offset);
+	void MoveRelative(float x, float y, float z);
 	void Rotate(float pitch, float yaw, float roll);
 	void Rotate(DirectX::XMFLOAT3 rotation);
 	void Scale(float x, float y, float z);
