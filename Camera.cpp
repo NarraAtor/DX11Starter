@@ -68,8 +68,8 @@ void Camera::Update(float dt)
 	if (input.KeyDown('W')) { transform.MoveRelative(0, 0, movementSpeed * dt); }
 	if (input.KeyDown('S')) { transform.MoveRelative(0, 0, -movementSpeed * dt); }
 
-	if (input.KeyDown('A')) { transform.MoveRelative(movementSpeed * dt, 0, 0); }
-	if (input.KeyDown('D')) { transform.MoveRelative(-movementSpeed * dt, 0, 0); }
+	if (input.KeyDown('A')) { transform.MoveRelative(-movementSpeed * dt, 0, 0); }
+	if (input.KeyDown('D')) { transform.MoveRelative(movementSpeed * dt, 0, 0); }
 
 	if (input.KeyDown(' ')) {
 		transform.MoveAbsolute(0, movementSpeed * dt, 0);
