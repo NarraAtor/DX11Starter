@@ -327,7 +327,10 @@ void Game::OnResize()
 {
 	// Handle base-level DX resize stuff
 	DXCore::OnResize();
-	cameras[currentCameraIndex]->UpdateProjectionMatrix((float)windowWidth / windowHeight, XM_PIDIV4);
+	for (std::shared_ptr<Camera> camera : cameras)
+	{
+		cameras[currentCameraIndex]->UpdateProjectionMatrix((float)windowWidth / windowHeight, XM_PIDIV4);
+	}
 }
 
 // --------------------------------------------------------
