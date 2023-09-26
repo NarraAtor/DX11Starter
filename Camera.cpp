@@ -22,6 +22,14 @@ DirectX::XMFLOAT4X4 Camera::GetProjectionMatrix()
 
 void Camera::UpdateProjectionMatrix(float aspectRatio, float fov)
 {
+	XMMATRIX proj = XMMatrixPerspectiveFovLH(
+		fieldOfViewInRadians,
+		aspectRatio,
+		//TODO: change these to the parameters I set
+		0.01f, //near clip distance
+		10000.0f // far clip distance
+	);
+	XMStoreFloat4x4(&projectionMatrix, proj);
 }
 
 void Camera::UpdateViewMatrix()
@@ -34,6 +42,8 @@ void Camera::UpdateViewMatrix()
 		XMLoadFloat3(&fwd),
 		XMVectorSet(0, 1, 0, 0)
 	);
+
+	XMStoreFloat4x4(&viewMatrix, view);
 }
 
 void Camera::Update(float dt)
