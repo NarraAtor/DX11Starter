@@ -17,6 +17,9 @@ Camera::Camera(
 
 {
 	transform.SetPosition(initialPosition);
+
+	UpdateViewMatrix();
+	UpdateProjectionMatrix(aspectRatio, fieldOfViewInRadians);
 }
 
 Camera::~Camera()
