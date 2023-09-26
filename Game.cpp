@@ -374,6 +374,23 @@ void Game::Update(float deltaTime, float totalTime)
 		ImGui::Text("Mesh Index Count: %d", i, i);
 	}
 
+	if (ImGui::Button("Previous"))
+	{
+		if (currentCameraIndex == 0)
+		{
+			currentCameraIndex = cameras.size() - 1;
+		}
+		else
+		currentCameraIndex = currentCameraIndex - 1;
+		
+	}
+
+	if (ImGui::Button("Next"))
+	{
+		currentCameraIndex = (currentCameraIndex + 1) % cameras.size();
+	}
+
+	
 	cameras[currentCameraIndex]->Update(deltaTime);
 
 
