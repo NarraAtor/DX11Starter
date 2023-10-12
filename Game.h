@@ -49,9 +49,11 @@ private:
 	std::shared_ptr<SimplePixelShader> pixelShader;
 	std::shared_ptr<SimpleVertexShader> vertexShader;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
-	std::shared_ptr<Mesh> triangle;
+	/*std::shared_ptr<Mesh> triangle;
 	std::shared_ptr<Mesh> square;
-	std::shared_ptr<Mesh> diamond;
+	std::shared_ptr<Mesh> diamond;*/
+	std::shared_ptr<Mesh> cube;
+
 	std::vector<GameEntity> gameEntities;
 
 	// Materials

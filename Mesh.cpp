@@ -95,11 +95,11 @@ Mesh::Mesh(const char* model, Microsoft::WRL::ComPtr<ID3D11Device> device, Micro
 		return;
 
 	// Variables used while reading the file
-	std::vector<XMFLOAT3> positions;	// Positions from the file
+	std::vector<XMFLOAT3> positions = {};	// Positions from the file
 	std::vector<XMFLOAT3> normals;		// Normals from the file
 	std::vector<XMFLOAT2> uvs;		// UVs from the file
 	std::vector<Vertex> verts;		// Verts we're assembling
-	std::vector<UINT> indices;		// Indices of these verts
+	std::vector<UINT> indices = {};		// Indices of these verts
 	int vertCounter = 0;			// Count of vertices
 	int indexCounter = 0;			// Count of indices
 	char chars[100];			// String for line reading
@@ -291,14 +291,13 @@ Mesh::Mesh(const char* model, Microsoft::WRL::ComPtr<ID3D11Device> device, Micro
 	//    an index buffer isn't doing much for us.  We could try to optimize the mesh ourselves
 	//    and detect duplicate vertices, but at that point it would be better to use a more
 	//    sophisticated model loading library like TinyOBJLoader or The Open Asset Importer Library
-	verticies = &verts[0];
-	verticiesCount = vertCounter;
+	this->verticies = &verts[0];
+	this->verticiesCount = vertCounter;
 	// Possible naming collision?
 	this->indices = &indices[0];
-	indicesCount = indexCounter;
+	this->indicesCount = indexCounter;
 	this->device = device;
 	this->deviceContext = deviceContext;
-
 	//TODO: Move this to a funciton if this works
 	// 
 	// Create a VERTEX BUFFER

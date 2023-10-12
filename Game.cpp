@@ -227,21 +227,31 @@ void Game::CreateGeometry()
 	// - Indices are technically not required if the vertices are in the buffer 
 	//    in the correct order and each one will be used exactly once
 	// - But just to see how it's done...
-	unsigned int triangleIndices[] = { 0, 1, 2 };
-	unsigned int squareIndices[] = { 0, 1, 2, 3, 4, 5 };
-	unsigned int diamondIndices[] = { 0, 1, 2, 3, 4, 5 };
+	//unsigned int triangleIndices[] = { 0, 1, 2 };
+	//unsigned int squareIndices[] = { 0, 1, 2, 3, 4, 5 };
+	//unsigned int diamondIndices[] = { 0, 1, 2, 3, 4, 5 };
 
 
 
-	triangle = std::make_shared<Mesh>(triangleVertices, 3, triangleIndices, 3, device, context);
-	square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
-	diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
+	//triangle = std::make_shared<Mesh>(triangleVertices, 3, triangleIndices, 3, device, context);
+	//square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
+	//diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
-	gameEntities.push_back(GameEntity(triangle, materials[0]));
+	cube = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cube.obj").c_str(), device, context);
+	/*square = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);
+	diamond = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);*/
+
+	/*gameEntities.push_back(GameEntity(triangle, materials[0]));
 	gameEntities.push_back(GameEntity(square, materials[1]));
 	gameEntities.push_back(GameEntity(diamond, materials[2]));
 	gameEntities.push_back(GameEntity(square, materials[0]));
-	gameEntities.push_back(GameEntity(square, materials[1]));
+	gameEntities.push_back(GameEntity(square, materials[1]));*/
+
+	// gameEntities.push_back(GameEntity(cube, materials[0]));
+	/*gameEntities.push_back(GameEntity(square, materials[1]));
+	gameEntities.push_back(GameEntity(diamond, materials[2]));
+	gameEntities.push_back(GameEntity(square, materials[0]));
+	gameEntities.push_back(GameEntity(square, materials[1]));*/
 
 
 }
