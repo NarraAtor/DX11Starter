@@ -12,6 +12,7 @@
 #include "GameEntity.h"
 #include "Camera.h"
 #include "SimpleShader.h"
+#include "Material.h"
 
 class Game 
 	: public DXCore
@@ -54,6 +55,9 @@ private:
 	std::shared_ptr<Mesh> diamond;
 	std::vector<GameEntity> gameEntities;
 
+	// Materials
+	std::vector<std::shared_ptr<Material>> materials;
+
 	// controls to edit screen here:
 	DirectX::XMFLOAT4 color;
 	DirectX::XMFLOAT4X4 worldMatrix;
@@ -61,5 +65,6 @@ private:
 	//create camera
 	std::vector<std::shared_ptr<Camera>> cameras;
 	size_t currentCameraIndex;
+
 };
 
