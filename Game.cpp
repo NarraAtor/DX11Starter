@@ -239,11 +239,11 @@ void Game::CreateGeometry()
 	square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
 	diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
-	gameEntities.push_back(GameEntity(triangle));
-	gameEntities.push_back(GameEntity(square));
-	gameEntities.push_back(GameEntity(diamond));
-	gameEntities.push_back(GameEntity(square));
-	gameEntities.push_back(GameEntity(square));
+	gameEntities.push_back(GameEntity(triangle, materials[0]));
+	gameEntities.push_back(GameEntity(square, materials[1]));
+	gameEntities.push_back(GameEntity(diamond, materials[2]));
+	gameEntities.push_back(GameEntity(square, materials[0]));
+	gameEntities.push_back(GameEntity(square, materials[1]));
 
 
 }
@@ -395,6 +395,10 @@ void Game::Draw(float deltaTime, float totalTime)
 			0, // Which slot (register) to bind the buffer to?
 			1, // How many are we activating? Can do multiple at once
 			vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
+
+		entity.GetMaterial().get()->GetVertexShader().get()->SetShader();
+		entity.GetMaterial().get()->GetPixelShader().get()->SetShader();
+
 
 		entity.GetMesh().get()->Draw();
 	}
