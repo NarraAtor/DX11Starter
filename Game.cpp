@@ -194,32 +194,32 @@ void Game::CreateGeometry()
 	//    knowing the exact size (in pixels) of the image/window/etc.  
 	// - Long story short: Resizing the window also resizes the triangle,
 	//    since we're describing the triangle in terms of the window itself
-	Vertex triangleVertices[] =
-	{
-		{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
-		{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
-		{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
-	};
-
-	Vertex squareVertices[] =
-	{
-		{ XMFLOAT3(+0.5f, +0.8f, +0.0f), red },
-		{ XMFLOAT3(+0.9f, -0.2f, +0.0f), red },
-		{ XMFLOAT3(0.5f, -0.2f, +0.0f), red },
-		{ XMFLOAT3(0.9f, 0.8f, +0.0f), red },
-		{ XMFLOAT3(+0.9f, -0.2f, +0.0f), red },
-		{ XMFLOAT3(+0.5f, +0.8f, +0.0f), red }
-	};
-
-	Vertex diamondVertices[] =
-	{
-		{ XMFLOAT3(-0.9f, +0.3f, +0.0f), red },
-		{ XMFLOAT3(-0.5f, 0.3f, +0.0f), red },
-		{ XMFLOAT3(-0.7f, -0.2f, +0.0f), red },
-		{ XMFLOAT3(-0.9f, +0.3f, +0.0f), blue },
-		{ XMFLOAT3(-0.7f, 0.8f, +0.0f), blue },
-		{ XMFLOAT3(-0.5f, 0.3f, +0.0f), blue },
-	};
+	// Vertex triangleVertices[] =
+	// {
+	// 	{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
+	// 	{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
+	// 	{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
+	// };
+	// 
+	// Vertex squareVertices[] =
+	// {
+	// 	{ XMFLOAT3(+0.5f, +0.8f, +0.0f), red },
+	// 	{ XMFLOAT3(+0.9f, -0.2f, +0.0f), red },
+	// 	{ XMFLOAT3(0.5f, -0.2f, +0.0f), red },
+	// 	{ XMFLOAT3(0.9f, 0.8f, +0.0f), red },
+	// 	{ XMFLOAT3(+0.9f, -0.2f, +0.0f), red },
+	// 	{ XMFLOAT3(+0.5f, +0.8f, +0.0f), red }
+	// };
+	// 
+	// Vertex diamondVertices[] =
+	// {
+	// 	{ XMFLOAT3(-0.9f, +0.3f, +0.0f), red },
+	// 	{ XMFLOAT3(-0.5f, 0.3f, +0.0f), red },
+	// 	{ XMFLOAT3(-0.7f, -0.2f, +0.0f), red },
+	// 	{ XMFLOAT3(-0.9f, +0.3f, +0.0f), blue },
+	// 	{ XMFLOAT3(-0.7f, 0.8f, +0.0f), blue },
+	// 	{ XMFLOAT3(-0.5f, 0.3f, +0.0f), blue },
+	// };
 
 
 	// Set up indices, which tell us which vertices to use and in which order
