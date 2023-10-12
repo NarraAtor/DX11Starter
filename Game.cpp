@@ -117,8 +117,6 @@ void Game::Init()
 		cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 
-		device->CreateBuffer(&cbDesc, 0, vsConstantBuffer.GetAddressOf());
-
 		// set up editable features
 		color = XMFLOAT4(1.0f, 0.0f, 0.5f, 1.0f);
 		worldMatrix = XMFLOAT4X4(
@@ -378,27 +376,16 @@ void Game::Draw(float deltaTime, float totalTime)
 
 	for (GameEntity entity : gameEntities)
 	{
-		//TODO: move all this vertex shader and constant buffer code to the mesh so that it can just be passed in.
-		VertexShaderExternalData vsData;
-		vsData.colorTint = color;
-		vsData.worldMatrix = entity.GetTransform()->GetWorldMatrix();
-		vsData.viewMatrix = cameras[currentCameraIndex]->GetViewMatrix();
-		vsData.projMatrix = cameras[currentCameraIndex]->GetProjectionMatrix();
+		std::shared_ptr<SimpleVertexShader> vs = entity.GetMaterial().get()->GetVertexShader();
+		vs->SetFloat4("colorTint", entity.GetMaterial().get()->GetColorTint());
+		vs->SetMatrix4x4("world", entity.GetTransform()->GetWorldMatrix());
+		vs->SetMatrix4x4("view", cameras[currentCameraIndex]->GetViewMatrix());
+		vs->SetMatrix4x4("proj", cameras[currentCameraIndex]->GetProjectionMatrix());
 
-		D3D11_MAPPED_SUBRESOURCE mappedBuffer = {};
-		context->Map(vsConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuffer);
-		memcpy(mappedBuffer.pData, &vsData, sizeof(vsData));
-		context->Unmap(vsConstantBuffer.Get(), 0);
-
-		//bind the GPU resource to the register
-		context->VSSetConstantBuffers(
-			0, // Which slot (register) to bind the buffer to?
-			1, // How many are we activating? Can do multiple at once
-			vsConstantBuffer.GetAddressOf()); // Array of buffers (or the address of one)
+		vs->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
 		entity.GetMaterial().get()->GetVertexShader().get()->SetShader();
 		entity.GetMaterial().get()->GetPixelShader().get()->SetShader();
-
 
 		entity.GetMesh().get()->Draw();
 	}
