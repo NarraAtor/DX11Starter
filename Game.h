@@ -59,6 +59,6 @@ private:
 
 	//create camera
 	std::vector<std::shared_ptr<Camera>> cameras;
-	UINT currentCameraIndex;
+	size_t currentCameraIndex;
 };
 

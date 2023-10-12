@@ -368,9 +368,9 @@ void Game::Update(float deltaTime, float totalTime)
 		XMFLOAT3 scale = gameEntities[i].GetTransform()->GetScale();
 		XMFLOAT3 rotation = gameEntities[i].GetTransform()->GetPitchYawRoll();
 
-		ImGui::DragFloat3("Position##%d", &position.x, i);
-		ImGui::DragFloat3("Scale##d", &scale.x, i);
-		ImGui::DragFloat3("Rotation in radians##%d", &rotation.x, i);
+		ImGui::DragFloat3("Position##%f", &position.x, i * 1.0f);
+		ImGui::DragFloat3("Scale##f", &scale.x, i * 1.0f);
+		ImGui::DragFloat3("Rotation in radians##%f", &rotation.x, i * 1.0f);
 		ImGui::Text("Mesh Index Count: %d", i, i);
 	}
 
