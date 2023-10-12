@@ -299,6 +299,8 @@ Mesh::Mesh(const char* model, Microsoft::WRL::ComPtr<ID3D11Device> device, Micro
 	this->device = device;
 	this->deviceContext = deviceContext;
 
+	//TODO: Move this to a funciton if this works
+	// 
 	// Create a VERTEX BUFFER
 	// - This holds the vertex data of triangles for a single object
 	// - This buffer is created on the GPU, which is where the data needs to
