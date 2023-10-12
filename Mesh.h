@@ -3,6 +3,7 @@
 #include <wrl/client.h>
 #include "Vertex.h"
 #include <d3d11.h>
+#include <string>
 
 class Mesh {
 public:
@@ -16,7 +17,7 @@ public:
 	);
 
 	Mesh(
-		const char* model,
+		std::wstring model,
 		Microsoft::WRL::ComPtr<ID3D11Device> device,
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext
 	);
