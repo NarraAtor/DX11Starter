@@ -70,7 +70,7 @@ void Game::Init()
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 1, 1, 1), customPixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), customPixelShader, vertexShader));
 
 
 	CreateGeometry();

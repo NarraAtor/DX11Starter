@@ -31,5 +31,5 @@ struct VertexToPixel
 // --------------------------------------------------------
 float4 main(VertexToPixel input) : SV_TARGET
 {
-    return float4(1, 0, 1, 1); // Returns purple (or another color of your choice)
+    return input.screenPosition  * colorTint * frac(sin(dot(input.uv, float2(12.9898, 78.233))) * 43758.5453123);
 }
