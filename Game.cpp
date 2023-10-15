@@ -241,15 +241,15 @@ void Game::CreateGeometry()
 	//square = std::make_shared<Mesh>(squareVertices, 6, squareIndices, 6, device, context);
 	//diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
-	cube = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cube.obj").c_str(), device, context);
-	cylinder = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cylinder.obj").c_str(), device, context);
-	helix = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/helix.obj").c_str(), device, context);
-	quad = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/quad.obj").c_str(), device, context);
-	quad_double_sided = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/quad_double_sided.obj").c_str(), device, context);
-	sphere = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device, context);
-	torus = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/torus.obj").c_str(), device, context);
-	/*square = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);
-	diamond = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);*/
+	cube = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cube.objectFile").c_str(), device, context);
+	cylinder = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cylinder.objectFile").c_str(), device, context);
+	helix = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/helix.objectFile").c_str(), device, context);
+	quad = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/quad.objectFile").c_str(), device, context);
+	quad_double_sided = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/quad_double_sided.objectFile").c_str(), device, context);
+	sphere = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.objectFile").c_str(), device, context);
+	torus = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/torus.objectFile").c_str(), device, context);
+	/*square = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.objectFile").c_str(), device);
+	diamond = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.objectFile").c_str(), device);*/
 
 	/*gameEntities.push_back(GameEntity(triangle, materials[0]));
 	gameEntities.push_back(GameEntity(square, materials[1]));
