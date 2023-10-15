@@ -130,7 +130,7 @@ void Game::Init()
 				(float)windowWidth / windowHeight,
 				XMFLOAT3(0.0f, 0.0f, -5.0f),
 				5.0f,
-				1.0f,
+				0.01f,
 				XM_PIDIV4));
 
 		cameras.push_back(
@@ -138,14 +138,14 @@ void Game::Init()
 				(float)windowWidth / windowHeight,
 				XMFLOAT3(5.0f, 0.0f, -5.0f),
 				5.0f,
-				1.0f,
+				0.01f,
 				XM_PIDIV4));
 		cameras.push_back(
 			std::make_shared<Camera>(
 				(float)windowWidth / windowHeight,
 				XMFLOAT3(0.0f, 5.0f, -5.0f),
 				5.0f,
-				1.0f,
+				0.01f,
 				XM_PIDIV4));
 	}
 
@@ -247,7 +247,7 @@ void Game::CreateGeometry()
 	gameEntities.push_back(GameEntity(square, materials[0]));
 	gameEntities.push_back(GameEntity(square, materials[1]));*/
 
-	 gameEntities.push_back(GameEntity(cube, materials[0]));
+	gameEntities.push_back(GameEntity(cube, materials[0]));
 	/*gameEntities.push_back(GameEntity(square, materials[1]));
 	gameEntities.push_back(GameEntity(diamond, materials[2]));
 	gameEntities.push_back(GameEntity(square, materials[0]));
