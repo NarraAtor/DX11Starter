@@ -255,11 +255,23 @@ void Game::CreateGeometry()
 
 	gameEntities.push_back(GameEntity(cube, materials[0]));
 	gameEntities.push_back(GameEntity(cylinder, materials[0]));
+	gameEntities[1].GetTransform()->MoveAbsolute(XMFLOAT3(5.0f, 0.0f, 0.0f));
+
 	gameEntities.push_back(GameEntity(helix, materials[0]));
+	gameEntities[2].GetTransform()->MoveAbsolute(XMFLOAT3(10.0f, 0.0f, 0.0f));
+
 	gameEntities.push_back(GameEntity(quad, materials[0]));
+	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 0.0f));
+
 	gameEntities.push_back(GameEntity(quad_double_sided, materials[0]));
+	gameEntities[4].GetTransform()->MoveAbsolute(XMFLOAT3(20.0f, 0.0f, 0.0f));
+
 	gameEntities.push_back(GameEntity(sphere, materials[0]));
+	gameEntities[5].GetTransform()->MoveAbsolute(XMFLOAT3(25.0f, 0.0f, 0.0f));
+
 	gameEntities.push_back(GameEntity(torus, materials[0]));
+	gameEntities[6].GetTransform()->MoveAbsolute(XMFLOAT3(30.0f, 0.0f, 0.0f));
+
 
 	/*gameEntities.push_back(GameEntity(square, materials[1]));
 	gameEntities.push_back(GameEntity(diamond, materials[2]));
@@ -324,10 +336,10 @@ void Game::Update(float deltaTime, float totalTime)
 
 
 	gameEntities[0].GetTransform()->Rotate(0, 0, 0.0001f);
-	// gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
-	// gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
-	// gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
-	// gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
+	 gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
+	 gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
+	 gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
+	 gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
 
 	// entity UI data here
 	for (int i = 0; i < gameEntities.size(); i++)
