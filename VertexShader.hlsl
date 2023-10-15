@@ -37,6 +37,7 @@ struct VertexToPixel
 	//  |    |                |
 	//  v    v                v
 	float4 screenPosition	: SV_POSITION;	// XYZW position (System Value Position)
+    float2 uv : TEXCOORD; // UV Maps
 };
 
 // --------------------------------------------------------
@@ -64,7 +65,7 @@ VertexToPixel main( VertexShaderInput input )
 	 output.screenPosition = mul(worldViewProjectionMatrix, float4(input.localPosition, 1.0f));
 	//output.screenPosition = mul(world, float4(input.localPosition, 1.0f));
 
-
+    output.uv = input.uv;
 	// Whatever we return will make its way through the pipeline to the
 	// next programmable stage we're using (the pixel shader for now)
 	return output;
