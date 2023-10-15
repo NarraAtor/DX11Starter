@@ -53,6 +53,13 @@ private:
 	std::shared_ptr<Mesh> square;
 	std::shared_ptr<Mesh> diamond;*/
 	std::shared_ptr<Mesh> cube;
+	std::shared_ptr<Mesh> cylinder;
+	std::shared_ptr<Mesh> helix;
+	std::shared_ptr<Mesh> quad;
+	std::shared_ptr<Mesh> quad_double_sided;
+	std::shared_ptr<Mesh> sphere;
+	std::shared_ptr<Mesh> torus;
+
 
 	std::vector<GameEntity> gameEntities;
 

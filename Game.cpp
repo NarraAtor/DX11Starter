@@ -238,7 +238,12 @@ void Game::CreateGeometry()
 	//diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
 	cube = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cube.obj").c_str(), device, context);
-
+	cylinder = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cylinder.obj").c_str(), device, context);
+	helix = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/helix.obj").c_str(), device, context);
+	quad = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/quad.obj").c_str(), device, context);
+	quad_double_sided = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/quad_double_sided.obj").c_str(), device, context);
+	sphere = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device, context);
+	torus = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/torus.obj").c_str(), device, context);
 	/*square = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);
 	diamond = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);*/
 
@@ -249,6 +254,13 @@ void Game::CreateGeometry()
 	gameEntities.push_back(GameEntity(square, materials[1]));*/
 
 	gameEntities.push_back(GameEntity(cube, materials[0]));
+	gameEntities.push_back(GameEntity(cylinder, materials[0]));
+	gameEntities.push_back(GameEntity(helix, materials[0]));
+	gameEntities.push_back(GameEntity(quad, materials[0]));
+	gameEntities.push_back(GameEntity(quad_double_sided, materials[0]));
+	gameEntities.push_back(GameEntity(sphere, materials[0]));
+	gameEntities.push_back(GameEntity(torus, materials[0]));
+
 	/*gameEntities.push_back(GameEntity(square, materials[1]));
 	gameEntities.push_back(GameEntity(diamond, materials[2]));
 	gameEntities.push_back(GameEntity(square, materials[0]));
