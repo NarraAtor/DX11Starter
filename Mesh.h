@@ -29,6 +29,14 @@ public:
 	void Draw();
 
 private:
+	void Init(
+		Vertex* verticies,
+		unsigned int verticiesCount,
+		unsigned int* indices,
+		unsigned int indicesCount,
+		Microsoft::WRL::ComPtr<ID3D11Device> device,
+		Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext
+		);
 	Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Device> device;

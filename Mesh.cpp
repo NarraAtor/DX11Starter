@@ -297,15 +297,63 @@ Mesh::Mesh(std::wstring model, Microsoft::WRL::ComPtr<ID3D11Device> device, Micr
 	//    an index buffer isn't doing much for us.  We could try to optimize the mesh ourselves
 	//    and detect duplicate vertices, but at that point it would be better to use a more
 	//    sophisticated model loading library like TinyOBJLoader or The Open Asset Importer Library
+	
+	Init(&verts[0], vertCounter, &indices[0], indexCounter, device, deviceContext);
+}
 
-	this->verticies = &verts[0];
-	this->verticiesCount = vertCounter;
-	this->indices = &indices[0];
-	this->indicesCount = indexCounter;
+Mesh::~Mesh() {
+
+}
+
+Microsoft::WRL::ComPtr<ID3D11Buffer> Mesh::GetVertexBuffer() {
+	return vertexBuffer.Get();
+}
+
+Microsoft::WRL::ComPtr<ID3D11Buffer>  Mesh::GetIndexBuffer() {
+	return indexBuffer.Get();
+}
+
+int Mesh::GetIndexCount() {
+	return indicesCount;
+}
+
+void Mesh::Draw() {
+	// DRAW geometry
+	// - These steps are generally repeated for EACH object you draw
+	// - Other Direct3D calls will also be necessary to do more complex things
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	{
+		// Set buffers in the input assembler (IA) stage
+		//  - Do this ONCE PER OBJECT, since each object may have different geometry
+		//  - For this demo, this step *could* simply be done once during Init()
+		//  - However, this needs to be done between EACH DrawIndexed() call
+		//     when drawing different geometry, so it's here as an example
+		deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+		deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+
+		// Tell Direct3D to draw
+		//  - Begins the rendering pipeline on the GPU
+		//  - Do this ONCE PER OBJECT you intend to draw
+		//  - This will use all currently set Direct3D resources (shaders, buffers, etc)
+		//  - DrawIndexed() uses the currently set INDEX BUFFER to look up corresponding
+		//     vertices in the currently set VERTEX BUFFER
+		deviceContext->DrawIndexed(
+			indicesCount,     // The number of indices to use (we could draw a subset if we wanted)
+			0,     // Offset to the first index we want to use
+			0);    // Offset to add to each index when looking up vertices
+	}
+}
+
+void Mesh::Init(Vertex* verticies, unsigned int verticiesCount, unsigned int* indices, unsigned int indicesCount, Microsoft::WRL::ComPtr<ID3D11Device> device, Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext)
+{
+	this->verticies = verticies;
+	this->verticiesCount = verticiesCount;
+	this->indices = indices;
+	this->indicesCount = indicesCount;
 	this->device = device;
 	this->deviceContext = deviceContext;
-	
-	//TODO: put this in it's own methods if it doesn't work:
+
 	// Create a VERTEX BUFFER
 	// - This holds the vertex data of triangles for a single object
 	// - This buffer is created on the GPU, which is where the data needs to
@@ -357,50 +405,6 @@ Mesh::Mesh(std::wstring model, Microsoft::WRL::ComPtr<ID3D11Device> device, Micr
 		// Actually create the buffer with the initial data
 		// - Once we do this, we'll NEVER CHANGE THE BUFFER AGAIN
 		device->CreateBuffer(&ibd, &initialIndexData, indexBuffer.GetAddressOf());
-	}
-}
-
-Mesh::~Mesh() {
-
-}
-
-Microsoft::WRL::ComPtr<ID3D11Buffer> Mesh::GetVertexBuffer() {
-	return vertexBuffer.Get();
-}
-
-Microsoft::WRL::ComPtr<ID3D11Buffer>  Mesh::GetIndexBuffer() {
-	return indexBuffer.Get();
-}
-
-int Mesh::GetIndexCount() {
-	return indicesCount;
-}
-
-void Mesh::Draw() {
-	// DRAW geometry
-	// - These steps are generally repeated for EACH object you draw
-	// - Other Direct3D calls will also be necessary to do more complex things
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	{
-		// Set buffers in the input assembler (IA) stage
-		//  - Do this ONCE PER OBJECT, since each object may have different geometry
-		//  - For this demo, this step *could* simply be done once during Init()
-		//  - However, this needs to be done between EACH DrawIndexed() call
-		//     when drawing different geometry, so it's here as an example
-		deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
-		deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-
-		// Tell Direct3D to draw
-		//  - Begins the rendering pipeline on the GPU
-		//  - Do this ONCE PER OBJECT you intend to draw
-		//  - This will use all currently set Direct3D resources (shaders, buffers, etc)
-		//  - DrawIndexed() uses the currently set INDEX BUFFER to look up corresponding
-		//     vertices in the currently set VERTEX BUFFER
-		deviceContext->DrawIndexed(
-			indicesCount,     // The number of indices to use (we could draw a subset if we wanted)
-			0,     // Offset to the first index we want to use
-			0);    // Offset to add to each index when looking up vertices
 	}
 }
 

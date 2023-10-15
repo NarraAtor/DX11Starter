@@ -238,6 +238,7 @@ void Game::CreateGeometry()
 	//diamond = std::make_shared<Mesh>(diamondVertices, 6, diamondIndices, 6, device, context);
 
 	cube = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/cube.obj").c_str(), device, context);
+
 	/*square = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);
 	diamond = std::make_shared<Mesh>(FixPath(L"../../Assets/Models/sphere.obj").c_str(), device);*/
 
