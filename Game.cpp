@@ -67,10 +67,10 @@ void Game::Init()
 	// geometry to draw and some simple camera matrices.
 	//  - You'll be expanding and/or replacing these later
 	LoadShaders();
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(255, 0, 0, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 255, 0, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 255, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 255, 1), customPixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 1, 1, 1), customPixelShader, vertexShader));
 
 
 	CreateGeometry();
@@ -273,7 +273,7 @@ void Game::CreateGeometry()
 	gameEntities.push_back(GameEntity(sphere, materials[2]));
 	gameEntities[5].GetTransform()->MoveAbsolute(XMFLOAT3(25.0f, 0.0f, 0.0f));
 
-	gameEntities.push_back(GameEntity(torus, materials[1]));
+	gameEntities.push_back(GameEntity(torus, materials[3]));
 	gameEntities[6].GetTransform()->MoveAbsolute(XMFLOAT3(30.0f, 0.0f, 0.0f));
 
 
