@@ -70,6 +70,8 @@ void Game::Init()
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(255, 0, 0, 1), pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 255, 0, 1), pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 255, 1), pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 255, 1), customPixelShader, vertexShader));
+
 
 	CreateGeometry();
 
@@ -167,6 +169,8 @@ void Game::LoadShaders()
 		FixPath(L"VertexShader.cso").c_str());
 	pixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"PixelShader.cso").c_str());
+	customPixelShader = std::make_shared<SimplePixelShader>(device, context,
+		FixPath(L"CustomPS.cso").c_str());
 }
 
 
@@ -257,19 +261,19 @@ void Game::CreateGeometry()
 	gameEntities.push_back(GameEntity(cylinder, materials[0]));
 	gameEntities[1].GetTransform()->MoveAbsolute(XMFLOAT3(5.0f, 0.0f, 0.0f));
 
-	gameEntities.push_back(GameEntity(helix, materials[0]));
+	gameEntities.push_back(GameEntity(helix, materials[1]));
 	gameEntities[2].GetTransform()->MoveAbsolute(XMFLOAT3(10.0f, 0.0f, 0.0f));
 
-	gameEntities.push_back(GameEntity(quad, materials[0]));
+	gameEntities.push_back(GameEntity(quad, materials[1]));
 	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 0.0f));
 
-	gameEntities.push_back(GameEntity(quad_double_sided, materials[0]));
+	gameEntities.push_back(GameEntity(quad_double_sided, materials[2]));
 	gameEntities[4].GetTransform()->MoveAbsolute(XMFLOAT3(20.0f, 0.0f, 0.0f));
 
-	gameEntities.push_back(GameEntity(sphere, materials[0]));
+	gameEntities.push_back(GameEntity(sphere, materials[2]));
 	gameEntities[5].GetTransform()->MoveAbsolute(XMFLOAT3(25.0f, 0.0f, 0.0f));
 
-	gameEntities.push_back(GameEntity(torus, materials[0]));
+	gameEntities.push_back(GameEntity(torus, materials[1]));
 	gameEntities[6].GetTransform()->MoveAbsolute(XMFLOAT3(30.0f, 0.0f, 0.0f));
 
 
