@@ -86,6 +86,12 @@ Mesh::Mesh(std::wstring model, Microsoft::WRL::ComPtr<ID3D11Device> device, Micr
 //
 // - NOTE: You'll need to #include <fstream>
 
+	this->verticies = NULL;
+	this->verticiesCount = 0;
+	this->indices = NULL;
+	this->indicesCount = 0;
+	this->device = device;
+	this->deviceContext = deviceContext;
 
 // File input object
 	std::ifstream obj(model);

@@ -247,7 +247,7 @@ void Game::CreateGeometry()
 	gameEntities.push_back(GameEntity(square, materials[0]));
 	gameEntities.push_back(GameEntity(square, materials[1]));*/
 
-	// gameEntities.push_back(GameEntity(cube, materials[0]));
+	 gameEntities.push_back(GameEntity(cube, materials[0]));
 	/*gameEntities.push_back(GameEntity(square, materials[1]));
 	gameEntities.push_back(GameEntity(diamond, materials[2]));
 	gameEntities.push_back(GameEntity(square, materials[0]));
@@ -311,10 +311,10 @@ void Game::Update(float deltaTime, float totalTime)
 
 
 	gameEntities[0].GetTransform()->Rotate(0, 0, 0.0001f);
-	gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
-	gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
-	gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
-	gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
+	// gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
+	// gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
+	// gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
+	// gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
 
 	// entity UI data here
 	for (int i = 0; i < gameEntities.size(); i++)
