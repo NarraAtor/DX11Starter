@@ -3,6 +3,7 @@
 cbuffer ExternalData : register(b0)
 {
     float4 colorTint;
+    float roughness;
 }
 
 // --------------------------------------------------------
@@ -17,5 +18,6 @@ cbuffer ExternalData : register(b0)
 float4 main(VertexToPixel input) : SV_TARGET
 {
     // return float4(input.uv, 0, 1);
+    // return colorTint * roughness;
     return colorTint;
 }
