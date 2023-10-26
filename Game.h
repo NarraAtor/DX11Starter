@@ -75,5 +75,7 @@ private:
 	std::vector<std::shared_ptr<Camera>> cameras;
 	size_t currentCameraIndex;
 
+	DirectX::XMFLOAT3 ambientColor;
+
 };
 

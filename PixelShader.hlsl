@@ -5,6 +5,7 @@ cbuffer ExternalData : register(b0)
     float4 colorTint;
     float roughness;
     float3 cameraPosition;
+    float3 ambientColor;
 
 }
 
@@ -21,5 +22,7 @@ float4 main(VertexToPixel input) : SV_TARGET
 {
     // return float4(input.uv, 0, 1);
     // return colorTint * roughness;
+    // return float4(cameraPosition, 1);
+    return float4(ambientColor, 1);
     return colorTint;
 }
