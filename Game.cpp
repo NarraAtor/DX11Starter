@@ -443,6 +443,10 @@ void Game::Draw(float deltaTime, float totalTime)
 		ps->SetFloat("roughness", entity.GetMaterial().get()->GetRoughness());
 		ps->SetFloat3("cameraPosition", cameras[currentCameraIndex].get()->GetTransform().GetPosition());
 		ps->SetFloat3("ambientColor", ambientColor);
+		ps->SetData(
+			"directionalLight0", // The name of the (eventual) variable in the shader
+			&directionalLight0, // The address of the data to set
+			sizeof(Light)); // The size of the data (the whole struct!) to set
 		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
 
