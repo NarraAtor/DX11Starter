@@ -19,10 +19,12 @@ public:
 	DirectX::XMFLOAT4 GetColorTint();
 	std::shared_ptr<SimplePixelShader> GetPixelShader();
 	std::shared_ptr<SimpleVertexShader> GetVertexShader();
+	float GetRoughness();
 
 	DirectX::XMFLOAT4 SetColorTint();
 	void SetPixelShader(std::shared_ptr<SimplePixelShader> pixelShader);
 	void SetVertexShader(std::shared_ptr<SimpleVertexShader> vertexShader);
+	void SetRoughness(float roughness);
 
 private:
 	DirectX::XMFLOAT4 colorTint;
