@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "SimpleShader.h"
 #include "Material.h"
+#include "Lights.h"
 
 class Game 
 	: public DXCore
@@ -77,5 +78,7 @@ private:
 
 	DirectX::XMFLOAT3 ambientColor;
 
+	// light
+	Light directionalLight0;
 };
 

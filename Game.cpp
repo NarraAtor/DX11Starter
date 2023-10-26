@@ -35,6 +35,7 @@ Game::Game(HINSTANCE hInstance)
 	CreateConsoleWindow(500, 120, 32, 120);
 	printf("Console window created successfully.  Feel free to printf() here.\n");
 #endif
+	// intializations placed here to deal with editor warnings
 	ambientColor = XMFLOAT3(0, 0, 0);
 	color = XMFLOAT4(0, 0, 0, 0);
 	currentCameraIndex = 0;
@@ -43,6 +44,7 @@ Game::Game(HINSTANCE hInstance)
 		0, 1, 0, 0,
 		0, 0, 1, 0,
 		0, 0, 0, 1);
+	directionalLight0 = {};
 }
 
 // --------------------------------------------------------
@@ -161,6 +163,10 @@ void Game::Init()
 
 	currentCameraIndex = 0;
 	ambientColor = XMFLOAT3(0.01f, 0.1f, 0.18f);
+	directionalLight0.Type = LIGHT_TYPE_DIRECTIONAL;
+	directionalLight0.Direction = XMFLOAT3(0, 0, 1);
+	directionalLight0.Color = XMFLOAT3(1, 1, 1);
+	directionalLight0.Intensity = 1.0f;
 }
 
 // --------------------------------------------------------
