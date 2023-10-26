@@ -5,6 +5,8 @@ cbuffer ExternalData : register(b0)
 	matrix world;
 	matrix view;
 	matrix proj;
+    matrix worldInvTranspose;
+
 }
 
 // Struct representing a single vertex worth of data
@@ -49,8 +51,10 @@ VertexToPixel main( VertexShaderInput input )
 	//   a perspective projection matrix, which we'll get to in the future).
 	 output.screenPosition = mul(worldViewProjectionMatrix, float4(input.localPosition, 1.0f));
 	//output.screenPosition = mul(world, float4(input.localPosition, 1.0f));
-
     output.uv = input.uv;
+    output.worldPosition = mul(world, float4(input.localPosition, 1)).xyz;
+	// move our normal with our model (also handles non-uniform scales)
+    output.normal = mul((float3x3) worldInvTranspose, input.normal);
 	// Whatever we return will make its way through the pipeline to the
 	// next programmable stage we're using (the pixel shader for now)
 	return output;

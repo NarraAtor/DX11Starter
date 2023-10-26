@@ -14,5 +14,7 @@ struct VertexToPixel
 	//  v    v                v
     float4 screenPosition : SV_POSITION; // XYZW position (System Value Position)
     float2 uv : TEXCOORD; // UV Maps
+    float3 worldPosition : POSITION; // XYZ Position
+    float3 normal : NORMAL; // Normal vectors
 };
 #endif
