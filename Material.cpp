@@ -2,11 +2,13 @@
 
 Material::Material(
     DirectX::XMFLOAT4 colorTint,
+    float roughness,
     std::shared_ptr<SimplePixelShader> pixelShader,
     std::shared_ptr<SimpleVertexShader> vertexShader
 )
     :
     colorTint(colorTint),
+    roughness(roughness),
     pixelShader(pixelShader),
     vertexShader(vertexShader)
 {

@@ -67,10 +67,10 @@ void Game::Init()
 	// geometry to draw and some simple camera matrices.
 	//  - You'll be expanding and/or replacing these later
 	LoadShaders();
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), pixelShader, vertexShader));
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), customPixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 1.0f, pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), 1.0f, pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.0f, pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), 0.5f, customPixelShader, vertexShader));
 
 
 	CreateGeometry();
