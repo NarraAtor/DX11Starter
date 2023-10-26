@@ -54,8 +54,9 @@ VertexToPixel main( VertexShaderInput input )
     output.uv = input.uv;
     output.worldPosition = mul(world, float4(input.localPosition, 1)).xyz;
 	// move our normal with our model (also handles non-uniform scales)
-    output.normal = mul((float3x3) world, input.normal);
-    //output.normal = mul((float3x3) worldInvTranspose, input.normal);
+   // output.normal = mul((float3x3) world, input.normal);
+    // this line shows black -> figure out a way to fix this later: 
+	output.normal = mul((float3x3) worldInvTranspose, input.normal);
 	// Whatever we return will make its way through the pipeline to the
 	// next programmable stage we're using (the pixel shader for now)
 	return output;

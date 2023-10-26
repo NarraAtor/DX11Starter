@@ -427,13 +427,14 @@ void Game::Draw(float deltaTime, float totalTime)
 		vs->SetMatrix4x4("world", entity.GetTransform()->GetWorldMatrix());
 		vs->SetMatrix4x4("view", cameras[currentCameraIndex]->GetViewMatrix());
 		vs->SetMatrix4x4("proj", cameras[currentCameraIndex]->GetProjectionMatrix());
+		vs->SetMatrix4x4("worldInvTranspose", entity.GetTransform()->GetWorldInverseTransposeMatrix());
+
 
 		vs->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
 		std::shared_ptr<SimplePixelShader> ps = entity.GetMaterial().get()->GetPixelShader();
 		ps->SetFloat4("colorTint", entity.GetMaterial().get()->GetColorTint());
 		ps->SetFloat("roughness", entity.GetMaterial().get()->GetRoughness());
-		ps->SetMatrix4x4("worldInvTranspose", entity.GetTransform()->GetWorldInverseTransposeMatrix());
 		ps->SetFloat3("cameraPosition", cameras[currentCameraIndex].get()->GetTransform().GetPosition());
 		ps->SetFloat3("ambientColor", ambientColor);
 		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
