@@ -23,6 +23,7 @@ float4 main(VertexToPixel input) : SV_TARGET
     // return float4(input.uv, 0, 1);
     // return colorTint * roughness;
     // return float4(cameraPosition, 1);
-    return float4(ambientColor, 1);
-    return colorTint;
+    // return float4(ambientColor, 1);
+    float4 ambientTerm = float4(ambientColor, 1) * colorTint;
+    return ambientTerm;
 }

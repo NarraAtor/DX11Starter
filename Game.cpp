@@ -152,7 +152,7 @@ void Game::Init()
 	}
 
 	currentCameraIndex = 0;
-	ambientColor = XMFLOAT3(0.4f, 0.6f, 0.75f);
+	ambientColor = XMFLOAT3(0.01f, 0.1f, 0.18f);
 }
 
 // --------------------------------------------------------
