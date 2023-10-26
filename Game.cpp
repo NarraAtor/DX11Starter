@@ -425,6 +425,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		std::shared_ptr<SimplePixelShader> ps = entity.GetMaterial().get()->GetPixelShader();
 		ps->SetFloat4("colorTint", entity.GetMaterial().get()->GetColorTint());
 		ps->SetFloat("roughness", entity.GetMaterial().get()->GetRoughness());
+		ps->SetFloat3("cameraPosition", cameras[currentCameraIndex].get()->GetTransform().GetPosition());
 		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
 

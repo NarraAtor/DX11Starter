@@ -4,6 +4,8 @@ cbuffer ExternalData : register(b0)
 {
     float4 colorTint;
     float roughness;
+    float3 cameraPosition;
+
 }
 
 // --------------------------------------------------------
