@@ -35,6 +35,14 @@ Game::Game(HINSTANCE hInstance)
 	CreateConsoleWindow(500, 120, 32, 120);
 	printf("Console window created successfully.  Feel free to printf() here.\n");
 #endif
+	ambientColor = XMFLOAT3(0, 0, 0);
+	color = XMFLOAT4(0, 0, 0, 0);
+	currentCameraIndex = 0;
+	worldMatrix = XMFLOAT4X4(
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
 }
 
 // --------------------------------------------------------
