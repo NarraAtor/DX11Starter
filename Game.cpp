@@ -164,7 +164,7 @@ void Game::Init()
 	currentCameraIndex = 0;
 	ambientColor = XMFLOAT3(0.01f, 0.1f, 0.18f);
 	directionalLight0.Type = LIGHT_TYPE_DIRECTIONAL;
-	directionalLight0.Direction = XMFLOAT3(0, 0, 1);
+	directionalLight0.Direction = XMFLOAT3(0, -1, 0);
 	directionalLight0.Color = XMFLOAT3(1, 1, 1);
 	directionalLight0.Intensity = 1.0f;
 }

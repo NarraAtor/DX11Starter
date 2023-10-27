@@ -32,7 +32,7 @@ float4 main(VertexToPixel input) : SV_TARGET
     input.normal = normalize(input.normal);
     
     float3 normalizedDirectionToLight = normalize(-directionalLight0.Direction);
-    float diffuseTerm = Diffuse(input.normal, normalizedDirectionToLight);
-    return (diffuseTerm * directionalLight0.Color * colorTint.xyz) + ambientTerm.xyz;
+    float3 diffuseTerm = Diffuse(input.normal, normalizedDirectionToLight) * directionalLight0.Color * colorTint.xyz;
+    return float4(diffuseTerm, 1 ) + ambientTerm;
 
 }
