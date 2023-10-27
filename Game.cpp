@@ -435,6 +435,26 @@ void Game::Update(float deltaTime, float totalTime)
 	
 	cameras[currentCameraIndex]->Update(deltaTime);
 
+	// light UI stuff here
+
+	for (int i = 0; i < directionalLights.size(); i++)
+	{
+		if (i < directionalLights.size())
+		{
+			ImGui::ColorEdit4("4 - component(RGBA) color editor##dLight%f", &directionalLights[i].Color.x, i * 1.0f);
+		}
+
+	}
+
+	for (int i = 0; i < pointLights.size(); i++)
+	{
+		if (i < pointLights.size())
+		{
+			ImGui::ColorEdit4("4 - component(RGBA) color editor##pight%f", &pointLights[i].Color.x, i * 1.0f);
+		}
+
+	}
+
 
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
