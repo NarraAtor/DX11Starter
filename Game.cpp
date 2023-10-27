@@ -170,6 +170,11 @@ void Game::Init()
 	directionalLight0.Direction = XMFLOAT3(0, -1, 0);
 	directionalLight0.Color = XMFLOAT3(1, 1, 1);
 	directionalLight0.Intensity = 1.0f;
+
+	directionalLight1.Type = LIGHT_TYPE_DIRECTIONAL;
+	directionalLight1.Direction = XMFLOAT3(1, 0, 0);
+	directionalLight1.Color = XMFLOAT3(1, 1, 0);
+	directionalLight1.Intensity = 1.0f;
 }
 
 // --------------------------------------------------------
@@ -449,6 +454,10 @@ void Game::Draw(float deltaTime, float totalTime)
 		ps->SetData(
 			"directionalLight0", // The name of the (eventual) variable in the shader
 			&directionalLight0, // The address of the data to set
+			sizeof(Light)); // The size of the data (the whole struct!) to set
+		ps->SetData(
+			"directionalLight1", // The name of the (eventual) variable in the shader
+			&directionalLight1, // The address of the data to set
 			sizeof(Light)); // The size of the data (the whole struct!) to set
 		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
