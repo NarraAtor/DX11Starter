@@ -33,6 +33,8 @@ float4 main(VertexToPixel input) : SV_TARGET
     
     float3 normalizedDirectionToLight = normalize(-directionalLight0.Direction);
     float3 diffuseTerm = Diffuse(input.normal, normalizedDirectionToLight) * directionalLight0.Color * colorTint.xyz;
-    return float4(diffuseTerm, 1 ) + ambientTerm;
+    float3 specularTerm = PhongSpecular(reflect(normalize(directionalLight0.Direction), input.normal), cameraPosition - input.worldPosition, roughness)
+    * directionalLight0.Color * colorTint.xyz;
+    return float4(diffuseTerm, 1) + ambientTerm + float4(specularTerm, 1);
 
 }

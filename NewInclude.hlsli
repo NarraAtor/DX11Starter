@@ -41,4 +41,14 @@ float3 Diffuse(float3 normal, float3 dirToLight)
 {
     return saturate(dot(normal, dirToLight));
 }
+
+float PhongSpecular(float3 reflectionVector, float3 surfaceToCameraVector, float roughness)
+{
+    float specExponent = (1.0f - roughness) * MAX_SPECULAR_EXPONENT;
+    if(specExponent <= 0.05f)
+    {
+        return 0;
+    }
+    return pow(saturate(dot(reflectionVector, surfaceToCameraVector)), specExponent);
+}
 #endif
