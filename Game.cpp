@@ -190,6 +190,7 @@ void Game::Init()
 	pointLights[0].Color = XMFLOAT3(1, 1, 1);
 	pointLights[0].Intensity = 1.0f;
 	pointLights[0].Position = XMFLOAT3(7.5f, 0.0f, 0.0f);
+	pointLights[0].Range = 10.0f;
 
 }
 

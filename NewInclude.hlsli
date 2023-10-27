@@ -52,34 +52,34 @@ float PhongSpecular(float3 reflectionVector, float3 surfaceToCameraVector, float
     return pow(saturate(dot(reflectionVector, surfaceToCameraVector)), specExponent);
 }
 
-float4 DiffuseAndSpecularForADirectionalLight( float4 surfaceColor, float3 normalVector, float3 directionToLight, float3 lightColor, float3 cameraPosition, float3 worldPosition, float roughness, float lightIntensity)
+float Attenuate(float3 lightPosition, float lightRange, float3 worldPos)
+{
+    float dist = distance(lightPosition, worldPos);
+    float att = saturate(1.0f - (dist * dist / (lightRange * lightRange)));
+    return att * att;
+}
+
+float4 DiffuseAndSpecularForADirectionalLight( float4 surfaceColor, float3 normalVector, float3 directionFromLight, float3 lightColor, float3 cameraPosition, float3 worldPosition, float roughness, float lightIntensity)
 {
     normalVector = normalize(normalVector);
     
-    float3 normalizedDirectionToLight = normalize(-directionToLight);
+    float3 normalizedDirectionToLight = normalize(-directionFromLight);
     float3 diffuseTerm = Diffuse(normalVector, normalizedDirectionToLight) * lightColor * surfaceColor.xyz;
-    float3 specularTerm = PhongSpecular(reflect(normalize(directionToLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
+    float3 specularTerm = PhongSpecular(reflect(normalize(directionFromLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
     * lightColor * lightIntensity;
     float4 totalLight = float4(diffuseTerm, 1) + float4(specularTerm, 1);
     return totalLight;
 }
 
-float4 DiffuseAndSpecularForAPointLight(float4 surfaceColor, float3 normalVector, float3 directionToLight, float3 lightColor, float3 cameraPosition, float3 worldPosition, float roughness, float lightIntensity)
+float4 DiffuseAndSpecularForAPointLight(float4 surfaceColor, float3 normalVector, float3 directionFromLight, float3 lightColor, float3 cameraPosition, float3 worldPosition, float roughness, float lightIntensity, float3 lightPosition, float lightRange)
 {
     normalVector = normalize(normalVector);
     
-    float3 normalizedDirectionToLight = normalize(-directionToLight);
+    float3 normalizedDirectionToLight = normalize(-directionFromLight);
     float3 diffuseTerm = Diffuse(normalVector, normalizedDirectionToLight) * lightColor * surfaceColor.xyz;
-    float3 specularTerm = PhongSpecular(reflect(normalize(directionToLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
+    float3 specularTerm = PhongSpecular(reflect(normalize(directionFromLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
     * lightColor * lightIntensity;
-    float4 totalLight = (float4(diffuseTerm, 1) + float4(specularTerm, 1)) * 1;
+    float4 totalLight = (float4(diffuseTerm, 1) + float4(specularTerm, 1)) * Attenuate(lightPosition, lightRange, worldPosition);
     return totalLight;
-}
-
-float Attenuate(Light light, float3 worldPos)
-{
-    float dist = distance(light.Position, worldPos);
-    float att = saturate(1.0f - (dist * dist / (light.Range * light.Range)));
-    return att * att;
 }
 #endif

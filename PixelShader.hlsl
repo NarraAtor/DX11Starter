@@ -48,18 +48,20 @@ float4 main(VertexToPixel input) : SV_TARGET
     
     float4 totalPointLight = float4(0, 0, 0, 0);
 
-    //for (int j = 0; j < 1; j++)
-    //{
-    //    totalPointLight += DiffuseSpecularAndAmbientForAPointLight(
-    //colorTint,
-    //input.normal,
-    //pointLights[j].Position - input.worldPosition,
-    //pointLights[j].Color,
-    //cameraPosition,
-    //input.worldPosition,
-    //roughness,
-    //pointLights[j].Intensity);
+    for (int j = 0; j < 1; j++)
+    {
+        totalPointLight += DiffuseAndSpecularForAPointLight(
+    colorTint,
+    input.normal,
+    input.worldPosition - pointLights[j].Position,
+    pointLights[j].Color,
+    cameraPosition,
+    input.worldPosition,
+    roughness,
+    pointLights[j].Intensity,
+    pointLights[j].Position,
+    pointLights[j].Range);
 
-    //}
-    return totalDirectionalLight + totalPointLight + ambientTerm;
+    }
+    return /*totalDirectionalLight +*/ totalPointLight + ambientTerm;
 }
