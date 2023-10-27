@@ -7,7 +7,7 @@ cbuffer ExternalData : register(b0)
     float3 cameraPosition;
     float3 ambientColor;
     Light directionalLights[3];
-    Light pointLights[1];
+    Light pointLights[2];
 }
 
 // --------------------------------------------------------
@@ -48,7 +48,7 @@ float4 main(VertexToPixel input) : SV_TARGET
     
     float4 totalPointLight = float4(0, 0, 0, 0);
 
-    for (int j = 0; j < 1; j++)
+    for (int j = 0; j < 2; j++)
     {
         totalPointLight += DiffuseAndSpecularForAPointLight(
     colorTint,
@@ -63,5 +63,5 @@ float4 main(VertexToPixel input) : SV_TARGET
     pointLights[j].Range);
 
     }
-    return /*totalDirectionalLight +*/ totalPointLight + ambientTerm;
+    return totalDirectionalLight + totalPointLight + ambientTerm;
 }
