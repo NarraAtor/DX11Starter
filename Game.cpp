@@ -170,16 +170,20 @@ void Game::Init()
 	directionalLight0.Direction = XMFLOAT3(0, -1, 0);
 	directionalLight0.Color = XMFLOAT3(1, 1, 1);
 	directionalLight0.Intensity = 1.0f;
+	directionalLights.push_back(directionalLight0);
 
 	directionalLight1.Type = LIGHT_TYPE_DIRECTIONAL;
 	directionalLight1.Direction = XMFLOAT3(1, 0, 0);
 	directionalLight1.Color = XMFLOAT3(1, 0, 1);
 	directionalLight1.Intensity = 1.0f;
+	directionalLights.push_back(directionalLight1);
 
 	directionalLight2.Type = LIGHT_TYPE_DIRECTIONAL;
 	directionalLight2.Direction = XMFLOAT3(0, 0, 1);
 	directionalLight2.Color = XMFLOAT3(0, 1, 0);
 	directionalLight2.Intensity = 0.75f;
+	directionalLights.push_back(directionalLight2);
+
 }
 
 // --------------------------------------------------------
@@ -456,18 +460,19 @@ void Game::Draw(float deltaTime, float totalTime)
 		ps->SetFloat("roughness", entity.GetMaterial().get()->GetRoughness());
 		ps->SetFloat3("cameraPosition", cameras[currentCameraIndex].get()->GetTransform().GetPosition());
 		ps->SetFloat3("ambientColor", ambientColor);
-		ps->SetData(
-			"directionalLight0", // The name of the (eventual) variable in the shader
-			&directionalLight0, // The address of the data to set
-			sizeof(Light)); // The size of the data (the whole struct!) to set
-		ps->SetData(
-			"directionalLight1", // The name of the (eventual) variable in the shader
-			&directionalLight1, // The address of the data to set
-			sizeof(Light)); // The size of the data (the whole struct!) to set
-		ps->SetData(
-			"directionalLight2", // The name of the (eventual) variable in the shader
-			&directionalLight2, // The address of the data to set
-			sizeof(Light)); // The size of the data (the whole struct!) to set
+		//ps->SetData(
+		//	"directionalLight0", // The name of the (eventual) variable in the shader
+		//	&directionalLight0, // The address of the data to set
+		//	sizeof(Light)); // The size of the data (the whole struct!) to set
+		//ps->SetData(
+		//	"directionalLight1", // The name of the (eventual) variable in the shader
+		//	&directionalLight1, // The address of the data to set
+		//	sizeof(Light)); // The size of the data (the whole struct!) to set
+		//ps->SetData(
+		//	"directionalLight2", // The name of the (eventual) variable in the shader
+		//	&directionalLight2, // The address of the data to set
+		//	sizeof(Light)); // The size of the data (the whole struct!) to set
+		ps->SetData("directionalLights", &directionalLights[0], sizeof(Light) * (int)directionalLights.size());
 		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
 

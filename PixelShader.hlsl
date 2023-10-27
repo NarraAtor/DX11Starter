@@ -10,6 +10,7 @@ cbuffer ExternalData : register(b0)
     Light directionalLight0;
     Light directionalLight1;
     Light directionalLight2;
+    Light directionalLights[3];
 }
 
 // --------------------------------------------------------
@@ -29,8 +30,26 @@ float4 main(VertexToPixel input) : SV_TARGET
     // return float4(ambientColor, 1);
     //  return float4(input.normal, 1);
     //     return float4(directionalLight0.Color, 1);
+    
+    float4 totalDirectionalLight = float4(0, 0, 0, 0);
+    
+    for (int i = 0; i < 3; i++)
+    {
+        totalDirectionalLight += DiffuseSpecularAndAmbientForADirectionalLight(
+    ambientColor,
+    colorTint,
+    input.normal,
+    directionalLights[i].Direction,
+    directionalLights[i].Color,
+    cameraPosition,
+    input.worldPosition,
+    roughness,
+    directionalLights[i].Intensity);
 
-    return DiffuseSpecularAndAmbientForADirectionalLight(
+    }
+
+    return totalDirectionalLight;
+        return DiffuseSpecularAndAmbientForADirectionalLight(
     ambientColor,
     colorTint,
     input.normal,
@@ -39,8 +58,8 @@ float4 main(VertexToPixel input) : SV_TARGET
     cameraPosition,
     input.worldPosition,
     roughness,
-    directionalLight0.Intensity) 
-    + 
+    directionalLight0.Intensity)
+    +
     DiffuseSpecularAndAmbientForADirectionalLight(
     ambientColor,
     colorTint,
