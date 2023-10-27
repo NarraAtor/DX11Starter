@@ -28,6 +28,7 @@ float4 main(VertexToPixel input) : SV_TARGET
     //  return float4(input.normal, 1);
     //     return float4(directionalLight0.Color, 1);
 
+    return DiffuseSpecularAndAmbientForADirectionalLight(ambientColor, colorTint, input.normal, directionalLight0.Direction, directionalLight0.Color, cameraPosition, input.worldPosition, roughness);
     float4 ambientTerm = float4(ambientColor, 1) * colorTint;
     input.normal = normalize(input.normal);
     
