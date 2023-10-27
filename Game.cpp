@@ -45,6 +45,9 @@ Game::Game(HINSTANCE hInstance)
 		0, 0, 1, 0,
 		0, 0, 0, 1);
 	directionalLight0 = {};
+	directionalLight1 = {};
+	directionalLight2 = {};
+
 }
 
 // --------------------------------------------------------
