@@ -184,6 +184,13 @@ void Game::Init()
 	directionalLight2.Intensity = 0.75f;
 	directionalLights.push_back(directionalLight2);
 
+	pointLights.push_back(Light());
+	pointLights[0] = {};
+	pointLights[0].Type = LIGHT_TYPE_POINT;
+	pointLights[0].Color = XMFLOAT3(1, 1, 1);
+	pointLights[0].Intensity = 1.0f;
+	pointLights[0].Position = XMFLOAT3(7.5f, 0.0f, 0.0f);
+
 }
 
 // --------------------------------------------------------
@@ -460,19 +467,14 @@ void Game::Draw(float deltaTime, float totalTime)
 		ps->SetFloat("roughness", entity.GetMaterial().get()->GetRoughness());
 		ps->SetFloat3("cameraPosition", cameras[currentCameraIndex].get()->GetTransform().GetPosition());
 		ps->SetFloat3("ambientColor", ambientColor);
-		//ps->SetData(
-		//	"directionalLight0", // The name of the (eventual) variable in the shader
-		//	&directionalLight0, // The address of the data to set
-		//	sizeof(Light)); // The size of the data (the whole struct!) to set
-		//ps->SetData(
-		//	"directionalLight1", // The name of the (eventual) variable in the shader
-		//	&directionalLight1, // The address of the data to set
-		//	sizeof(Light)); // The size of the data (the whole struct!) to set
-		//ps->SetData(
-		//	"directionalLight2", // The name of the (eventual) variable in the shader
-		//	&directionalLight2, // The address of the data to set
-		//	sizeof(Light)); // The size of the data (the whole struct!) to set
-		ps->SetData("directionalLights", &directionalLights[0], sizeof(Light) * (int)directionalLights.size());
+		ps->SetData(
+			"directionalLights", // The name of the (eventual) variable in the shader
+			&directionalLights[0], // The address of the data to set
+			sizeof(Light) * (int)directionalLights.size()); // The size of the data (the whole array!) to set
+		ps->SetData(
+			"pointLights", // The name of the (eventual) variable in the shader
+			&pointLights[0], // The address of the data to set
+			sizeof(Light) * (int)pointLights.size()); // The size of the data (the whole array!) to set
 		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
 
 

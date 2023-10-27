@@ -83,6 +83,7 @@ private:
 	Light directionalLight1;
 	Light directionalLight2;
 	std::vector<Light> directionalLights;
+	std::vector<Light> pointLights;
 
 };
 

@@ -6,11 +6,8 @@ cbuffer ExternalData : register(b0)
     float roughness;
     float3 cameraPosition;
     float3 ambientColor;
-    //TODO: just pass all the lights here as an array
-    Light directionalLight0;
-    Light directionalLight1;
-    Light directionalLight2;
     Light directionalLights[3];
+    Light pointLights[1];
 }
 
 // --------------------------------------------------------
@@ -47,39 +44,22 @@ float4 main(VertexToPixel input) : SV_TARGET
     directionalLights[i].Intensity);
 
     }
-
-    return totalDirectionalLight;
-        return DiffuseSpecularAndAmbientForADirectionalLight(
-    ambientColor,
-    colorTint,
-    input.normal,
-    directionalLight0.Direction,
-    directionalLight0.Color,
-    cameraPosition,
-    input.worldPosition,
-    roughness,
-    directionalLight0.Intensity)
-    +
-    DiffuseSpecularAndAmbientForADirectionalLight(
-    ambientColor,
-    colorTint,
-    input.normal,
-    directionalLight1.Direction,
-    directionalLight1.Color,
-    cameraPosition,
-    input.worldPosition,
-    roughness,
-    directionalLight1.Intensity)
-     +
-    DiffuseSpecularAndAmbientForADirectionalLight(
-    ambientColor,
-    colorTint,
-    input.normal,
-    directionalLight2.Direction,
-    directionalLight2.Color,
-    cameraPosition,
-    input.worldPosition,
-    roughness,
-    directionalLight2.Intensity);
     
+    float4 totalPointLight = float4(0, 0, 0, 0);
+
+    //for (int j = 0; j < 1; j++)
+    //{
+    //    totalPointLight += DiffuseSpecularAndAmbientForAPointLight(
+    //ambientColor,
+    //colorTint,
+    //input.normal,
+    //pointLights[j].Direction,
+    //pointLights[j].Color,
+    //cameraPosition,
+    //input.worldPosition,
+    //roughness,
+    //pointLights[j].Intensity);
+
+    //}
+    return totalDirectionalLight + totalPointLight;
 }

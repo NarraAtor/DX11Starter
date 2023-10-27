@@ -64,4 +64,17 @@ float4 DiffuseSpecularAndAmbientForADirectionalLight(float3 ambientColor, float4
     float4 totalLight = float4(diffuseTerm, 1) + ambientTerm + float4(specularTerm, 1);
     return totalLight;
 }
+
+float4 DiffuseSpecularAndAmbientForAPointLight(float3 ambientColor, float4 surfaceColor, float3 normalVector, float3 directionToLight, float3 lightColor, float3 cameraPosition, float3 worldPosition, float roughness, float lightIntensity)
+{
+    float4 ambientTerm = float4(ambientColor, 1) * surfaceColor;
+    normalVector = normalize(normalVector);
+    
+    float3 normalizedDirectionToLight = normalize(-directionToLight);
+    float3 diffuseTerm = Diffuse(normalVector, normalizedDirectionToLight) * lightColor * surfaceColor.xyz;
+    float3 specularTerm = PhongSpecular(reflect(normalize(directionToLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
+    * lightColor * lightIntensity;
+    float4 totalLight = float4(diffuseTerm, 1) + ambientTerm + float4(specularTerm, 1);
+    return totalLight;
+}
 #endif
