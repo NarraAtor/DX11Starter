@@ -9,6 +9,7 @@ cbuffer ExternalData : register(b0)
     //TODO: just pass all the lights here as an array
     Light directionalLight0;
     Light directionalLight1;
+    Light directionalLight2;
 }
 
 // --------------------------------------------------------
@@ -49,6 +50,17 @@ float4 main(VertexToPixel input) : SV_TARGET
     cameraPosition,
     input.worldPosition,
     roughness,
-    directionalLight1.Intensity);
+    directionalLight1.Intensity)
+     +
+    DiffuseSpecularAndAmbientForADirectionalLight(
+    ambientColor,
+    colorTint,
+    input.normal,
+    directionalLight2.Direction,
+    directionalLight2.Color,
+    cameraPosition,
+    input.worldPosition,
+    roughness,
+    directionalLight2.Intensity);
     
 }
