@@ -441,7 +441,14 @@ void Game::Update(float deltaTime, float totalTime)
 	{
 		if (i < directionalLights.size())
 		{
-			ImGui::ColorEdit4("4 - component(RGBA) color editor##dLight%f", &directionalLights[i].Color.x, i * 1.0f);
+			const size_t possibleChangeToBufferSizeIfIGetsBig = std::to_string(i).length();
+			char* directionalLightTextHeap = new char[21 + possibleChangeToBufferSizeIfIGetsBig];
+			snprintf(directionalLightTextHeap, 21 + possibleChangeToBufferSizeIfIGetsBig, "Directional Light %d", i);
+			const char* directionalLightTextConstant = directionalLightTextHeap;
+
+			ImGui::ColorEdit4(directionalLightTextConstant, &directionalLights[i].Color.x, ImGuiColorEditFlags_DefaultOptions_);
+			delete[] directionalLightTextHeap;
+			directionalLightTextHeap = nullptr;
 		}
 
 	}
@@ -450,7 +457,7 @@ void Game::Update(float deltaTime, float totalTime)
 	{
 		if (i < pointLights.size())
 		{
-			ImGui::ColorEdit4("4 - component(RGBA) color editor##pight%f", &pointLights[i].Color.x, i * 1.0f);
+			ImGui::ColorEdit4("4 - component(RGBA) color editor##plight%f", &pointLights[i].Color.x, ImGuiColorEditFlags_DefaultOptions_);
 		}
 
 	}
