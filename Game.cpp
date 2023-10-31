@@ -457,7 +457,15 @@ void Game::Update(float deltaTime, float totalTime)
 	{
 		if (i < pointLights.size())
 		{
-			ImGui::ColorEdit4("4 - component(RGBA) color editor##plight%f", &pointLights[i].Color.x, ImGuiColorEditFlags_DefaultOptions_);
+			const size_t possibleChangeToBufferSizeIfIGetsBig = std::to_string(i).length();
+			char* pointLightTextHeap = new char[15 + possibleChangeToBufferSizeIfIGetsBig];
+			snprintf(pointLightTextHeap, 15 + possibleChangeToBufferSizeIfIGetsBig, "Point Light %d", i);
+			const char* pointLightTextConstant = pointLightTextHeap;
+
+			ImGui::ColorEdit4(pointLightTextConstant, &pointLights[i].Color.x, ImGuiColorEditFlags_DefaultOptions_);
+
+			delete[] pointLightTextHeap;
+			pointLightTextHeap = nullptr;
 		}
 
 	}
