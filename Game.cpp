@@ -463,7 +463,6 @@ void Game::Update(float deltaTime, float totalTime)
 			const char* pointLightTextConstant = pointLightTextHeap;
 
 			ImGui::ColorEdit4(pointLightTextConstant, &pointLights[i].Color.x, ImGuiColorEditFlags_DefaultOptions_);
-
 			delete[] pointLightTextHeap;
 			pointLightTextHeap = nullptr;
 		}
