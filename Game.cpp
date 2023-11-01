@@ -87,10 +87,18 @@ void Game::Init()
 
 	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/brokentiles.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
 	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
-
-	D3D11_SAMPLER_DESC sampleDescription0;
 	
 	samplerStates.push_back(Microsoft::WRL::ComPtr<ID3D11SamplerState>());
+	D3D11_SAMPLER_DESC sampleDescription0 = {};
+
+	sampleDescription0.AddressU = D3D11_TEXTURE_ADDRESS_WRAP; // Each dimension can
+	sampleDescription0.AddressV = D3D11_TEXTURE_ADDRESS_WRAP; // have a different mode
+	sampleDescription0.AddressW = D3D11_TEXTURE_ADDRESS_WRAP; // but that is uncommon
+	sampleDescription0.Filter = D3D11_FILTER_ANISOTROPIC;
+	sampleDescription0.MaxAnisotropy = 16;
+	sampleDescription0.MaxLOD = D3D11_FLOAT32_MAX; // Maximum mip level
+	device->CreateSamplerState(&sampleDescription0, samplerStates[0].GetAddressOf());
+
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 0.75f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), 0.5f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.01f, pixelShader, vertexShader));
