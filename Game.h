@@ -87,6 +87,6 @@ private:
 
 	// texture stuff
 	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> textureSubresources;
-
+	std::vector<Microsoft::WRL::ComPtr<ID3D11SamplerState>> samplerStates;
 };
 
