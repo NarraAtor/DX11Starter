@@ -82,9 +82,12 @@ void Game::Init()
 	//  - You'll be expanding and/or replacing these later
 	LoadShaders();
 
-	// Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> subresource0 = 
 	textureSubresources.push_back(Microsoft::WRL::ComPtr< ID3D11ShaderResourceView>());
+	textureSubresources.push_back(Microsoft::WRL::ComPtr< ID3D11ShaderResourceView>());
+
 	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/brokentiles.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
+
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 0.75f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), 0.5f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.01f, pixelShader, vertexShader));
