@@ -4,6 +4,7 @@
 #include "PathHelpers.h"
 #include "BufferStructs.h"
 #include "SimpleShader.h"
+#include "WICTextureLoader.h"
 
 
 // Needed for a helper function to load pre-compiled shader files
@@ -80,6 +81,10 @@ void Game::Init()
 	// geometry to draw and some simple camera matrices.
 	//  - You'll be expanding and/or replacing these later
 	LoadShaders();
+
+	// Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> subresource0 = 
+	textureSubresources.push_back(Microsoft::WRL::ComPtr< ID3D11ShaderResourceView>());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/brokentiles.png"), 0, textureSubresources[0].GetAddressOf());
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 0.75f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), 0.5f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.01f, pixelShader, vertexShader));

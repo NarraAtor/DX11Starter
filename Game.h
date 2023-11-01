@@ -85,5 +85,8 @@ private:
 	std::vector<Light> directionalLights;
 	std::vector<Light> pointLights;
 
+	// texture stuff
+	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> textureSubresources;
+
 };
 
