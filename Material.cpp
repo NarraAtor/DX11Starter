@@ -58,3 +58,13 @@ void Material::SetRoughness(float roughness)
     this->roughness = roughness;
 }
 
+void Material::AddTextureSRV(std::string subresourceShaderName, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> textureSRV)
+{
+    textureSRVs.insert({ subresourceShaderName, textureSRV });
+}
+
+void Material::AddTextureSR(std::string samplerShaderName, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler)
+{
+    samplers.insert({ samplerShaderName, sampler });
+}
+
