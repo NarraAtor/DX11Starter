@@ -20,6 +20,8 @@ public:
 	std::shared_ptr<SimplePixelShader> GetPixelShader();
 	std::shared_ptr<SimpleVertexShader> GetVertexShader();
 	float GetRoughness();
+	std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> GetTextureSRVs();
+	std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11SamplerState>> GetSamplers();
 
 	DirectX::XMFLOAT4 SetColorTint();
 	void SetPixelShader(std::shared_ptr<SimplePixelShader> pixelShader);

@@ -38,6 +38,16 @@ float Material::GetRoughness()
     return roughness;
 }
 
+std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> Material::GetTextureSRVs()
+{
+    return textureSRVs;
+}
+
+std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11SamplerState>> Material::GetSamplers()
+{
+    return samplers;
+}
+
 DirectX::XMFLOAT4 Material::SetColorTint()
 {
     return colorTint;

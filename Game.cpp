@@ -104,6 +104,11 @@ void Game::Init()
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.01f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), 0.5f, customPixelShader, vertexShader));
 
+	materials[0].get()->AddTextureSRV("SurfaceTexture", textureSubresources[0]);
+	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
+
+	// TODO: do the rest of our materials
+
 
 	CreateGeometry();
 
@@ -537,7 +542,10 @@ void Game::Draw(float deltaTime, float totalTime)
 			"pointLights", // The name of the (eventual) variable in the shader
 			&pointLights[0], // The address of the data to set
 			sizeof(Light) * (int)pointLights.size()); // The size of the data (the whole array!) to set
-		ps->CopyAllBufferData(); // Adjust “vs” variable name if necessary
+		for (auto& t : entity.GetMaterial().get()->GetTextureSRVs()) { ps->SetShaderResourceView(t.first.c_str(), t.second); }
+		for (auto& s : entity.GetMaterial().get()->GetSamplers()) { ps->SetSamplerState(s.first.c_str(), s.second); }
+
+		ps->CopyAllBufferData(); // Adjust “ps” variable name if necessary
 
 
 		entity.GetMaterial().get()->GetVertexShader().get()->SetShader();
