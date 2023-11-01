@@ -10,6 +10,9 @@ cbuffer ExternalData : register(b0)
     Light pointLights[2];
 }
 
+Texture2D SurfaceTexture : register(t0); // "t" registers for textures
+SamplerState BasicSampler : register(s0); // "s" registers for samplers
+
 // --------------------------------------------------------
 // The entry point (main method) for our pixel shader
 // 
@@ -21,6 +24,7 @@ cbuffer ExternalData : register(b0)
 // --------------------------------------------------------
 float4 main(VertexToPixel input) : SV_TARGET
 {
+    float3 surfaceColor = SurfaceTexture.Sample(BasicSampler, input.uv).rgb;
     float4 ambientTerm = float4(ambientColor, 1) * colorTint;
 
     // return float4(input.uv, 0, 1);
@@ -63,5 +67,5 @@ float4 main(VertexToPixel input) : SV_TARGET
     pointLights[j].Range);
 
     }
-    return totalDirectionalLight + totalPointLight + ambientTerm;
+    return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
 }
