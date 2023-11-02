@@ -84,10 +84,13 @@ void Game::Init()
 
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
+	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
+
 
 	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/brokentiles.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
 	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
-	
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[2].GetAddressOf());
+
 	samplerStates.push_back(Microsoft::WRL::ComPtr<ID3D11SamplerState>());
 	D3D11_SAMPLER_DESC sampleDescription0 = {};
 
@@ -108,7 +111,9 @@ void Game::Init()
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	// TODO: do the rest of our materials
-
+	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[1]);
+	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[2]);
+	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	CreateGeometry();
 
@@ -542,6 +547,8 @@ void Game::Draw(float deltaTime, float totalTime)
 			"pointLights", // The name of the (eventual) variable in the shader
 			&pointLights[0], // The address of the data to set
 			sizeof(Light) * (int)pointLights.size()); // The size of the data (the whole array!) to set
+
+		// handles textures here
 		for (auto& t : entity.GetMaterial().get()->GetTextureSRVs()) { ps->SetShaderResourceView(t.first.c_str(), t.second); }
 		for (auto& s : entity.GetMaterial().get()->GetSamplers()) { ps->SetSamplerState(s.first.c_str(), s.second); }
 

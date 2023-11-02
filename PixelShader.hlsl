@@ -11,6 +11,7 @@ cbuffer ExternalData : register(b0)
 }
 
 Texture2D SurfaceTexture : register(t0); // "t" registers for textures
+Texture2D SpecularTexture : register(t1);
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
 
 // --------------------------------------------------------
@@ -26,6 +27,7 @@ float4 main(VertexToPixel input) : SV_TARGET
 {
     float3 surfaceColor = SurfaceTexture.Sample(BasicSampler, input.uv).rgb;
     float4 ambientTerm = float4(ambientColor, 1) * colorTint;
+    float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
 
     // return float4(input.uv, 0, 1);
     // return colorTint * roughness;
@@ -46,7 +48,8 @@ float4 main(VertexToPixel input) : SV_TARGET
     cameraPosition,
     input.worldPosition,
     roughness,
-    directionalLights[i].Intensity);
+    directionalLights[i].Intensity,
+        specularMapValue);
 
     }
     
@@ -64,7 +67,8 @@ float4 main(VertexToPixel input) : SV_TARGET
     roughness,
     pointLights[j].Intensity,
     pointLights[j].Position,
-    pointLights[j].Range);
+    pointLights[j].Range,
+        specularMapValue);
 
     }
     return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
