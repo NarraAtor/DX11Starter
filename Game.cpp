@@ -86,12 +86,17 @@ void Game::Init()
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
+	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 
 
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion_normals.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[2].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[3].GetAddressOf());
+	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
+	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion_normals.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_albedo.tif").c_str(), nullptr, textureSubresources[0].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_ao.tif").c_str(), nullptr, textureSubresources[1].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_normal.tif").c_str(), nullptr, textureSubresources[2].GetAddressOf());
+
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[3].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[4].GetAddressOf());
 
 	samplerStates.push_back(Microsoft::WRL::ComPtr<ID3D11SamplerState>());
 	D3D11_SAMPLER_DESC sampleDescription0 = {};
@@ -113,11 +118,11 @@ void Game::Init()
 	materials[0].get()->AddTextureSRV("SurfaceTexture", textureSubresources[0]);
 	// TODO: Find/create a specular map?
 	materials[0].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
-	materials[0].get()->AddTextureSRV("NormalMap", textureSubresources[1]);
+	materials[0].get()->AddTextureSRV("NormalMap", textureSubresources[2]);
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
-	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[2]);
-	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[3]);
+	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[3]);
+	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[4]);
 	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	CreateGeometry();
