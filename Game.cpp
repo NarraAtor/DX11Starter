@@ -246,6 +246,8 @@ void Game::LoadShaders()
 {
 	vertexShader = std::make_shared<SimpleVertexShader>(device, context,
 		FixPath(L"VertexShader.cso").c_str());
+	vertexShaderNormalMapping = std::make_shared<SimpleVertexShader>(device, context,
+		FixPath(L"VertexShaderWithNormalMaps.cso").c_str());
 	pixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"PixelShader.cso").c_str());
 	customPixelShader = std::make_shared<SimplePixelShader>(device, context,
