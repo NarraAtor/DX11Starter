@@ -12,6 +12,8 @@ cbuffer ExternalData : register(b0)
 
 Texture2D SurfaceTexture : register(t0); // "t" registers for textures
 Texture2D SpecularTexture : register(t1);
+Texture2D NormalMap : register(t2);
+
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
 
 // --------------------------------------------------------
@@ -23,12 +25,25 @@ SamplerState BasicSampler : register(s0); // "s" registers for samplers
 //    "put the output of this into the current render target"
 // - Named "main" because that's the default the shader compiler looks for
 // --------------------------------------------------------
-float4 main(VertexToPixel input) : SV_TARGET
+float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 {
     float3 surfaceColor = SurfaceTexture.Sample(BasicSampler, input.uv).rgb;
     float4 ambientTerm = float4(ambientColor, 1) * colorTint;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
 
+    float3 unpackedNormal = NormalMap.Sample(BasicSampler, input.uv).rgb * 2 - 1;
+    unpackedNormal = normalize(unpackedNormal); // Don’t forget to normalize!
+
+    // Feel free to adjust/simplify this code to fit with your existing shader(s)
+    // Simplifications include not re-normalizing the same vector more than once!
+    float3 N = normalize(input.normal); // Must be normalized here or before
+    float3 T = normalize(input.tangent); // Must be normalized here or before
+    T = normalize(T - N * dot(T, N)); // Gram-Schmidt assumes T&N are normalized!
+    float3 B = cross(T, N);
+    float3x3 TBN = float3x3(T, B, N);
+    
+    input.normal = mul(unpackedNormal, TBN);
+    
     // return float4(input.uv, 0, 1);
     // return colorTint * roughness;
     // return float4(cameraPosition, 1);
@@ -71,5 +86,6 @@ float4 main(VertexToPixel input) : SV_TARGET
         specularMapValue);
 
     }
-    return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    // return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    return float4(input.tangent, 1);
 }

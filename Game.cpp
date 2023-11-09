@@ -104,18 +104,19 @@ void Game::Init()
 	sampleDescription0.MaxLOD = D3D11_FLOAT32_MAX; // Maximum mip level
 	device->CreateSamplerState(&sampleDescription0, samplerStates[0].GetAddressOf());
 
-	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 0.75f, pixelShader, vertexShader));
+	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 0.75f, pixelShaderNormalMapping, vertexShaderNormalMapping));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), 0.5f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.01f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), 0.5f, customPixelShader, vertexShader));
 
 	materials[0].get()->AddTextureSRV("SurfaceTexture", textureSubresources[0]);
 	materials[0].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
+	materials[0].get()->AddTextureSRV("NormalMap", textureSubresources[2]);
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	// TODO: do the rest of our materials
-	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[2]);
-	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[3]);
+	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[0]);
+	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
 	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	CreateGeometry();
@@ -250,6 +251,8 @@ void Game::LoadShaders()
 		FixPath(L"VertexShaderWithNormalMaps.cso").c_str());
 	pixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"PixelShader.cso").c_str());
+	pixelShaderNormalMapping = std::make_shared<SimplePixelShader>(device, context,
+		FixPath(L"PixelShaderWithNormalMaps.cso").c_str());
 	customPixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"CustomPS.cso").c_str());
 }
