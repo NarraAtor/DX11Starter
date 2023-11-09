@@ -87,6 +87,16 @@ float4 DiffuseAndSpecularForADirectionalLight( float4 surfaceColor, float3 norma
     float3 diffuseTerm = Diffuse(normalVector, normalizedDirectionToLight) * lightColor * surfaceColor.xyz;
     float3 specularTerm = PhongSpecular(reflect(normalize(directionFromLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
     * lightColor * lightIntensity;
+    // Cut the specular if the diffuse contribution is zero
+    // - any() returns 1 if any component of the param is non-zero
+    // - In this case, diffuse is a single float value
+    // - Meaning any() returns 1 if diffuse itself is non-zero
+    // - In other words:
+    // - If the diffuse amount is 0, any(diffuse) returns 0
+    // - If the diffuse amount is != 0, any(diffuse) returns 1
+    // - So when diffuse is 0, specular becomes 0
+    specularTerm *= any(diffuseTerm);
+
     float4 totalLight = float4(diffuseTerm, 1) + float4(specularTerm * specularMapValue, 1);
     return totalLight;
 }
@@ -99,6 +109,16 @@ float4 DiffuseAndSpecularForAPointLight(float4 surfaceColor, float3 normalVector
     float3 diffuseTerm = Diffuse(normalVector, normalizedDirectionToLight) * lightColor * surfaceColor.xyz;
     float3 specularTerm = PhongSpecular(reflect(normalize(directionFromLight), normalVector), normalize(cameraPosition - worldPosition), roughness)
     * lightColor * lightIntensity;
+    // Cut the specular if the diffuse contribution is zero
+    // - any() returns 1 if any component of the param is non-zero
+    // - In this case, diffuse is a single float value
+    // - Meaning any() returns 1 if diffuse itself is non-zero
+    // - In other words:
+    // - If the diffuse amount is 0, any(diffuse) returns 0
+    // - If the diffuse amount is != 0, any(diffuse) returns 1
+    // - So when diffuse is 0, specular becomes 0
+    specularTerm *= any(diffuseTerm);
+    
     float4 totalLight = (float4(diffuseTerm, 1) + float4(specularTerm * specularMapValue, 1)) * Attenuate(lightPosition, lightRange, worldPosition);
     return totalLight;
 }
