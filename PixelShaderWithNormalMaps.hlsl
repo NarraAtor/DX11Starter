@@ -86,6 +86,6 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
         specularMapValue);
 
     }
-    // return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
-    return float4(input.tangent, 1);
+     return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    // return float4(input.tangent, 1);
 }
