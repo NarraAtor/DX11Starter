@@ -85,11 +85,13 @@ void Game::Init()
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
+	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 
 
 	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/brokentiles.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[2].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/brokentiles_specular.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[2].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[3].GetAddressOf());
 
 	samplerStates.push_back(Microsoft::WRL::ComPtr<ID3D11SamplerState>());
 	D3D11_SAMPLER_DESC sampleDescription0 = {};
@@ -108,11 +110,12 @@ void Game::Init()
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), 0.5f, customPixelShader, vertexShader));
 
 	materials[0].get()->AddTextureSRV("SurfaceTexture", textureSubresources[0]);
+	materials[0].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	// TODO: do the rest of our materials
-	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[1]);
-	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[2]);
+	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[2]);
+	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[3]);
 	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	CreateGeometry();
