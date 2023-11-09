@@ -27,6 +27,7 @@ public:
 	Microsoft::WRL::ComPtr<ID3D11Buffer>  GetIndexBuffer();
 	int GetIndexCount();
 	void Draw();
+	void CalculateTangents(Vertex* verts, int numVerts, unsigned int* indices, int numIndices);
 
 private:
 	void Init(
