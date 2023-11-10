@@ -36,8 +36,22 @@ void Sky::Draw(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context, std::shared_
 	context->RSSetState(rasterizerState.Get());
 	context->OMSetDepthStencilState(depthState.Get(), 0);
 
+	vertexShader->SetMatrix4x4("view",camera->GetViewMatrix());
+	vertexShader->SetMatrix4x4("proj", camera->GetProjectionMatrix());
+
+	// For now this will be hard coded. I'll probably wanna make this dynamic later
+	pixelShader->SetSamplerState("BasicSampler", sampleState);
+	pixelShader->SetShaderResourceView("", cubeMapSubresourceView);
+
+	vertexShader->CopyAllBufferData();
+	pixelShader->CopyAllBufferData();
+
 	vertexShader->SetShader();
 	pixelShader->SetShader();
-	// For now this will be hard coded. I'll probably wanna make this dynamic later
-	pixelShader->SetSamplerState("BasicSampler", s.second);
+	
+
+	geometryMesh->Draw();
+
+	// reset state to default
+	context->RSSetState(0);
 }

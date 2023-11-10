@@ -14,6 +14,7 @@
 #include "SimpleShader.h"
 #include "Material.h"
 #include "Lights.h"
+#include "Sky.h"
 
 class Game 
 	: public DXCore
@@ -92,5 +93,8 @@ private:
 	// texture stuff
 	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> textureSubresources;
 	std::vector<Microsoft::WRL::ComPtr<ID3D11SamplerState>> samplerStates;
+
+	// skybox stuff
+	Sky skybox;
 };
 
