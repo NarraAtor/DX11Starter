@@ -30,3 +30,14 @@ Sky::Sky(
 Sky::~Sky()
 {
 }
+
+void Sky::Draw(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context, std::shared_ptr<Camera> camera)
+{
+	context->RSSetState(rasterizerState.Get());
+	context->OMSetDepthStencilState(depthState.Get(), 0);
+
+	vertexShader->SetShader();
+	pixelShader->SetShader();
+	// For now this will be hard coded. I'll probably wanna make this dynamic later
+	pixelShader->SetSamplerState("BasicSampler", s.second);
+}
