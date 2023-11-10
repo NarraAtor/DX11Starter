@@ -15,9 +15,9 @@ Sky::Sky(
 	geometryMesh(mesh),
 	sampleState(sampler),
 	vertexShader(vertexShaderSky),
-	pixelShader(pixelShaderSky)
+	pixelShader(pixelShaderSky),
+	cubeMapSubresourceView(skyFaces)
 {
-	// TODO: handle texture loading here
 	D3D11_RASTERIZER_DESC rasterDesc = {};
 	rasterDesc.FillMode = D3D11_FILL_SOLID;
 	rasterDesc.CullMode = D3D11_CULL_FRONT;
@@ -45,7 +45,7 @@ void Sky::Draw(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context, std::shared_
 
 	// For now this will be hard coded. I'll probably wanna make this dynamic later
 	pixelShader->SetSamplerState("BasicSampler", sampleState);
-	pixelShader->SetShaderResourceView("TODO", cubeMapSubresourceView);
+	pixelShader->SetShaderResourceView("Skybox", cubeMapSubresourceView);
 
 	vertexShader->CopyAllBufferData();
 	pixelShader->CopyAllBufferData();

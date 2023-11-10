@@ -672,6 +672,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		entity.GetMesh().get()->Draw();
 	}
 
+	skybox.Draw(context, cameras[currentCameraIndex]);
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

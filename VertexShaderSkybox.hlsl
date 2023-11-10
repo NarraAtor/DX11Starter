@@ -40,7 +40,7 @@ VertexToPixel_Sky main(VertexShaderInput input)
     viewNoTranslation._14 = 0;
     viewNoTranslation._24 = 0;
     viewNoTranslation._34 = 0;
-    output.screenPosition = mul(float4(input.localPosition, 1), mul(proj, view));
+    output.screenPosition = mul(float4(input.localPosition, 1.0f), mul(proj, view));
     output.screenPosition.z = output.screenPosition.w;
     output.sampleDir = input.localPosition;
     return output;

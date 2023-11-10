@@ -1,14 +1,4 @@
 #include "NewInclude.hlsli"
-// Constant buffer defined here
-cbuffer ExternalData : register(b0)
-{
-    float4 colorTint;
-    float roughness;
-    float3 cameraPosition;
-    float3 ambientColor;
-    Light directionalLights[3];
-    Light pointLights[2];
-}
 
 TextureCube Skybox : register(t0);
 
