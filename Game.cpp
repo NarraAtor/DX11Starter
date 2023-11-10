@@ -387,7 +387,7 @@ void Game::CreateGeometry()
 			FixPath(L"../../Assets/Textures/up.png").c_str(),
 			FixPath(L"../../Assets/Textures/down.png").c_str(),
 			FixPath(L"../../Assets/Textures/front.png").c_str(),
-			FixPath(L"../../Assets/Textures/back.png").c_str(),
+			FixPath(L"../../Assets/Textures/back.png").c_str()
 			)
 		);
 }
