@@ -42,15 +42,16 @@ void Sky::Draw(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context, std::shared_
 
 	vertexShader->SetMatrix4x4("view",camera->GetViewMatrix());
 	vertexShader->SetMatrix4x4("proj", camera->GetProjectionMatrix());
+	vertexShader->CopyAllBufferData();
+	vertexShader->SetShader();
+
 
 	// For now this will be hard coded. I'll probably wanna make this dynamic later
 	pixelShader->SetSamplerState("BasicSampler", sampleState);
 	pixelShader->SetShaderResourceView("Skybox", cubeMapSubresourceView);
 
-	vertexShader->CopyAllBufferData();
 	pixelShader->CopyAllBufferData();
 
-	vertexShader->SetShader();
 	pixelShader->SetShader();
 	
 
@@ -58,4 +59,6 @@ void Sky::Draw(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context, std::shared_
 
 	// reset state to default
 	context->RSSetState(0);
+	context->OMSetDepthStencilState(0, 0);
+
 }
