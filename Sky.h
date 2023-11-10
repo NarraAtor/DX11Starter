@@ -5,16 +5,25 @@
 #include "Mesh.h"
 #include <memory>
 #include "SimpleShader.h"
+#include "Camera.h"
 
 
 class Sky
 {
 
 public:
-	Sky(std::shared_ptr<Mesh> mesh, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, Microsoft::WRL::ComPtr<ID3D11Device> device);
-	~Sky();
+	Sky(
+		std::shared_ptr<Mesh> mesh,
+		Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler,
+		Microsoft::WRL::ComPtr<ID3D11Device> device,
+		std::shared_ptr<SimpleVertexShader> vertexShaderSky,
+		std::shared_ptr<SimplePixelShader> pixelShaderSky
+	);
+		~Sky();
+		void Draw(
+			Microsoft::WRL::ComPtr<ID3D11DeviceContext>	context,
+			std::shared_ptr<Camera> camera);
 private:
-	Microsoft::WRL::ComPtr<ID3D11Device> device;
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> sampleState;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cubeMapSubresourceView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState>depthState;

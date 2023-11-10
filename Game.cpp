@@ -255,10 +255,14 @@ void Game::LoadShaders()
 		FixPath(L"VertexShader.cso").c_str());
 	vertexShaderNormalMapping = std::make_shared<SimpleVertexShader>(device, context,
 		FixPath(L"VertexShaderWithNormalMaps.cso").c_str());
+	vertexShaderSky = std::make_shared<SimpleVertexShader>(device, context,
+		FixPath(L"VertexShaderSkybox.cso").c_str());
 	pixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"PixelShader.cso").c_str());
 	pixelShaderNormalMapping = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"PixelShaderWithNormalMaps.cso").c_str());
+	pixelShaderSky = std::make_shared<SimplePixelShader>(device, context,
+		FixPath(L"PixelShaderSkybox.cso").c_str());
 	customPixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"CustomPS.cso").c_str());
 }
