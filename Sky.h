@@ -12,12 +12,14 @@ class Sky
 {
 
 public:
+	//giving this a default constructor since the game class wants that in its constructor
+	Sky();
 	Sky(std::shared_ptr<Mesh> mesh,
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler,
 		Microsoft::WRL::ComPtr<ID3D11Device> device,
 		std::shared_ptr<SimpleVertexShader> vertexShaderSky,
 		std::shared_ptr<SimplePixelShader> pixelShaderSky,
-		std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> skyFaces
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> skyFaces
 	);
 		~Sky();
 		void Draw(

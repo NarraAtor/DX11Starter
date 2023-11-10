@@ -1,12 +1,16 @@
 #include "Sky.h"
 
+Sky::Sky()
+{
+}
+
 Sky::Sky(
 	std::shared_ptr<Mesh> mesh, 
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler, 
 	Microsoft::WRL::ComPtr<ID3D11Device> device,
 	std::shared_ptr<SimpleVertexShader> vertexShaderSky,
 	std::shared_ptr<SimplePixelShader> pixelShaderSky,
-	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> skyFaces
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> skyFaces
 ):
 	geometryMesh(mesh),
 	sampleState(sampler),
@@ -41,7 +45,7 @@ void Sky::Draw(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context, std::shared_
 
 	// For now this will be hard coded. I'll probably wanna make this dynamic later
 	pixelShader->SetSamplerState("BasicSampler", sampleState);
-	pixelShader->SetShaderResourceView("", cubeMapSubresourceView);
+	pixelShader->SetShaderResourceView("TODO", cubeMapSubresourceView);
 
 	vertexShader->CopyAllBufferData();
 	pixelShader->CopyAllBufferData();

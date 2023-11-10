@@ -37,6 +37,14 @@ private:
 	void LoadShaders(); 
 	void CreateGeometry();
 	void FeedInputsToImGui(float deltaTime);
+	// Helper for creating a cubemap from 6 individual textures
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> CreateCubemap(
+		const wchar_t* right,
+		const wchar_t* left,
+		const wchar_t* up,
+		const wchar_t* down,
+		const wchar_t* front,
+		const wchar_t* back);
 
 	// Note the usage of ComPtr below
 	//  - This is a smart pointer for objects that abide by the
