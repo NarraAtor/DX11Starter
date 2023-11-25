@@ -71,5 +71,8 @@ float4 main(VertexToPixel input) : SV_TARGET
         specularMapValue);
 
     }
-    return totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    float4 finalLight = totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    // gamma correction
+    finalLight = float4(pow(finalLight.xyz, 1.0f / 2.2f), 1);
+    return finalLight;
 }
