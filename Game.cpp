@@ -37,7 +37,6 @@ Game::Game(HINSTANCE hInstance)
 	printf("Console window created successfully.  Feel free to printf() here.\n");
 #endif
 	// intializations placed here to deal with editor warnings
-	ambientColor = XMFLOAT3(0, 0, 0);
 	color = XMFLOAT4(0, 0, 0, 0);
 	currentCameraIndex = 0;
 	worldMatrix = XMFLOAT4X4(
@@ -203,7 +202,6 @@ void Game::Init()
 	}
 
 	currentCameraIndex = 0;
-	ambientColor = XMFLOAT3(0.01f, 0.1f, 0.18f);
 	directionalLight0.Type = LIGHT_TYPE_DIRECTIONAL;
 	directionalLight0.Direction = XMFLOAT3(0, -1, 0);
 	directionalLight0.Color = XMFLOAT3(1, 1, 1);
@@ -649,7 +647,6 @@ void Game::Draw(float deltaTime, float totalTime)
 		ps->SetFloat4("colorTint", entity.GetMaterial().get()->GetColorTint());
 		ps->SetFloat("roughness", entity.GetMaterial().get()->GetRoughness());
 		ps->SetFloat3("cameraPosition", cameras[currentCameraIndex].get()->GetTransform().GetPosition());
-		ps->SetFloat3("ambientColor", ambientColor);
 		ps->SetData(
 			"directionalLights", // The name of the (eventual) variable in the shader
 			&directionalLights[0], // The address of the data to set
