@@ -5,7 +5,6 @@ cbuffer ExternalData : register(b0)
     float4 colorTint;
     float roughness;
     float3 cameraPosition;
-    float3 ambientColor;
     Light directionalLights[3];
     Light pointLights[2];
 }
@@ -26,7 +25,6 @@ SamplerState BasicSampler : register(s0); // "s" registers for samplers
 float4 main(VertexToPixel input) : SV_TARGET
 {
     float3 surfaceColor = SurfaceTexture.Sample(BasicSampler, input.uv).rgb;
-    float4 ambientTerm = float4(ambientColor, 1) * colorTint;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
 
     // return float4(input.uv, 0, 1);
@@ -71,7 +69,7 @@ float4 main(VertexToPixel input) : SV_TARGET
         specularMapValue);
 
     }
-    float4 finalLight = totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    float4 finalLight = totalDirectionalLight + totalPointLight  + float4(surfaceColor, 1);
     // gamma correction
     finalLight = float4(pow(finalLight.xyz, 1.0f / 2.2f), 1);
     return finalLight;

@@ -5,7 +5,6 @@ cbuffer ExternalData : register(b0)
     float4 colorTint;
     float roughness;
     float3 cameraPosition;
-    float3 ambientColor;
     Light directionalLights[3];
     Light pointLights[2];
 }
@@ -31,7 +30,6 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
     // "un-correction"
     surfaceColor = pow(surfaceColor, 2.2f);
     
-    float4 ambientTerm = float4(ambientColor, 1) * colorTint;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
 
     float3 unpackedNormal = NormalMap.Sample(BasicSampler, input.uv).rgb * 2 - 1;
@@ -90,7 +88,7 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 
     }
     
-    float4 finalLight = totalDirectionalLight + totalPointLight + ambientTerm + float4(surfaceColor, 1);
+    float4 finalLight = totalDirectionalLight + totalPointLight + float4(surfaceColor, 1);
     // gamma correction
     finalLight = float4(pow(finalLight.xyz, 1.0f / 2.2f), 1);
     return finalLight;
