@@ -28,6 +28,9 @@ SamplerState BasicSampler : register(s0); // "s" registers for samplers
 float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 {
     float3 surfaceColor = SurfaceTexture.Sample(BasicSampler, input.uv).rgb;
+    // "un-correction"
+    surfaceColor = pow(surfaceColor, 2.2f);
+    
     float4 ambientTerm = float4(ambientColor, 1) * colorTint;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
 
