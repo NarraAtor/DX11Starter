@@ -113,13 +113,13 @@ void Game::Init()
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 0, 1, 1), 0.01f, pixelShader, vertexShader));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), 0.5f, customPixelShader, vertexShader));
 
-	materials[0].get()->AddTextureSRV("SurfaceTexture", textureSubresources[0]);
+	materials[0].get()->AddTextureSRV("Albedo", textureSubresources[0]);
 	// TODO: Find/create a specular map?
 	materials[0].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
 	materials[0].get()->AddTextureSRV("NormalMap", textureSubresources[2]);
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
-	materials[1].get()->AddTextureSRV("SurfaceTexture", textureSubresources[3]);
+	materials[1].get()->AddTextureSRV("Albedo", textureSubresources[3]);
 	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[4]);
 	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 

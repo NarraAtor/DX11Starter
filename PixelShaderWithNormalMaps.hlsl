@@ -9,9 +9,12 @@ cbuffer ExternalData : register(b0)
     Light pointLights[2];
 }
 
-Texture2D SurfaceTexture : register(t0); // "t" registers for textures
+Texture2D Albedo : register(t0); // "t" registers for textures
 Texture2D SpecularTexture : register(t1);
-Texture2D NormalMap : register(t2);
+Texture2D RoughnessMap : register(t2);
+Texture2D MetalnessMap : register(t3);
+Texture2D NormalMap : register(t4);
+
 
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
 
@@ -26,7 +29,7 @@ SamplerState BasicSampler : register(s0); // "s" registers for samplers
 // --------------------------------------------------------
 float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 {
-    float3 surfaceColor = SurfaceTexture.Sample(BasicSampler, input.uv).rgb;
+    float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     // "un-correction"
     surfaceColor = pow(surfaceColor, 2.2f);
     
