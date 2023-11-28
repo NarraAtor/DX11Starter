@@ -60,16 +60,34 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
     
     for (int i = 0; i < 3; i++)
     {
-        totalDirectionalLight += DiffuseAndSpecularForADirectionalLight(
-    colorTint,
-    input.normal,
-    directionalLights[i].Direction,
-    directionalLights[i].Color,
-    cameraPosition,
-    input.worldPosition,
-    roughness,
-    directionalLights[i].Intensity,
-        specularMapValue);
+    //    totalDirectionalLight += DiffuseAndSpecularForADirectionalLight(
+    //colorTint,
+    //input.normal,
+    //directionalLights[i].Direction,
+    //directionalLights[i].Color,
+    //cameraPosition,
+    //input.worldPosition,
+    //roughness,
+    //directionalLights[i].Intensity,
+    //    specularMapValue);
+        float3 directionToLight = normalize(-directionalLights[i].Direction);
+        float3 directionToCamera = normalize(cameraPosition - input.worldPosition);
+        float diff = DiffusePBR(input.normal, directionToLight);
+        float3 F;
+        float3 spec = 
+        MicrofacetBRDF(
+        input.normal, 
+        directionToLight, 
+        directionToCamera, 
+        roughness, 
+        specularColor, 
+        F);
+        
+        // Calculate diffuse with energy conservation, including cutting diffuse for metals
+        float3 balancedDiff = DiffuseEnergyConserve(diff, F, metalness);
+        
+        // Combine the final diffuse and specular values for this light
+        totalDirectionalLight += float4((balancedDiff * surfaceColor + spec) * directionalLights[i].Intensity * directionalLights[i].Color, 1);
 
     }
     
@@ -77,18 +95,37 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 
     for (int j = 0; j < 2; j++)
     {
-        totalPointLight += DiffuseAndSpecularForAPointLight(
-    colorTint,
-    input.normal,
-    input.worldPosition - pointLights[j].Position,
-    pointLights[j].Color,
-    cameraPosition,
-    input.worldPosition,
-    roughness,
-    pointLights[j].Intensity,
-    pointLights[j].Position,
-    pointLights[j].Range,
-        specularMapValue);
+    //    totalPointLight += DiffuseAndSpecularForAPointLight(
+    //colorTint,
+    //input.normal,
+    //input.worldPosition - pointLights[j].Position,
+    //pointLights[j].Color,
+    //cameraPosition,
+    //input.worldPosition,
+    //roughness,
+    //pointLights[j].Intensity,
+    //pointLights[j].Position,
+    //pointLights[j].Range,
+    //    specularMapValue);
+
+        float3 directionToLight = normalize(-pointLights[j].Direction);
+        float3 directionToCamera = normalize(cameraPosition - input.worldPosition);
+        float diff = DiffusePBR(input.normal, directionToLight);
+        float3 F;
+        float3 spec =
+        MicrofacetBRDF(
+        input.normal,
+        directionToLight,
+        directionToCamera,
+        roughness,
+        specularColor,
+        F);
+        
+         // Calculate diffuse with energy conservation, including cutting diffuse for metals
+        float3 balancedDiff = DiffuseEnergyConserve(diff, F, metalness);
+        
+        // Combine the final diffuse and specular values for this light
+        totalPointLight += float4((balancedDiff * surfaceColor + spec) * pointLights[j].Intensity * pointLights[j].Color, 1);
 
     }
     
