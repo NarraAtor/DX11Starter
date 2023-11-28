@@ -33,8 +33,16 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
     // "un-correction"
     surfaceColor = pow(surfaceColor, 2.2f);
     
+    float roughness = RoughnessMap.Sample(BasicSampler, input.uv).r;
+    float metalness = MetalnessMap.Sample(BasicSampler, input.uv).r;
+    
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
-
+    // Specular color determination -----------------
+    // Assume albedo texture is actually holding specular color where metalness == 1
+    // Note the use of lerp here - metal is generally 0 or 1, but might be in between
+    // because of linear texture sampling, so we lerp the specular color to match
+    float3 specularColor = lerp(F0_NON_METAL, surfaceColor.rgb, metalness);
+    
     float3 unpackedNormal = NormalMap.Sample(BasicSampler, input.uv).rgb * 2 - 1;
     unpackedNormal = normalize(unpackedNormal); // Don’t forget to normalize!
 
@@ -47,13 +55,6 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
     float3x3 TBN = float3x3(T, B, N);
     
     input.normal = mul(unpackedNormal, TBN);
-    
-    // return float4(input.uv, 0, 1);
-    // return colorTint * roughness;
-    // return float4(cameraPosition, 1);
-    // return float4(ambientColor, 1);
-    //  return float4(input.normal, 1);
-    //     return float4(directionalLight0.Color, 1);
     
     float4 totalDirectionalLight = float4(0, 0, 0, 0);
     

@@ -80,12 +80,13 @@ float3 Diffuse(float3 normal, float3 dirToLight)
 
 float PhongSpecular(float3 reflectionVector, float3 surfaceToCameraVector, float roughness)
 {
+    float spec = 0;
     float specExponent = (1.0f - roughness) * MAX_SPECULAR_EXPONENT;
-    if(specExponent <= 0.05f)
+    if(specExponent > 0.05f)
     {
-        return 0;
+        spec = pow(saturate(dot(reflectionVector, surfaceToCameraVector)), specExponent);
     }
-    return pow(saturate(dot(reflectionVector, surfaceToCameraVector)), specExponent);
+    return spec;
 }
 
 float Attenuate(float3 lightPosition, float lightRange, float3 worldPos)

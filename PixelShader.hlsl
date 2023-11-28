@@ -28,6 +28,9 @@ float4 main(VertexToPixel input) : SV_TARGET
 {
     float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
+    
+    // float roughness = RoughnessMap.Sample(SamplerOptions, input.uv).r;
+    // float metalness = MetalnessMap.Sample(SamplerOptions, input.uv).r;
 
     // return float4(input.uv, 0, 1);
     // return colorTint * roughness;
