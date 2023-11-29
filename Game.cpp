@@ -85,16 +85,22 @@ void Game::Init()
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
+	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 
 
 	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
 	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion_normals.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_albedo.tif").c_str(), nullptr, textureSubresources[0].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_ao.tif").c_str(), nullptr, textureSubresources[1].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_normal.tif").c_str(), nullptr, textureSubresources[2].GetAddressOf());
+	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_albedo.tif").c_str(), nullptr, textureSubresources[0].GetAddressOf());
+	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_ao.tif").c_str(), nullptr, textureSubresources[1].GetAddressOf());
+	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_normal.tif").c_str(), nullptr, textureSubresources[2].GetAddressOf());
 
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[3].GetAddressOf());
-	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[4].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/PBR/bronze_albedo.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/PBR/bronze_metal.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/PBR/bronze_normals.png").c_str(), nullptr, textureSubresources[2].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/PBR/bronze_roughness.png").c_str(), nullptr, textureSubresources[3].GetAddressOf());
+
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles.png").c_str(), nullptr, textureSubresources[4].GetAddressOf());
+	CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/tiles_specular.png").c_str(), nullptr, textureSubresources[5].GetAddressOf());
 
 	samplerStates.push_back(Microsoft::WRL::ComPtr<ID3D11SamplerState>());
 	D3D11_SAMPLER_DESC sampleDescription0 = {};
@@ -114,13 +120,18 @@ void Game::Init()
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 1, 0.5f), 0.5f, customPixelShader, vertexShader));
 
 	materials[0].get()->AddTextureSRV("Albedo", textureSubresources[0]);
+	materials[0].get()->AddTextureSRV("MetalnessMap", textureSubresources[1]);
+
 	// TODO: Find/create a specular map?
-	materials[0].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
+	// materials[0].get()->AddTextureSRV("SpecularTexture", textureSubresources[1]);
 	materials[0].get()->AddTextureSRV("NormalMap", textureSubresources[2]);
+	materials[0].get()->AddTextureSRV("RoughnessMap", textureSubresources[3]);
+
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
-	materials[1].get()->AddTextureSRV("Albedo", textureSubresources[3]);
-	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[4]);
+
+	materials[1].get()->AddTextureSRV("Albedo", textureSubresources[4]);
+	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[5]);
 	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
 
 	CreateGeometry();

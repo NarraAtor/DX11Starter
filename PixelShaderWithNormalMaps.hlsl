@@ -10,10 +10,10 @@ cbuffer ExternalData : register(b0)
 }
 
 Texture2D Albedo : register(t0); // "t" registers for textures
-Texture2D SpecularTexture : register(t1);
-Texture2D RoughnessMap : register(t2);
-Texture2D MetalnessMap : register(t3);
-Texture2D NormalMap : register(t4);
+//Texture2D SpecularTexture : register(t1);
+Texture2D RoughnessMap : register(t1);
+Texture2D MetalnessMap : register(t2);
+Texture2D NormalMap : register(t3);
 
 
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
@@ -33,13 +33,13 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
     // "un-correction"
     surfaceColor = pow(surfaceColor, 2.2f);
     
-    //float roughness = RoughnessMap.Sample(BasicSampler, input.uv).r;
-    //float metalness = MetalnessMap.Sample(BasicSampler, input.uv).r;
+    float roughness = RoughnessMap.Sample(BasicSampler, input.uv).r;
+    float metalness = MetalnessMap.Sample(BasicSampler, input.uv).r;
     
-    float roughness = 0.1f;
-    float metalness = 1.0f;
+    //float roughness = 0.1f;
+    //float metalness = 1.0f;
     
-    float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
+    //float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
     // Specular color determination -----------------
     // Assume albedo texture is actually holding specular color where metalness == 1
     // Note the use of lerp here - metal is generally 0 or 1, but might be in between
@@ -132,7 +132,7 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 
     }
     
-    float4 finalLight = totalDirectionalLight + totalPointLight + float4(surfaceColor, 1);
+    float4 finalLight = totalDirectionalLight + totalPointLight;
     // gamma correction
     finalLight = float4(pow(finalLight.xyz, 1.0f / 2.2f), 1);
     return finalLight;
