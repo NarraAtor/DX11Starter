@@ -127,8 +127,10 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
          // Calculate diffuse with energy conservation, including cutting diffuse for metals
         float3 balancedDiff = DiffuseEnergyConserve(diff, F, metalness);
         
+        
         // Combine the final diffuse and specular values for this light
-        totalPointLight += float4((balancedDiff * surfaceColor + spec) * pointLights[j].Intensity * pointLights[j].Color, 1);
+        float4 preAttenuation = float4((balancedDiff * surfaceColor + spec) * pointLights[j].Intensity * pointLights[j].Color, 1);
+        totalPointLight += preAttenuation * Attenuate(pointLights[j].Position, pointLights[j].Range, input.worldPosition);
 
     }
     
