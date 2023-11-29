@@ -33,8 +33,11 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
     // "un-correction"
     surfaceColor = pow(surfaceColor, 2.2f);
     
-    float roughness = RoughnessMap.Sample(BasicSampler, input.uv).r;
-    float metalness = MetalnessMap.Sample(BasicSampler, input.uv).r;
+    //float roughness = RoughnessMap.Sample(BasicSampler, input.uv).r;
+    //float metalness = MetalnessMap.Sample(BasicSampler, input.uv).r;
+    
+    float roughness = 0.1f;
+    float metalness = 1.0f;
     
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
     // Specular color determination -----------------
