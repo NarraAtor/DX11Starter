@@ -247,6 +247,61 @@ void Game::Init()
 	pointLights[1].Position = XMFLOAT3(2.5f, 0.0f, 0.0f);
 	pointLights[1].Range = 10.0f;
 
+	shadowMapResolution = 1024;
+
+	// Create the actual texture that will be the shadow map
+	D3D11_TEXTURE2D_DESC shadowDesc = {};
+	shadowDesc.Width = shadowMapResolution; // Ideally a power of 2 (like 1024)
+	shadowDesc.Height = shadowMapResolution; // Ideally a power of 2 (like 1024)
+	shadowDesc.ArraySize = 1;
+	shadowDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	shadowDesc.CPUAccessFlags = 0;
+	shadowDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+	shadowDesc.MipLevels = 1;
+	shadowDesc.MiscFlags = 0;
+	shadowDesc.SampleDesc.Count = 1;
+	shadowDesc.SampleDesc.Quality = 0;
+	shadowDesc.Usage = D3D11_USAGE_DEFAULT;
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> shadowTexture;
+	device->CreateTexture2D(&shadowDesc, 0, shadowTexture.GetAddressOf());
+
+	// Create the depth/stencil view
+	D3D11_DEPTH_STENCIL_VIEW_DESC shadowDSDesc = {};
+	shadowDSDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	shadowDSDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	shadowDSDesc.Texture2D.MipSlice = 0;
+	device->CreateDepthStencilView(
+		shadowTexture.Get(),
+		&shadowDSDesc,
+		shadowDSV.GetAddressOf());
+
+	// Create the SRV for the shadow map
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	device->CreateShaderResourceView(
+		shadowTexture.Get(),
+		&srvDesc,
+		shadowSRV.GetAddressOf());
+	
+
+	lightViewMatrix = XMMatrixLookToLH(
+		XMVectorSet(-directionalLight0.Direction.x * 20, -directionalLight0.Direction.y * 20, -directionalLight0.Direction.z * 20, 1.0f), // Position: "Backing up" 20 units from origin
+		XMVectorSet(-directionalLight0.Direction.x, -directionalLight0.Direction.y , -directionalLight0.Direction.z, 1.0f), // Direction: light's direction
+		XMVectorSet(0, 1, 0, 0)); // Up: World up vector (Y axis)
+
+	float lightProjectionSize = 15.0f; // Tweak for your scene!
+	lightProjectionMatrix = XMMatrixOrthographicLH(
+		lightProjectionSize,
+		lightProjectionSize,
+		1.0f,
+		100.0f);
+
+	XMStoreFloat4x4(&shadowViewMatrix, lightViewMatrix);
+	XMStoreFloat4x4(&shadowProjectionMatrix, lightProjectionMatrix);
+
 }
 
 // --------------------------------------------------------
@@ -265,6 +320,8 @@ void Game::LoadShaders()
 		FixPath(L"VertexShaderWithNormalMaps.cso").c_str());
 	vertexShaderSky = std::make_shared<SimpleVertexShader>(device, context,
 		FixPath(L"VertexShaderSkybox.cso").c_str());
+	shadowVS = std::make_shared<SimpleVertexShader>(device, context,
+		FixPath(L"ShadowMapVertexShader.cso").c_str());
 	pixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"PixelShader.cso").c_str());
 	pixelShaderNormalMapping = std::make_shared<SimplePixelShader>(device, context,
@@ -542,6 +599,7 @@ void Game::Update(float deltaTime, float totalTime)
 
 	}
 
+	ImGui::Image(shadowSRV.Get(), ImVec2(512, 512));
 
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
@@ -635,6 +693,39 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Game::CreateCubemap(
 // --------------------------------------------------------
 void Game::Draw(float deltaTime, float totalTime)
 {
+	context->ClearDepthStencilView(shadowDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	ID3D11RenderTargetView* nullRTV{};
+	context->OMSetRenderTargets(1, &nullRTV, shadowDSV.Get());
+
+	context->PSSetShader(0, 0, 0);
+
+	D3D11_VIEWPORT viewport = {};
+	viewport.Width = (float)shadowMapResolution;
+	viewport.Height = (float)shadowMapResolution;
+	viewport.MaxDepth = 1.0f;
+	context->RSSetViewports(1, &viewport);
+
+	shadowVS->SetShader();
+	shadowVS->SetMatrix4x4("view", shadowViewMatrix);
+	shadowVS->SetMatrix4x4("projection", shadowProjectionMatrix);
+	// Loop and draw all entities
+	for (GameEntity entity : gameEntities)
+	{
+		shadowVS->SetMatrix4x4("world", entity.GetTransform()->GetWorldMatrix());
+		shadowVS->CopyAllBufferData();
+		// Draw the mesh directly to avoid the entity's material
+		entity.GetMesh().get()->Draw();
+	}
+
+	viewport.Width = (float)this->windowWidth;
+	viewport.Height = (float)this->windowHeight;
+	context->RSSetViewports(1, &viewport);
+	context->OMSetRenderTargets(
+		1,
+		backBufferRTV.GetAddressOf(),
+		depthBufferDSV.Get());
+
 	// Frame START
 	// - These things should happen ONCE PER FRAME
 	// - At the beginning of Game::Draw() before drawing *anything*

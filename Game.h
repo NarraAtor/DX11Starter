@@ -63,6 +63,8 @@ private:
 	std::shared_ptr<SimpleVertexShader> vertexShader;
 	std::shared_ptr<SimpleVertexShader> vertexShaderNormalMapping;
 	std::shared_ptr<SimpleVertexShader> vertexShaderSky;
+	std::shared_ptr<SimpleVertexShader> shadowVS;
+
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
 	/*std::shared_ptr<Mesh> triangle;
 	std::shared_ptr<Mesh> square;
@@ -100,6 +102,17 @@ private:
 	// texture stuff
 	std::vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> textureSubresources;
 	std::vector<Microsoft::WRL::ComPtr<ID3D11SamplerState>> samplerStates;
+
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> shadowDSV;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> shadowSRV;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> shadowRasterizer;
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> shadowSampler;
+	DirectX::XMMATRIX  lightViewMatrix;
+	DirectX::XMMATRIX  lightProjectionMatrix;
+	DirectX::XMFLOAT4X4 shadowViewMatrix;
+	DirectX::XMFLOAT4X4 shadowProjectionMatrix;
+	UINT shadowMapResolution;
+
 
 	// skybox stuff
 	Sky skybox;
