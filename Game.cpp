@@ -47,6 +47,12 @@ Game::Game(HINSTANCE hInstance)
 	directionalLight0 = {};
 	directionalLight1 = {};
 	directionalLight2 = {};
+	lightViewMatrix = XMMATRIX();
+	lightProjectionMatrix = XMMATRIX();
+	shadowViewMatrix = XMFLOAT4X4();
+	shadowProjectionMatrix = XMFLOAT4X4();
+	shadowMapResolution = 1024;
+
 }
 
 // --------------------------------------------------------
@@ -247,7 +253,6 @@ void Game::Init()
 	pointLights[1].Position = XMFLOAT3(2.5f, 0.0f, 0.0f);
 	pointLights[1].Range = 10.0f;
 
-	shadowMapResolution = 1024;
 
 	// Create the actual texture that will be the shadow map
 	D3D11_TEXTURE2D_DESC shadowDesc = {};
