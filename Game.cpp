@@ -367,7 +367,11 @@ void Game::CreateGeometry()
 	gameEntities[2].GetTransform()->MoveAbsolute(XMFLOAT3(10.0f, 0.0f, 0.0f));
 
 	gameEntities.push_back(GameEntity(quad, materials[1]));
-	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 0.0f));
+	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 10.0f));
+	gameEntities[3].GetTransform()->Scale(XMFLOAT3(20.0f, 20.0f, 20.0f));
+	gameEntities[3].GetTransform()->Rotate(25.0f, 0.0f, 0.0f);
+
+
 
 	gameEntities.push_back(GameEntity(quad_double_sided, materials[2]));
 	gameEntities[4].GetTransform()->MoveAbsolute(XMFLOAT3(20.0f, 0.0f, 0.0f));
@@ -458,7 +462,7 @@ void Game::Update(float deltaTime, float totalTime)
 	gameEntities[0].GetTransform()->Rotate(0, 0, 0.0001f);
 	 gameEntities[1].GetTransform()->Rotate(0, 0, 0.0001f);
 	 gameEntities[2].GetTransform()->Rotate(0, 0, 0.0001f);
-	 gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
+	 // gameEntities[3].GetTransform()->Rotate(0, 0, -0.0001f);
 	 gameEntities[4].GetTransform()->MoveAbsolute(-0.000001f, 0, 0);
 
 	// entity UI data here
