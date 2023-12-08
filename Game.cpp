@@ -291,11 +291,11 @@ void Game::Init()
 		&srvDesc,
 		shadowSRV.GetAddressOf());
 	
-	//int offset = 50;
+	int offset = 50;
 	lightViewMatrix = XMMatrixLookToLH(
-		XMVectorSet(-directionalLight0.Direction.x * offset, -directionalLight0.Direction.y * offset, -directionalLight0.Direction.z * offset, 1.0f), // Position: "Backing up" 20 units from origin
+		XMVectorSet(-directionalLight2.Direction.x * offset, -directionalLight1.Direction.y * offset, -directionalLight1.Direction.z * offset, 1.0f), // Position: "Backing up" 20 units from origin
 		//XMVectorSet(0.0f, 20.0f, 10.0f, 1.0f),
-		XMVectorSet(directionalLight0.Direction.x, directionalLight0.Direction.y , directionalLight0.Direction.z, 1.0f), // Direction: light's direction
+		XMVectorSet(directionalLight2.Direction.x, directionalLight1.Direction.y , directionalLight1.Direction.z, 1.0f), // Direction: light's direction
 		XMVectorSet(0, 1, 0, 0)); // Up: World up vector (Y axis)
 
 	float lightProjectionSize = 15.0f; // Tweak for your scene!
