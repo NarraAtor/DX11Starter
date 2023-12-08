@@ -291,10 +291,11 @@ void Game::Init()
 		&srvDesc,
 		shadowSRV.GetAddressOf());
 	
-
+	//int offset = 50;
 	lightViewMatrix = XMMatrixLookToLH(
-		XMVectorSet(-directionalLight0.Direction.x * 20, -directionalLight0.Direction.y * 20, -directionalLight0.Direction.z * 20, 1.0f), // Position: "Backing up" 20 units from origin
-		XMVectorSet(-directionalLight0.Direction.x, -directionalLight0.Direction.y , -directionalLight0.Direction.z, 1.0f), // Direction: light's direction
+		XMVectorSet(-directionalLight0.Direction.x * offset, -directionalLight0.Direction.y * offset, -directionalLight0.Direction.z * offset, 1.0f), // Position: "Backing up" 20 units from origin
+		//XMVectorSet(0.0f, 20.0f, 10.0f, 1.0f),
+		XMVectorSet(directionalLight0.Direction.x, directionalLight0.Direction.y , directionalLight0.Direction.z, 1.0f), // Direction: light's direction
 		XMVectorSet(0, 1, 0, 0)); // Up: World up vector (Y axis)
 
 	float lightProjectionSize = 15.0f; // Tweak for your scene!
@@ -510,6 +511,9 @@ void Game::Update(float deltaTime, float totalTime)
 {
 
 	FeedInputsToImGui(deltaTime);
+
+	ImGui::Image(shadowSRV.Get(), ImVec2(512, 512));
+
 	ImGui::Text("Framerate: %f", ImGui::GetIO().Framerate);
 	ImGui::Text("Window Width: %lu", windowWidth);
 	ImGui::Text("Window Height: %lu", windowHeight);
@@ -604,8 +608,6 @@ void Game::Update(float deltaTime, float totalTime)
 
 	}
 
-	ImGui::Image(shadowSRV.Get(), ImVec2(512, 512));
-
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
 		Quit();
@@ -698,6 +700,7 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> Game::CreateCubemap(
 // --------------------------------------------------------
 void Game::Draw(float deltaTime, float totalTime)
 {
+	// shadow map stuff
 	context->ClearDepthStencilView(shadowDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	ID3D11RenderTargetView* nullRTV{};
@@ -714,6 +717,7 @@ void Game::Draw(float deltaTime, float totalTime)
 	shadowVS->SetShader();
 	shadowVS->SetMatrix4x4("view", shadowViewMatrix);
 	shadowVS->SetMatrix4x4("projection", shadowProjectionMatrix);
+
 	// Loop and draw all entities
 	for (GameEntity entity : gameEntities)
 	{
