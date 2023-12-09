@@ -32,6 +32,7 @@ struct VertexToPixel
 	//  |    |                |
 	//  v    v                v
     float4 screenPosition : SV_POSITION; // XYZW position (System Value Position)
+    float4 shadowMapPos : SHADOW_POSITION;
     float2 uv : TEXCOORD; // UV Maps
     float3 worldPosition : POSITION; // XYZ Position
     float3 normal : NORMAL; // Normal vectors
@@ -66,6 +67,7 @@ struct VertexToPixel_NormalMap
 	//  |    |                |
 	//  v    v                v
     float4 screenPosition : SV_POSITION; // XYZW position (System Value Position)
+    float4 shadowMapPos : SHADOW_POSITION;
     float2 uv : TEXCOORD; // UV Maps
     float3 worldPosition : POSITION; // XYZ Position
     float3 normal : NORMAL; // Normal vectors

@@ -6,7 +6,8 @@ cbuffer ExternalData : register(b0)
 	matrix view;
 	matrix proj;
     matrix worldInvTranspose;
-
+    matrix lightView;
+    matrix lightProjection;
 }
 
 // Struct representing a single vertex worth of data
@@ -57,6 +58,11 @@ VertexToPixel main( VertexShaderInput input )
    // output.normal = mul((float3x3) world, input.normal);
     // this line shows black -> figure out a way to fix this later: 
 	output.normal = mul((float3x3) worldInvTranspose, input.normal);
+	
+	// shadow stuff
+    matrix shadowWVP = mul(lightProjection, mul(lightView, world));
+    output.shadowMapPos = mul(shadowWVP, float4(input.localPosition, 1.0f));
+    
 	// Whatever we return will make its way through the pipeline to the
 	// next programmable stage we're using (the pixel shader for now)
 	return output;

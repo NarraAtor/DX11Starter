@@ -2,6 +2,8 @@
 // Constant buffer defined here
 cbuffer ExternalData : register(b0)
 {
+    // matrix lightView;
+    // matrix lightProjection;
     float4 colorTint;
     float roughness;
     float3 cameraPosition;
@@ -14,6 +16,7 @@ Texture2D Albedo : register(t0); // "t" registers for textures
 Texture2D RoughnessMap : register(t1);
 Texture2D MetalnessMap : register(t2);
 Texture2D NormalMap : register(t3);
+Texture2D ShadowMap : register(t4); // Adjust index as necessary
 
 
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
@@ -29,6 +32,18 @@ SamplerState BasicSampler : register(s0); // "s" registers for samplers
 // --------------------------------------------------------
 float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 {
+          // Perform the perspective divide (divide by W) ourselves
+    input.shadowMapPos /= input.shadowMapPos.w;
+// Convert the normalized device coordinates to UVs for sampling
+    float2 shadowUV = input.shadowMapPos.xy * 0.5f + 0.5f;
+    shadowUV.y = 1 - shadowUV.y; // Flip the Y
+// Grab the distances we need: light-to-pixel and closest-surface
+    float distToLight = input.shadowMapPos.z;
+    float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
+// For testing, just return black where there are shadows.
+    if (distShadowMap < distToLight)
+        return float4(0, 0, 0, 1);
+    
     float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     // "un-correction"
     surfaceColor = pow(surfaceColor, 2.2f);

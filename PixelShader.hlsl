@@ -2,6 +2,8 @@
 // Constant buffer defined here
 cbuffer ExternalData : register(b0)
 {
+    matrix lightView;
+    matrix lightProjection;
     float4 colorTint;
     float roughness;
     float3 cameraPosition;
@@ -13,6 +15,7 @@ Texture2D Albedo : register(t0); // "t" registers for textures
 Texture2D SpecularTexture : register(t1);
 Texture2D RoughnessMap : register(t2);
 Texture2D MetalnessMap : register(t3);
+Texture2D ShadowMap : register(t4); // Adjust index as necessary
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
 
 // --------------------------------------------------------
@@ -26,6 +29,18 @@ SamplerState BasicSampler : register(s0); // "s" registers for samplers
 // --------------------------------------------------------
 float4 main(VertexToPixel input) : SV_TARGET
 {
+        // Perform the perspective divide (divide by W) ourselves
+    input.shadowMapPos /= input.shadowMapPos.w;
+// Convert the normalized device coordinates to UVs for sampling
+    float2 shadowUV = input.shadowMapPos.xy * 0.5f + 0.5f;
+    shadowUV.y = 1 - shadowUV.y; // Flip the Y
+// Grab the distances we need: light-to-pixel and closest-surface
+    float distToLight = input.shadowMapPos.z;
+    float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
+// For testing, just return black where there are shadows.
+    if (distShadowMap < distToLight)
+        return float4(0, 0, 0, 1);
+    
     float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
     
@@ -77,5 +92,6 @@ float4 main(VertexToPixel input) : SV_TARGET
     float4 finalLight = totalDirectionalLight + totalPointLight  + float4(surfaceColor, 1);
     // gamma correction
     finalLight = float4(pow(finalLight.xyz, 1.0f / 2.2f), 1);
+    
     return finalLight;
 }

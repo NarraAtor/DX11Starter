@@ -94,6 +94,7 @@ void Game::Init()
 	textureSubresources.push_back(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>());
 
 
+
 	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion.png").c_str(), nullptr, textureSubresources[0].GetAddressOf());
 	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/cushion_normals.png").c_str(), nullptr, textureSubresources[1].GetAddressOf());
 	//CreateWICTextureFromFile(device.Get(), context.Get(), FixPath(L"../../Assets/Textures/TCom_Gore_512_albedo.tif").c_str(), nullptr, textureSubresources[0].GetAddressOf());
@@ -722,6 +723,12 @@ void Game::Draw(float deltaTime, float totalTime)
 	for (GameEntity entity : gameEntities)
 	{
 		shadowVS->SetMatrix4x4("world", entity.GetTransform()->GetWorldMatrix());
+		shadowVS->SetMatrix4x4("lightView", entity.GetTransform()->GetWorldMatrix());
+		shadowVS->SetMatrix4x4("lightProjection", entity.GetTransform()->GetWorldMatrix());
+
+		// handles map here
+		shadowVS->SetShaderResourceView("ShadowMap", shadowSRV);
+
 		shadowVS->CopyAllBufferData();
 		// Draw the mesh directly to avoid the entity's material
 		entity.GetMesh().get()->Draw();
