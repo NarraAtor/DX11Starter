@@ -431,9 +431,9 @@ void Game::CreateGeometry()
 	gameEntities[2].GetTransform()->MoveAbsolute(XMFLOAT3(10.0f, 0.0f, 0.0f));
 
 	gameEntities.push_back(GameEntity(quad, materials[1]));
-	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 10.0f));
+	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 2.0f));
 	gameEntities[3].GetTransform()->Scale(XMFLOAT3(20.0f, 20.0f, 20.0f));
-	gameEntities[3].GetTransform()->Rotate(30.0f, 0.0f, 0.0f);
+	gameEntities[3].GetTransform()->Rotate(31.0f, 0.0f, 0.0f);
 
 
 
@@ -727,7 +727,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		shadowVS->SetMatrix4x4("lightProjection", entity.GetTransform()->GetWorldMatrix());
 
 		// handles map here
-		shadowVS->SetShaderResourceView("ShadowMap", shadowSRV);
+		//shadowVS->SetShaderResourceView("ShadowMap", shadowSRV);
 
 		shadowVS->CopyAllBufferData();
 		// Draw the mesh directly to avoid the entity's material
@@ -782,6 +782,8 @@ void Game::Draw(float deltaTime, float totalTime)
 		for (auto& t : entity.GetMaterial().get()->GetTextureSRVs()) { ps->SetShaderResourceView(t.first.c_str(), t.second); }
 		for (auto& s : entity.GetMaterial().get()->GetSamplers()) { ps->SetSamplerState(s.first.c_str(), s.second); }
 
+		// SHADOW MAP
+		ps->SetShaderResourceView("ShadowMap", shadowSRV);
 		ps->CopyAllBufferData(); // Adjust “ps” variable name if necessary
 
 
