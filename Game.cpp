@@ -299,12 +299,30 @@ void Game::Init()
 		XMVectorSet(directionalLight2.Direction.x, directionalLight2.Direction.y , directionalLight2.Direction.z, 1.0f), // Direction: light's direction
 		XMVectorSet(0, 1, 0, 0)); // Up: World up vector (Y axis)
 
-	float lightProjectionSize = 15.0f; // Tweak for your scene!
+	float lightProjectionSize = 5.0f; // Tweak for your scene!
 	lightProjectionMatrix = XMMatrixOrthographicLH(
 		lightProjectionSize,
 		lightProjectionSize,
 		1.0f,
 		100.0f);
+
+	// rasterizer state for depth biasing
+	D3D11_RASTERIZER_DESC shadowRastDesc = {};
+	shadowRastDesc.FillMode = D3D11_FILL_SOLID;
+	shadowRastDesc.CullMode = D3D11_CULL_BACK;
+	shadowRastDesc.DepthClipEnable = true;
+	shadowRastDesc.DepthBias = 1000; // Min. precision units, not world units!
+	shadowRastDesc.SlopeScaledDepthBias = 1.0f; // Bias more based on slope
+	device->CreateRasterizerState(&shadowRastDesc, &shadowRasterizer);
+
+	D3D11_SAMPLER_DESC shadowSampDesc = {};
+	shadowSampDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	shadowSampDesc.ComparisonFunc = D3D11_COMPARISON_LESS;
+	shadowSampDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	shadowSampDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	shadowSampDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	shadowSampDesc.BorderColor[0] = 1.0f; // Only need the first component
+	device->CreateSamplerState(&shadowSampDesc, &shadowSampler);
 
 	XMStoreFloat4x4(&shadowViewMatrix, lightViewMatrix);
 	XMStoreFloat4x4(&shadowProjectionMatrix, lightProjectionMatrix);
@@ -704,6 +722,8 @@ void Game::Draw(float deltaTime, float totalTime)
 	// shadow map stuff
 	context->ClearDepthStencilView(shadowDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+	context->RSSetState(shadowRasterizer.Get());
+
 	ID3D11RenderTargetView* nullRTV{};
 	context->OMSetRenderTargets(1, &nullRTV, shadowDSV.Get());
 
@@ -741,6 +761,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		1,
 		backBufferRTV.GetAddressOf(),
 		depthBufferDSV.Get());
+	context->RSSetState(0);
 
 	// Frame START
 	// - These things should happen ONCE PER FRAME

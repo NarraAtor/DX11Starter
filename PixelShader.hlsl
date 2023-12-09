@@ -17,6 +17,7 @@ Texture2D RoughnessMap : register(t2);
 Texture2D MetalnessMap : register(t3);
 Texture2D ShadowMap : register(t4); // Adjust index as necessary
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
+SamplerComparisonState ShadowSampler : register(s1);
 
 // --------------------------------------------------------
 // The entry point (main method) for our pixel shader
@@ -34,12 +35,17 @@ float4 main(VertexToPixel input) : SV_TARGET
 // Convert the normalized device coordinates to UVs for sampling
     float2 shadowUV = input.shadowMapPos.xy * 0.5f + 0.5f;
     shadowUV.y = 1 - shadowUV.y; // Flip the Y
+    
+    
 // Grab the distances we need: light-to-pixel and closest-surface
     float distToLight = input.shadowMapPos.z;
-    float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
-// For testing, just return black where there are shadows.
-    if (distShadowMap < distToLight)
-        return float4(0, 0, 0, 1);
+    // Get a ratio of comparison results using SampleCmpLevelZero()
+    float shadowAmount = ShadowMap.SampleCmpLevelZero(
+               ShadowSampler,
+               shadowUV,
+               distToLight).r;
+    //float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
+
     
     float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
@@ -58,7 +64,7 @@ float4 main(VertexToPixel input) : SV_TARGET
     
     for (int i = 0; i < 3; i++)
     {
-        totalDirectionalLight += DiffuseAndSpecularForADirectionalLight(
+        float4 lightResult = DiffuseAndSpecularForADirectionalLight(
     colorTint,
     input.normal,
     directionalLights[i].Direction,
@@ -68,6 +74,15 @@ float4 main(VertexToPixel input) : SV_TARGET
     roughness,
     directionalLights[i].Intensity,
         specularMapValue);
+        
+        // If this is the 3RD light, apply the shadowing result
+        if (i == 2)
+        {
+            lightResult *= shadowAmount;
+        }
+        // Add this light's result to the total light for this pixel        
+        totalDirectionalLight += lightResult;
+
 
     }
     

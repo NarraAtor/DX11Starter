@@ -20,6 +20,7 @@ Texture2D ShadowMap : register(t4); // Adjust index as necessary
 
 
 SamplerState BasicSampler : register(s0); // "s" registers for samplers
+SamplerComparisonState ShadowSampler : register(s1);
 
 // --------------------------------------------------------
 // The entry point (main method) for our pixel shader
