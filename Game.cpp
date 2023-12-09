@@ -423,7 +423,7 @@ void Game::CreateGeometry()
 	gameEntities.push_back(GameEntity(square, materials[0]));
 	gameEntities.push_back(GameEntity(square, materials[1]));*/
 
-	gameEntities.push_back(GameEntity(cube, materials[0]));
+	gameEntities.push_back(GameEntity(cube, materials[1]));
 	gameEntities.push_back(GameEntity(cylinder, materials[0]));
 	gameEntities[1].GetTransform()->MoveAbsolute(XMFLOAT3(5.0f, 0.0f, 0.0f));
 
@@ -431,7 +431,7 @@ void Game::CreateGeometry()
 	gameEntities[2].GetTransform()->MoveAbsolute(XMFLOAT3(10.0f, 0.0f, 0.0f));
 
 	gameEntities.push_back(GameEntity(quad, materials[1]));
-	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, 0.0f, 2.0f));
+	gameEntities[3].GetTransform()->MoveAbsolute(XMFLOAT3(15.0f, -2.0f, 2.0f));
 	gameEntities[3].GetTransform()->Scale(XMFLOAT3(20.0f, 20.0f, 20.0f));
 	gameEntities[3].GetTransform()->Rotate(31.0f, 0.0f, 0.0f);
 
