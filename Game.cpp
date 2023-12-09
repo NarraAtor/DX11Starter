@@ -761,6 +761,8 @@ void Game::Draw(float deltaTime, float totalTime)
 		vs->SetMatrix4x4("view", cameras[currentCameraIndex]->GetViewMatrix());
 		vs->SetMatrix4x4("proj", cameras[currentCameraIndex]->GetProjectionMatrix());
 		vs->SetMatrix4x4("worldInvTranspose", entity.GetTransform()->GetWorldInverseTransposeMatrix());
+		vs->SetMatrix4x4("lightView", entity.GetTransform()->GetWorldMatrix());
+		vs->SetMatrix4x4("lightProjection", entity.GetTransform()->GetWorldMatrix());
 
 
 		vs->CopyAllBufferData(); // Adjust “vs” variable name if necessary
@@ -777,6 +779,8 @@ void Game::Draw(float deltaTime, float totalTime)
 			"pointLights", // The name of the (eventual) variable in the shader
 			&pointLights[0], // The address of the data to set
 			sizeof(Light) * (int)pointLights.size()); // The size of the data (the whole array!) to set
+		ps->SetMatrix4x4("lightView", entity.GetTransform()->GetWorldMatrix());
+		ps->SetMatrix4x4("lightProjection", entity.GetTransform()->GetWorldMatrix());
 
 		// handles textures here
 		for (auto& t : entity.GetMaterial().get()->GetTextureSRVs()) { ps->SetShaderResourceView(t.first.c_str(), t.second); }
