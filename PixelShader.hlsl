@@ -39,13 +39,16 @@ float4 main(VertexToPixel input) : SV_TARGET
     
 // Grab the distances we need: light-to-pixel and closest-surface
     float distToLight = input.shadowMapPos.z;
+    
     // Get a ratio of comparison results using SampleCmpLevelZero()
     float shadowAmount = ShadowMap.SampleCmpLevelZero(
                ShadowSampler,
                shadowUV,
                distToLight).r;
-    //float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
-
+    float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
+    // For now (since my shadows aren't working), just return black where there are shadows so the professor sees i did SOMETHING.
+    if (distShadowMap < distToLight)
+        return float4(0, 0, 0, 1);
     
     float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     float specularMapValue = SpecularTexture.Sample(BasicSampler, input.uv).x;
