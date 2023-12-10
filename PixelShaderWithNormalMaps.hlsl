@@ -41,9 +41,11 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
 // Grab the distances we need: light-to-pixel and closest-surface
     float distToLight = input.shadowMapPos.z;
     float distShadowMap = ShadowMap.Sample(BasicSampler, shadowUV).r;
-// For testing, just return black where there are shadows.
-    if (distShadowMap < distToLight)
-        return float4(0, 0, 0, 1);
+// Get a ratio of comparison results using SampleCmpLevelZero()
+    float shadowAmount = ShadowMap.SampleCmpLevelZero(
+               ShadowSampler,
+               shadowUV,
+               distToLight).r;
     
     float3 surfaceColor = Albedo.Sample(BasicSampler, input.uv).rgb;
     // "un-correction"
@@ -104,9 +106,17 @@ float4 main(VertexToPixel_NormalMap input) : SV_TARGET
         
         // Calculate diffuse with energy conservation, including cutting diffuse for metals
         float3 balancedDiff = DiffuseEnergyConserve(diff, F, metalness);
-        
+               
         // Combine the final diffuse and specular values for this light
-        totalDirectionalLight += float4((balancedDiff * surfaceColor + spec) * directionalLights[i].Intensity * directionalLights[i].Color, 1);
+        float4 lightResult = float4((balancedDiff * surfaceColor + spec) * directionalLights[i].Intensity * directionalLights[i].Color, 1);
+        
+        
+        // If this is the 3RD light, apply the shadowing result
+        if (i == 2)
+        {
+            lightResult *= shadowAmount;
+        }
+        totalDirectionalLight += lightResult;
 
     }
     

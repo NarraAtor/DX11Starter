@@ -120,6 +120,16 @@ void Game::Init()
 	sampleDescription0.MaxLOD = D3D11_FLOAT32_MAX; // Maximum mip level
 	device->CreateSamplerState(&sampleDescription0, samplerStates[0].GetAddressOf());
 
+	// shadow sampleR
+	D3D11_SAMPLER_DESC shadowSampDesc = {};
+	shadowSampDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	shadowSampDesc.ComparisonFunc = D3D11_COMPARISON_LESS;
+	shadowSampDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	shadowSampDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	shadowSampDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	shadowSampDesc.BorderColor[0] = 1.0f; // Only need the first component
+	device->CreateSamplerState(&shadowSampDesc, &shadowSampler);
+
 	// Change this back to the standard pixel and vertex shader
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(1, 0, 0, 1), 0.75f, pixelShaderNormalMapping, vertexShaderNormalMapping));
 	materials.push_back(std::make_shared<Material>(XMFLOAT4(0, 1, 0, 1), 0.5f, pixelShader, vertexShader));
@@ -135,11 +145,14 @@ void Game::Init()
 	materials[0].get()->AddTextureSRV("RoughnessMap", textureSubresources[3]);
 
 	materials[0].get()->AddTextureSR("BasicSampler", samplerStates[0]);
+	materials[0].get()->AddTextureSR("ShadowSampler", shadowSampler);
 
 
 	materials[1].get()->AddTextureSRV("Albedo", textureSubresources[4]);
 	materials[1].get()->AddTextureSRV("SpecularTexture", textureSubresources[5]);
 	materials[1].get()->AddTextureSR("BasicSampler", samplerStates[0]);
+	materials[1].get()->AddTextureSR("ShadowSampler", shadowSampler);
+
 
 	CreateGeometry();
 
@@ -299,7 +312,7 @@ void Game::Init()
 		XMVectorSet(directionalLight2.Direction.x, directionalLight2.Direction.y , directionalLight2.Direction.z, 1.0f), // Direction: light's direction
 		XMVectorSet(0, 1, 0, 0)); // Up: World up vector (Y axis)
 
-	float lightProjectionSize = 5.0f; // Tweak for your scene!
+	float lightProjectionSize = 15.0f; // Tweak for your scene!
 	lightProjectionMatrix = XMMatrixOrthographicLH(
 		lightProjectionSize,
 		lightProjectionSize,
@@ -315,14 +328,7 @@ void Game::Init()
 	shadowRastDesc.SlopeScaledDepthBias = 1.0f; // Bias more based on slope
 	device->CreateRasterizerState(&shadowRastDesc, &shadowRasterizer);
 
-	D3D11_SAMPLER_DESC shadowSampDesc = {};
-	shadowSampDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
-	shadowSampDesc.ComparisonFunc = D3D11_COMPARISON_LESS;
-	shadowSampDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
-	shadowSampDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
-	shadowSampDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
-	shadowSampDesc.BorderColor[0] = 1.0f; // Only need the first component
-	device->CreateSamplerState(&shadowSampDesc, &shadowSampler);
+	
 
 	XMStoreFloat4x4(&shadowViewMatrix, lightViewMatrix);
 	XMStoreFloat4x4(&shadowProjectionMatrix, lightProjectionMatrix);
@@ -836,5 +842,9 @@ void Game::Draw(float deltaTime, float totalTime)
 
 		// Must re-bind buffers after presenting, as they become unbound
 		context->OMSetRenderTargets(1, backBufferRTV.GetAddressOf(), depthBufferDSV.Get());
+
+		// unbind shadow map
+		ID3D11ShaderResourceView* nullSRVs[128] = {};
+		context->PSSetShaderResources(0, 128, nullSRVs);
 	}
 }
