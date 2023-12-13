@@ -738,7 +738,16 @@ void Game::Draw(float deltaTime, float totalTime)
 	context->OMSetRenderTargets(1, backBufferRTV.GetAddressOf(), 0);
 
 	// Activate shaders and bind resources
-	// Also set any required cbuffer data (not shown)
+	// Set any required cbuffer data (not shown)
+	int blurRadius = 5;
+	float pixelWidth = 1.0f / windowWidth;
+	float pixelHeight = 1.0f / windowWidth;
+
+	ppPS->SetInt("blurRadius", blurRadius);
+	ppPS->SetFloat("pixelWidth", pixelWidth);
+	ppPS->SetFloat("pixelHeight", pixelHeight);
+	ppPS->CopyAllBufferData();
+
 	ppVS->SetShader();
 	ppPS->SetShader();
 	ppPS->SetShaderResourceView("Pixels", ppSRV.Get());
