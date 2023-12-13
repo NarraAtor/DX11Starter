@@ -289,6 +289,8 @@ void Game::Init()
 		ppTexture.Get(),
 		0,
 		ppSRV.ReleaseAndGetAddressOf());
+
+	blurRadius = 5;
 }
 
 // --------------------------------------------------------
@@ -585,7 +587,7 @@ void Game::Update(float deltaTime, float totalTime)
 
 	}
 
-
+	ImGui::DragInt("Blur Effect: ", &blurRadius);
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
 		Quit();
@@ -731,15 +733,12 @@ void Game::Draw(float deltaTime, float totalTime)
 	}
 
 	skybox.Draw(context, cameras[currentCameraIndex]);
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	// post render
 	context->OMSetRenderTargets(1, backBufferRTV.GetAddressOf(), 0);
 
 	// Activate shaders and bind resources
 	// Set any required cbuffer data (not shown)
-	int blurRadius = 5;
 	float pixelWidth = 1.0f / windowWidth;
 	float pixelHeight = 1.0f / windowWidth;
 
@@ -753,6 +752,9 @@ void Game::Draw(float deltaTime, float totalTime)
 	ppPS->SetShaderResourceView("Pixels", ppSRV.Get());
 	ppPS->SetSamplerState("ClampSampler", ppSampler.Get());
 	context->Draw(3, 0); // Draw exactly 3 vertices (one triangle)
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	// Frame END
 	// - These should happen exactly ONCE PER FRAME
