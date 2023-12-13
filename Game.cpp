@@ -689,6 +689,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		// Clear the depth buffer (resets per-pixel occlusion information)
 		context->ClearDepthStencilView(depthBufferDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 		context->ClearRenderTargetView(ppRTV.Get(), bgColor);
+		// warning message occurs here. I don't know how to solve it (what's the command to "unbind" a renderTarget?) so uhh.... cry
 		context->OMSetRenderTargets(1, ppRTV.GetAddressOf(), depthBufferDSV.Get());
 	}
 
@@ -740,9 +741,9 @@ void Game::Draw(float deltaTime, float totalTime)
 	// Also set any required cbuffer data (not shown)
 	ppVS->SetShader();
 	ppPS->SetShader();
-	//ppPS->SetShaderResourceView("Pixels", ppSRV.Get());
-	//ppPS->SetSamplerState("ClampSampler", ppSampler.Get());
-	//context->Draw(3, 0); // Draw exactly 3 vertices (one triangle)
+	ppPS->SetShaderResourceView("Pixels", ppSRV.Get());
+	ppPS->SetSamplerState("ClampSampler", ppSampler.Get());
+	context->Draw(3, 0); // Draw exactly 3 vertices (one triangle)
 
 	// Frame END
 	// - These should happen exactly ONCE PER FRAME
