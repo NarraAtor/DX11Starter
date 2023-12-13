@@ -587,7 +587,7 @@ void Game::Update(float deltaTime, float totalTime)
 
 	}
 
-	ImGui::DragInt("Blur Effect: ", &blurRadius);
+	ImGui::DragInt("Blur Effect: ", &blurRadius, 1.0F, 0, windowHeight + windowWidth);
 	// Example input checking: Quit if the escape key is pressed
 	if (Input::GetInstance().KeyDown(VK_ESCAPE))
 		Quit();
