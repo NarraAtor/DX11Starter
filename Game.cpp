@@ -315,6 +315,11 @@ void Game::LoadShaders()
 		FixPath(L"PixelShaderSkybox.cso").c_str());
 	customPixelShader = std::make_shared<SimplePixelShader>(device, context,
 		FixPath(L"CustomPS.cso").c_str());
+
+	ppVS = std::make_shared<SimpleVertexShader>(device, context,
+		FixPath(L"PostProcessVertex.cso").c_str());
+	ppPS = std::make_shared<SimplePixelShader>(device, context,
+		FixPath(L"PostProcessPixel.cso").c_str());
 }
 
 
@@ -683,6 +688,8 @@ void Game::Draw(float deltaTime, float totalTime)
 
 		// Clear the depth buffer (resets per-pixel occlusion information)
 		context->ClearDepthStencilView(depthBufferDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+		context->ClearRenderTargetView(ppRTV.Get(), bgColor);
+		context->OMSetRenderTargets(1, ppRTV.GetAddressOf(), depthBufferDSV.Get());
 	}
 
 	for (GameEntity entity : gameEntities)
@@ -725,6 +732,17 @@ void Game::Draw(float deltaTime, float totalTime)
 	skybox.Draw(context, cameras[currentCameraIndex]);
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	// post render
+	context->OMSetRenderTargets(1, backBufferRTV.GetAddressOf(), 0);
+
+	// Activate shaders and bind resources
+	// Also set any required cbuffer data (not shown)
+	ppVS->SetShader();
+	ppPS->SetShader();
+	//ppPS->SetShaderResourceView("Pixels", ppSRV.Get());
+	//ppPS->SetSamplerState("ClampSampler", ppSampler.Get());
+	//context->Draw(3, 0); // Draw exactly 3 vertices (one triangle)
 
 	// Frame END
 	// - These should happen exactly ONCE PER FRAME
